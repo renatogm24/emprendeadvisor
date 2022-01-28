@@ -1,0 +1,17 @@
+$primary: #e63946;
+//import the functions and variables
+@import "../../assets/bootstrap/scss/_functions.scss";
+@import "../../assets/bootstrap/scss/_variables.scss";
+@import "../../assets/bootstrap/scss/_mixins.scss";
+$mainblue: #457b9d;
+$altprimary: #1d3557;
+$altlight: #f1faee;
+$altdark: #e63946;
+$tertiary: #a8dadc;
+$custom-theme-colors: ( "altlight": $altlight, "altdark": $altdark, "tertiary": $tertiary, "altprimary": $altprimary, "mainblue": $mainblue, );
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$utilities-colors: map-merge($utilities-colors, $theme-colors-rgb);
+$utilities-text-colors: map-loop( $utilities-colors, rgba-css-var, "$key", "text");
+$utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+@import "../../assets/bootstrap/scss/bootstrap.scss";

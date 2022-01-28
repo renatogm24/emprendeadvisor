@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.home-section {
+    background-image: url("/static/images/bg.svg");
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+}
+
+.navbar {
+    transition: 0.5s;
+}
+
+.navbar.sticky {
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    font-family: "Poppins", sans-serif !important;
+}
+
+.home-section::before {
+    display: block;
+    content: "";
+    height: 100px;
+}
+
+.homeBx {
+    height: 330px;
+}
+
+.categoryBx {
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 100px;
+    display: flex;
+    box-sizing: border-box;
+    height: 500px;
+    background-color: #1d3557;
+    clip-path: ellipse(231% 100% at 118.78% 100%);
+    padding: 130px 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.footer h5:hover,
+.terminos:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+@media (max-width: 575px) {
+    .home-section {
+        height: 420px;
+    }
+    .section3 {
+        margin: 150px 0;
+    }
+    .footer {
+        height: 700px;
+    }
+}
+
+@media (max-width: 280px) {
+    .home-section {
+        height: 500px;
+    }
+}
+
+.image-section {
+    height: 50%;
+}
