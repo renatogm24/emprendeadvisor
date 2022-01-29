@@ -1,8 +1,10 @@
 window.addEventListener("scroll", function () {
-  const nav = document.querySelector("nav");
+  const nav = document.querySelector(".homeNavbar");
   nav.classList.toggle("sticky", window.scrollY > 0);
   const span = nav.querySelector("h3");
   span.classList.toggle("text-altprimary", window.scrollY > 0);
+  welcomeMsg = document.querySelector(".welcomeMsg");
+  welcomeMsg.classList.toggle("text-altprimary", window.scrollY > 0);
 });
 
 const loginForm = document.querySelector("#loginForm");
@@ -53,3 +55,14 @@ registerForm.addEventListener("submit", async (e) => {
     window.location.href = data.redirectUrl;
   }
 });
+
+/* MEGAMENU TOGGLER */
+
+document.addEventListener("click", function(e) {
+  // Hamburger menu
+  if (e.target.classList.contains("hamburger-toggle")) {
+      e.target.children[0].classList.toggle("active");
+  }
+});
+
+/* -------*/

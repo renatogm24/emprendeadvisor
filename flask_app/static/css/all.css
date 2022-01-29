@@ -8114,6 +8114,7 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important; } }
 
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 .home-section {
   background-image: url("/static/images/bg.svg");
@@ -8158,6 +8159,69 @@ textarea.form-control-lg {
   text-decoration: underline;
   cursor: pointer; }
 
+.mega-dropdown {
+  position: static !important;
+  width: 100%; }
+
+.mega-dropdown-menu {
+  padding: 20px 0px;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none; }
+
+.mega-dropdown-menu:before {
+  content: "";
+  border-bottom: 15px solid #fff;
+  border-right: 17px solid transparent;
+  border-left: 17px solid transparent;
+  position: absolute;
+  top: -15px;
+  left: 285px;
+  z-index: 10; }
+
+.mega-dropdown-menu:after {
+  content: "";
+  border-bottom: 17px solid #ccc;
+  border-right: 19px solid transparent;
+  border-left: 19px solid transparent;
+  position: absolute;
+  top: -17px;
+  left: 283px;
+  z-index: 8; }
+
+.mega-dropdown-menu > li > ul {
+  padding: 0;
+  margin: 0; }
+
+.mega-dropdown-menu > li > ul > li {
+  list-style: none; }
+
+.mega-dropdown-menu > li > ul > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #999;
+  white-space: normal; }
+
+.mega-dropdown-menu > li ul > li > a:hover,
+.mega-dropdown-menu > li ul > li > a:focus {
+  text-decoration: none;
+  color: #444;
+  background-color: #f5f5f5; }
+
+.mega-dropdown-menu .dropdown-header {
+  color: #428bca;
+  font-size: 18px;
+  font-weight: bold; }
+
+.mega-dropdown-menu form {
+  margin: 3px 20px; }
+
+.mega-dropdown-menu .form-group {
+  margin-bottom: 3px; }
+
 @media (max-width: 575px) {
   .home-section {
     height: 420px; }
@@ -8172,3 +8236,126 @@ textarea.form-control-lg {
 
 .image-section {
   height: 50%; }
+
+/* --------------------- MEGAMENU ----------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.dropdown-menu.show {
+  -webkit-animation: fadeIn 0.3s alternate;
+  /* Safari 4.0 - 8.0 */
+  animation: fadeIn 0.3s alternate; }
+
+.nav-item.dropdown.dropdown-mega {
+  position: static; }
+
+/* Tamaño del MegaMenu */
+.nav-item.dropdown.dropdown-mega .dropdown-menu {
+  width: 90%;
+  top: auto;
+  left: 5%; }
+
+.categoryBx {
+  width: 16.6667%;
+  margin: 20px 0;
+  padding: 0; }
+
+.categoryBx ul,
+.categoryBx li {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+@media (max-width: 991px) {
+  .nav-item.dropdown.dropdown-mega .dropdown-menu {
+    width: 100%; }
+  .categoryBx {
+    margin: 20px 0;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; } }
+
+@media (max-width: 767px) {
+  .categoryBx {
+    width: 30%; } }
+
+@media (max-width: 575px) {
+  .categoryBx {
+    width: 50%; } }
+
+@media (max-width: 281px) {
+  .categoryBx {
+    width: 100%; } }
+
+/* Tamaño del MegaMenu */
+/* Boton toggle */
+.navbar-toggler {
+  border: none;
+  padding: 0;
+  outline: none; }
+
+.navbar-toggler:focus {
+  box-shadow: none; }
+
+.navbar-toggler .hamburger-toggle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  z-index: 11; }
+
+.navbar-toggler .hamburger-toggle .hamburger {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(0deg);
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  height: 50%;
+  pointer-events: none; }
+
+.navbar-toggler .hamburger-toggle .hamburger span {
+  width: 100%;
+  height: 4px;
+  position: absolute;
+  background: #333;
+  border-radius: 2px;
+  z-index: 1;
+  transition: transform 0.2s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.2s cubic-bezier(0.77, 0.2, 0.05, 1), all 0.2s ease-in-out;
+  left: 0px; }
+
+.navbar-toggler .hamburger-toggle .hamburger span:first-child {
+  top: 10%;
+  transform-origin: 50% 50%;
+  transform: translate(0% -50%) !important; }
+
+.navbar-toggler .hamburger-toggle .hamburger span:nth-child(2) {
+  top: 50%;
+  transform: translate(0, -50%); }
+
+.navbar-toggler .hamburger-toggle .hamburger span:last-child {
+  left: 0px;
+  top: auto;
+  bottom: 10%;
+  transform-origin: 50% 50%; }
+
+.navbar-toggler .hamburger-toggle .hamburger.active span {
+  position: absolute;
+  margin: 0; }
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:first-child {
+  top: 45%;
+  transform: rotate(45deg); }
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:nth-child(2) {
+  left: 50%;
+  width: 0px; }
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:last-child {
+  top: 45%;
+  transform: rotate(-45deg); }
+
+/* Boton toggle */
+/* --------------------- MEGAMENU ----------------- */

@@ -49,13 +49,10 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-  if 'user_id' not in session:
-    print("Holaaaa")
-    return redirect("/")
-  id = session["user_id"]
-  users = user.User.get_users_except_id({"id":id})
-  userSession = user.User.get_user_by_id({"id":id})
-  return render_template("dashboard.html",users=users,userSession=userSession)
+  userSession = ""
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  return render_template("dashboard.html",userSession=userSession)
 
 @app.route('/logout')
 def logout():

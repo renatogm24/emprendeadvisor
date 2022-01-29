@@ -15,15 +15,29 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar fixed-top">
+    <nav class="navbar homeNavbar fixed-top">
         <div class="container">
             <h3 class="text-light mb-0">
                 Emprende<span class="text-tertiary">Land</span>
             </h3>
-            <ul class="navbar-nav ms-auto my-2">
-                <li class="nav-item ms-auto mx-3">
-                    <a class="btn btn-altdark text-light" data-bs-toggle="modal" data-bs-target="#login">Ingrese</a
+            <ul class="navbar-nav ms-auto my-2 align-items-center">
+                <li class="nav-item ms-auto mx-3 align-items-center d-flex align-items-center">
+                    {% if userSession != "" %}
+                    <div class="mx-3 d-none d-sm-block d-flex align-items-center">
+                        <h5 class="text-light welcomeMsg my-0">
+                            Bienvenido {{userSession.first_name}}
+                        </h5>
+                    </div>
+                    <a class="btn btn-sm btn-secondary text-light" href="/logout">Salir</a
             >
+            {% else %}
+            <a
+              class="btn btn-altdark text-light"
+              data-bs-toggle="modal"
+              data-bs-target="#login"
+              >Ingrese</a
+            >
+            {% endif %}
           </li>
         </ul>
       </div>
@@ -49,13 +63,9 @@
             >
               Registrar
             </button>
-            <button
-              class="btn btn-altdark text-light mx-3"
-              data-bs-toggle="modal"
-              data-bs-target="#register"
+            <a class="btn btn-altdark text-light mx-3" href="/dashboard"
+              >Buscar</a
             >
-              Buscar
-            </button>
           </div>
           <img
             class="img-fluid w-50 d-none d-sm-block"
