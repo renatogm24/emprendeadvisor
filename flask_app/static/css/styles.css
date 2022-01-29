@@ -209,6 +209,12 @@
     position: relative;
 }
 
+@media (max-width: 991px) {
+    .filterBx {
+        height: 100%;
+    }
+}
+
 .applyFilters {
     position: sticky;
     top: -25px;

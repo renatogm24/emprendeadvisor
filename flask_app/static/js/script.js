@@ -109,6 +109,13 @@ window.onload = function(){
   slide4();
   slide5();
   slide6();
+
+  slide7();
+  slide8();
+  slide9();
+  slide10();
+  slide11();
+  slide12();
 }
 
 let slider3 = document.getElementById("slider-3");
@@ -173,6 +180,109 @@ function fillColor3(){
   percent1 = (slider5.value / sliderMaxValue3) * 100;
   percent2 = (slider6.value / sliderMaxValue3) * 100;
   sliderTrack3.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
+}
+
+/* ------------------------------- */
+
+
+/* --------SLIDER4 -----------*/
+
+let slider7 = document.getElementById("slider-7");
+let slider8 = document.getElementById("slider-8");
+let displayVal7 = document.getElementById("range7");
+let displayVal8 = document.getElementById("range8");
+let minGap4 = 0;
+let sliderTrack4 = document.querySelectorAll(".slider-track")[3];
+let sliderMaxValue4 = document.getElementById("slider-7").max;
+
+function slide7(){
+  if(parseInt(slider8.value) - parseInt(slider7.value) <= minGap4){
+      slider7.value = parseInt(slider7.value) - minGap4;
+  }
+  displayVal7.textContent = slider7.value;
+  fillColor4();
+}
+
+function slide8(){
+  if(parseInt(slider8.value) - parseInt(slider7.value) <= minGap4){
+      slider8.value = parseInt(slider8.value) + minGap4;
+  }
+  displayVal8.textContent = slider8.value;
+  fillColor4();
+}
+
+function fillColor4(){
+  percent1 = (slider7.value / sliderMaxValue4) * 100;
+  percent2 = (slider8.value / sliderMaxValue4) * 100;
+  sliderTrack4.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
+}
+
+/* ------------------------------- */
+
+/* --------SLIDER5 -----------*/
+
+let slider9 = document.getElementById("slider-9");
+let slider10 = document.getElementById("slider-10");
+let displayVal9 = document.getElementById("range9");
+let displayVal10 = document.getElementById("range10");
+let minGap5 = 0;
+let sliderTrack5 = document.querySelectorAll(".slider-track")[4];
+let sliderMaxValue5 = document.getElementById("slider-9").max;
+
+function slide9(){
+  if(parseInt(slider10.value) - parseInt(slider9.value) <= minGap5){
+      slider9.value = parseInt(slider9.value) - minGap5;
+  }
+  displayVal9.textContent = slider9.value;
+  fillColor5();
+}
+
+function slide10(){
+  if(parseInt(slider10.value) - parseInt(slider9.value) <= minGap5){
+      slider10.value = parseInt(slider10.value) + minGap5;
+  }
+  displayVal10.textContent = slider10.value;
+  fillColor5();
+}
+
+function fillColor5(){
+  percent1 = (slider9.value / sliderMaxValue5) * 100;
+  percent2 = (slider10.value / sliderMaxValue5) * 100;
+  sliderTrack5.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
+}
+
+/* ------------------------------- */
+
+/* --------SLIDER6 -----------*/
+
+let slider11 = document.getElementById("slider-11");
+let slider12 = document.getElementById("slider-12");
+let displayVal11 = document.getElementById("range11");
+let displayVal12 = document.getElementById("range12");
+let minGap6 = 0;
+let sliderTrack6 = document.querySelectorAll(".slider-track")[5];
+let sliderMaxValue6 = document.getElementById("slider-11").max;
+
+function slide11(){
+  if(parseInt(slider12.value) - parseInt(slider11.value) <= minGap6){
+      slider11.value = parseInt(slider11.value) - minGap6;
+  }
+  displayVal11.textContent = slider11.value;
+  fillColor6();
+}
+
+function slide12(){
+  if(parseInt(slider12.value) - parseInt(slider11.value) <= minGap6){
+      slider12.value = parseInt(slider12.value) + minGap6;
+  }
+  displayVal12.textContent = slider12.value;
+  fillColor6();
+}
+
+function fillColor6(){
+  percent1 = (slider11.value / sliderMaxValue6) * 100;
+  percent2 = (slider12.value / sliderMaxValue6) * 100;
+  sliderTrack6.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
 /* ------------------------------- */

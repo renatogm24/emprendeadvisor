@@ -239,9 +239,12 @@
             <div class="row my-3">
                 <div class="col-12"><span>Celulares</span><span class="mx-3">></span><span>Cargadores</span></div>
             </div>
-            <div class="row my-3 justify-content-between border-bottom border-dark pb-3 align-items-center">
+            <div class="row my-3 justify-content-between border-bottom border-dark pb-0 pb-lg-3 align-items-center">
                 <div class="col-12 col-lg-6">273 Resultados en Cargadores</div>
-                <div class="d-none d-lg-block col-lg-3 ms-auto"><select class="form-select shadow-none ms-auto" aria-label="Default select example">
+                <a class="btn btn-altprimary col-6 d-lg-none text-light my-3" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    Filtros
+                  </a>
+                <div class="col-6 col-lg-3 ms-auto"><select class="form-select shadow-none ms-auto" aria-label="Default select example">
                     <option value="menor">Más comentados</option>
                     <option value="mayor">Más followers</option>
                     <option value="recomendados" selected>Recomendados</option>
@@ -474,6 +477,91 @@
             </div>
         </div>
 
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtros</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="col-12">
+                    <div class="bg-graytheme p-4 my-3"><span class="h4 border-start border-5 border-altprimary px-2">CARGADORES</span></div>
+                    <div class="bg-graytheme p-4 my-3 filterBx">
+                        <div class="applyFilters">
+                            <a class="btn btn-primary text-light w-100" href="#">Aplicar filtros</a>
+                        </div>
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2"> Filtro Rating</div>
+                        </div>
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range7">
+                                    0
+                                </span>
+                                <span> &dash; </span>
+                                <span id="range8">
+                                    5 
+                                </span>
+                                <span class="mx-1"><i class="bi bi-star-fill starIcon"></i></span>
+
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="500" value="0" id="slider-7" oninput="slide7()">
+                                <input type="range" min="0" max="500" value="500" id="slider-8" oninput="slide8()">
+                            </div>
+                        </div>
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2"> Filtro Reviews</div>
+                        </div>
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range9">
+                                    0
+                                </span>
+                                <span> &dash; </span>
+                                <span id="range10">
+                                    5 
+                                </span>
+                                <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i></span>
+
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="500" value="0" id="slider-9" oninput="slide9()">
+                                <input type="range" min="0" max="500" value="200" id="slider-10" oninput="slide10()">
+                            </div>
+                        </div>
+
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2"> Filtro Followers</div>
+                        </div>
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range11">
+                                    0
+                                </span>
+                                <span> &dash; </span>
+                                <span id="range12">
+                                    5 
+                                </span>
+                                <span class="mx-1"><i class="bi bi-people-fill starIcon"></i></span>
+
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="20000" value="0" id="slider-11" oninput="slide11()">
+                                <input type="range" min="0" max="20000" value="5700" id="slider-12" oninput="slide12()">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </section>
 
