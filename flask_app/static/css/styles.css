@@ -191,6 +191,14 @@
     padding: 0;
 }
 
+.categoryBx ul li a {
+    text-decoration: none;
+}
+
+.categoryBx ul li a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 991px) {
     .nav-item.dropdown.dropdown-mega .dropdown-menu {
         width: 100%;
