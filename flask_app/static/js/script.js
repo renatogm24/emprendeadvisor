@@ -1,16 +1,31 @@
 window.addEventListener("scroll", function () {
   const nav = document.querySelector(".homeNavbar");
-  nav.classList.toggle("sticky", window.scrollY > 0);
+  if (nav != null) {
+    nav.classList.toggle("sticky", window.scrollY > 0);
+  }
+
   const span = nav.querySelector("h3");
   span.classList.toggle("text-altprimary", window.scrollY > 0);
   welcomeMsg = document.querySelector(".welcomeMsg");
   welcomeMsg.classList.toggle("text-altprimary", window.scrollY > 0);
 });
 
+/* -------- STAR RATING START ------*/
+
+/*const allInputs = document.querySelectorAll(".star-widget");
+          for (input of allInputs) {
+              input.addEventListener("click", (e) => {
+                  console.log(e.target.id.split("-")[1]);
+              })
+          }*/
+
+/* -------- STAR RATING END ------*/
+
 const loginForm = document.querySelector("#loginForm");
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
+  form.append("pathname", window.location.pathname);
   const response = await fetch("http://127.0.0.1:5000/login", {
     method: "POST",
     body: form,
@@ -40,6 +55,7 @@ registerForm.addEventListener("submit", async (e) => {
   }
 
   const form = new FormData(registerForm);
+  form.append("pathname", window.location.pathname);
   const response = await fetch("http://127.0.0.1:5000/register/user", {
     method: "POST",
     body: form,
@@ -58,10 +74,10 @@ registerForm.addEventListener("submit", async (e) => {
 
 /* MEGAMENU TOGGLER */
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
   // Hamburger menu
   if (e.target.classList.contains("hamburger-toggle")) {
-      e.target.children[0].classList.toggle("active");
+    e.target.children[0].classList.toggle("active");
   }
 });
 
@@ -69,32 +85,31 @@ document.addEventListener("click", function(e) {
 
 /* --------SLIDER -----------*/
 
-
 let sliderOne = document.getElementById("slider-1");
 let sliderTwo = document.getElementById("slider-2");
 let displayValOne = document.getElementById("range1");
 let displayValTwo = document.getElementById("range2");
 let minGap = 0;
 let sliderTrack = document.querySelector(".slider-track");
-let sliderMaxValue = document.getElementById("slider-1").max;
+let sliderMaxValue = document.getElementById("slider-1");
 
-function slideOne(){
-  if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
-      sliderOne.value = parseInt(sliderTwo.value) - minGap;
+function slideOne() {
+  if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+    sliderOne.value = parseInt(sliderTwo.value) - minGap;
   }
-  displayValOne.textContent = (sliderOne.value/100).toFixed(1);
+  displayValOne.textContent = (sliderOne.value / 100).toFixed(1);
   fillColor();
 }
-function slideTwo(){
-  if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
-      sliderTwo.value = parseInt(sliderOne.value) + minGap;
+function slideTwo() {
+  if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+    sliderTwo.value = parseInt(sliderOne.value) + minGap;
   }
-  displayValTwo.textContent =  (sliderTwo.value/100).toFixed(1);
+  displayValTwo.textContent = (sliderTwo.value / 100).toFixed(1);
   fillColor();
 }
-function fillColor(){
-  percent1 = (sliderOne.value / sliderMaxValue) * 100;
-  percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+function fillColor() {
+  percent1 = (sliderOne.value / sliderMaxValue.max) * 100;
+  percent2 = (sliderTwo.value / sliderMaxValue.max) * 100;
   sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
@@ -102,21 +117,20 @@ function fillColor(){
 
 /* --------SLIDER2 -----------*/
 
-window.onload = function(){
+window.onload = function () {
   slideOne();
   slideTwo();
   slide3();
   slide4();
   slide5();
   slide6();
-
   slide7();
   slide8();
   slide9();
   slide10();
   slide11();
   slide12();
-}
+};
 
 let slider3 = document.getElementById("slider-3");
 let slider4 = document.getElementById("slider-4");
@@ -124,27 +138,27 @@ let displayVal3 = document.getElementById("range3");
 let displayVal4 = document.getElementById("range4");
 let minGap2 = 0;
 let sliderTrack2 = document.querySelectorAll(".slider-track")[1];
-let sliderMaxValue2 = document.getElementById("slider-3").max;
+let sliderMaxValue2 = document.getElementById("slider-3");
 
-function slide3(){
-  if(parseInt(slider4.value) - parseInt(slider3.value) <= minGap2){
-      slider3.value = parseInt(slider4.value) - minGap2;
+function slide3() {
+  if (parseInt(slider4.value) - parseInt(slider3.value) <= minGap2) {
+    slider3.value = parseInt(slider4.value) - minGap2;
   }
   displayVal3.textContent = slider3.value;
   fillColor2();
 }
 
-function slide4(){
-  if(parseInt(slider4.value) - parseInt(slider3.value) <= minGap2){
-      slider4.value = parseInt(slider3.value) + minGap2;
+function slide4() {
+  if (parseInt(slider4.value) - parseInt(slider3.value) <= minGap2) {
+    slider4.value = parseInt(slider3.value) + minGap2;
   }
   displayVal4.textContent = slider4.value;
   fillColor2();
 }
 
-function fillColor2(){
-  percent1 = (slider3.value / sliderMaxValue2) * 100;
-  percent2 = (slider4.value / sliderMaxValue2) * 100;
+function fillColor2() {
+  percent1 = (slider3.value / sliderMaxValue2.max) * 100;
+  percent2 = (slider4.value / sliderMaxValue2.max) * 100;
   sliderTrack2.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
@@ -158,32 +172,31 @@ let displayVal5 = document.getElementById("range5");
 let displayVal6 = document.getElementById("range6");
 let minGap3 = 0;
 let sliderTrack3 = document.querySelectorAll(".slider-track")[2];
-let sliderMaxValue3 = document.getElementById("slider-5").max;
+let sliderMaxValue3 = document.getElementById("slider-5");
 
-function slide5(){
-  if(parseInt(slider6.value) - parseInt(slider5.value) <= minGap3){
-      slider5.value = parseInt(slider6.value) - minGap3;
+function slide5() {
+  if (parseInt(slider6.value) - parseInt(slider5.value) <= minGap3) {
+    slider5.value = parseInt(slider6.value) - minGap3;
   }
   displayVal5.textContent = slider5.value;
   fillColor3();
 }
 
-function slide6(){
-  if(parseInt(slider6.value) - parseInt(slider5.value) <= minGap3){
-      slider6.value = parseInt(slider5.value) + minGap3;
+function slide6() {
+  if (parseInt(slider6.value) - parseInt(slider5.value) <= minGap3) {
+    slider6.value = parseInt(slider5.value) + minGap3;
   }
   displayVal6.textContent = slider6.value;
   fillColor3();
 }
 
-function fillColor3(){
-  percent1 = (slider5.value / sliderMaxValue3) * 100;
-  percent2 = (slider6.value / sliderMaxValue3) * 100;
+function fillColor3() {
+  percent1 = (slider5.value / sliderMaxValue3.max) * 100;
+  percent2 = (slider6.value / sliderMaxValue3.max) * 100;
   sliderTrack3.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
 /* ------------------------------- */
-
 
 /* --------SLIDER4 -----------*/
 
@@ -193,27 +206,27 @@ let displayVal7 = document.getElementById("range7");
 let displayVal8 = document.getElementById("range8");
 let minGap4 = 0;
 let sliderTrack4 = document.querySelectorAll(".slider-track")[3];
-let sliderMaxValue4 = document.getElementById("slider-7").max;
+let sliderMaxValue4 = document.getElementById("slider-7");
 
-function slide7(){
-  if(parseInt(slider8.value) - parseInt(slider7.value) <= minGap4){
-      slider7.value = parseInt(slider7.value) - minGap4;
+function slide7() {
+  if (parseInt(slider8.value) - parseInt(slider7.value) <= minGap4) {
+    slider7.value = parseInt(slider7.value) - minGap4;
   }
   displayVal7.textContent = slider7.value;
   fillColor4();
 }
 
-function slide8(){
-  if(parseInt(slider8.value) - parseInt(slider7.value) <= minGap4){
-      slider8.value = parseInt(slider8.value) + minGap4;
+function slide8() {
+  if (parseInt(slider8.value) - parseInt(slider7.value) <= minGap4) {
+    slider8.value = parseInt(slider8.value) + minGap4;
   }
   displayVal8.textContent = slider8.value;
   fillColor4();
 }
 
-function fillColor4(){
-  percent1 = (slider7.value / sliderMaxValue4) * 100;
-  percent2 = (slider8.value / sliderMaxValue4) * 100;
+function fillColor4() {
+  percent1 = (slider7.value / sliderMaxValue4.max) * 100;
+  percent2 = (slider8.value / sliderMaxValue4.max) * 100;
   sliderTrack4.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
@@ -227,27 +240,27 @@ let displayVal9 = document.getElementById("range9");
 let displayVal10 = document.getElementById("range10");
 let minGap5 = 0;
 let sliderTrack5 = document.querySelectorAll(".slider-track")[4];
-let sliderMaxValue5 = document.getElementById("slider-9").max;
+let sliderMaxValue5 = document.getElementById("slider-9");
 
-function slide9(){
-  if(parseInt(slider10.value) - parseInt(slider9.value) <= minGap5){
-      slider9.value = parseInt(slider9.value) - minGap5;
+function slide9() {
+  if (parseInt(slider10.value) - parseInt(slider9.value) <= minGap5) {
+    slider9.value = parseInt(slider9.value) - minGap5;
   }
   displayVal9.textContent = slider9.value;
   fillColor5();
 }
 
-function slide10(){
-  if(parseInt(slider10.value) - parseInt(slider9.value) <= minGap5){
-      slider10.value = parseInt(slider10.value) + minGap5;
+function slide10() {
+  if (parseInt(slider10.value) - parseInt(slider9.value) <= minGap5) {
+    slider10.value = parseInt(slider10.value) + minGap5;
   }
   displayVal10.textContent = slider10.value;
   fillColor5();
 }
 
-function fillColor5(){
-  percent1 = (slider9.value / sliderMaxValue5) * 100;
-  percent2 = (slider10.value / sliderMaxValue5) * 100;
+function fillColor5() {
+  percent1 = (slider9.value / sliderMaxValue5.max) * 100;
+  percent2 = (slider10.value / sliderMaxValue5.max) * 100;
   sliderTrack5.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
@@ -261,27 +274,27 @@ let displayVal11 = document.getElementById("range11");
 let displayVal12 = document.getElementById("range12");
 let minGap6 = 0;
 let sliderTrack6 = document.querySelectorAll(".slider-track")[5];
-let sliderMaxValue6 = document.getElementById("slider-11").max;
+let sliderMaxValue6 = document.getElementById("slider-11");
 
-function slide11(){
-  if(parseInt(slider12.value) - parseInt(slider11.value) <= minGap6){
-      slider11.value = parseInt(slider11.value) - minGap6;
+function slide11() {
+  if (parseInt(slider12.value) - parseInt(slider11.value) <= minGap6) {
+    slider11.value = parseInt(slider11.value) - minGap6;
   }
   displayVal11.textContent = slider11.value;
   fillColor6();
 }
 
-function slide12(){
-  if(parseInt(slider12.value) - parseInt(slider11.value) <= minGap6){
-      slider12.value = parseInt(slider12.value) + minGap6;
+function slide12() {
+  if (parseInt(slider12.value) - parseInt(slider11.value) <= minGap6) {
+    slider12.value = parseInt(slider12.value) + minGap6;
   }
   displayVal12.textContent = slider12.value;
   fillColor6();
 }
 
-function fillColor6(){
-  percent1 = (slider11.value / sliderMaxValue6) * 100;
-  percent2 = (slider12.value / sliderMaxValue6) * 100;
+function fillColor6() {
+  percent1 = (slider11.value / sliderMaxValue6.max) * 100;
+  percent2 = (slider12.value / sliderMaxValue6.max) * 100;
   sliderTrack6.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #192d4a ${percent1}% , #192d4a ${percent2}%, #dadae5 ${percent2}%)`;
 }
 

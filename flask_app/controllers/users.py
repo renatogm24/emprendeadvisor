@@ -25,7 +25,7 @@ def register():
     # almacenar id de usuario en la sesión
     session['user_id'] = user_id
     response = {
-      "redirectUrl" : "/dashboard", 
+      "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 
     }
     return jsonify(response)
@@ -42,7 +42,7 @@ def login():
       return jsonify(error="Invalid Email/Password")
     session['user_id'] = user_in_db.id
     response = {
-      "redirectUrl" : "/dashboard", 
+      "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 
     }
     return jsonify(response)
