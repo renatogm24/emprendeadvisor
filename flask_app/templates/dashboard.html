@@ -241,13 +241,18 @@
         <ul class="navbar-nav my-2 my-lg-0 ms-auto">
             {% if userSession != "" %}
             <li class="nav-item mx-3 align-items-center d-flex flex-column flex-lg-row align-items-center">
-                <div class="my-1 d-flex align-items-center">
-                    <h6 class="text-dark welcomeMsg my-0 mx-3">
-                        Bienvenido {{userSession["first_name"]}}
-                    </h6>
+                <div class="dropdown d-flex flex-column align-items-center my-2 my-lg-0">
+                    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Mi cuenta
+                </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/cuenta">Configurar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Cerrar Sesión</a
+                  >
                 </div>
-                <a class="btn btn-sm btn-secondary text-light" href="/logout">Salir</a
-              >
+              </div>
             </li>
             {% else %}
             <li
@@ -286,18 +291,18 @@
           >
             Filtros
           </a>
-                <div class="col-6 col-lg-3 ms-auto">
-                    <select class="form-select shadow-none ms-auto" aria-label="Default select example">
+                        <div class="col-6 col-lg-3 ms-auto">
+                            <select class="form-select shadow-none ms-auto" aria-label="Default select example">
               <option value="menor">Más comentados</option>
               <option value="mayor">Más followers</option>
               <option value="recomendados" selected>Recomendados</option>
             </select>
-                </div>
-                </div>
-                <div class="row">
-                    <div class="d-none d-lg-block col-lg-3">
-                        <div class="bg-graytheme p-4 my-3">
-                            <span class="h4 border-start border-5 border-altprimary px-2">CARGADORES</span
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-none d-lg-block col-lg-3">
+                            <div class="bg-graytheme p-4 my-3">
+                                <span class="h4 border-start border-5 border-altprimary px-2">CARGADORES</span
               >
             </div>
             <div class="bg-graytheme p-4 my-3 filterBx">
@@ -313,55 +318,55 @@
               <div class="wrapper-slider">
                 <div class="values-slider">
                   <span id="range1"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range2"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
+                                <span> &dash; </span>
+                                <span id="range2"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
                   ></span>
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="500" value="0" id="slider-1" oninput="slideOne()" />
+                                <input type="range" min="0" max="500" value="500" id="slider-2" oninput="slideTwo()" />
+                            </div>
                         </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="500" value="0" id="slider-1" oninput="slideOne()" />
-                            <input type="range" min="0" max="500" value="500" id="slider-2" oninput="slideTwo()" />
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
                         </div>
-                    </div>
-                    <div class="d-flex my-4">
-                        <i class="bi bi-sliders"></i>
-                        <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
-                    </div>
-                    <div class="wrapper-slider">
-                        <div class="values-slider">
-                            <span id="range3"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range4"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range3"> 0 </span>
+                                <span> &dash; </span>
+                                <span id="range4"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
                   ></span>
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="500" value="0" id="slider-3" oninput="slide3()" />
+                                <input type="range" min="0" max="500" value="200" id="slider-4" oninput="slide4()" />
+                            </div>
                         </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="500" value="0" id="slider-3" oninput="slide3()" />
-                            <input type="range" min="0" max="500" value="200" id="slider-4" oninput="slide4()" />
-                        </div>
-                    </div>
 
-                    <div class="d-flex my-4">
-                        <i class="bi bi-sliders"></i>
-                        <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
-                    </div>
-                    <div class="wrapper-slider">
-                        <div class="values-slider">
-                            <span id="range5"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range6"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
+                        </div>
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range5"> 0 </span>
+                                <span> &dash; </span>
+                                <span id="range6"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
                   ></span>
-                        </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="20000" value="0" id="slider-5" oninput="slide5()" />
-                            <input type="range" min="0" max="20000" value="5700" id="slider-6" oninput="slide6()" />
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="20000" value="0" id="slider-5" oninput="slide5()" />
+                                <input type="range" min="0" max="20000" value="5700" id="slider-6" oninput="slide6()" />
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
                 <div class="col-12 col-lg-9">

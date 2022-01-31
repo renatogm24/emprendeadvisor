@@ -1,5 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask import flash
+from flask import flash, jsonify
 import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -15,9 +15,28 @@ class User:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
     
+    def get_info(self):
+      data = {
+          'id': self.id,
+          'first_name': self.first_name,
+          'last_name': self.last_name,
+          'email': self.email,
+      }
+      return jsonify(data)
+    
     @classmethod
     def save(cls, data ):
         query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW() );"
+        return connectToMySQL('dojo_chat').query_db( query, data )
+
+    @classmethod
+    def updateUser(cls, data ):
+        query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s WHERE id = %(id)s;"
+        return connectToMySQL('dojo_chat').query_db( query, data )
+
+    @classmethod
+    def updatePassword(cls, data ):
+        query = "UPDATE users SET password = %(password)s WHERE id = %(id)s;"
         return connectToMySQL('dojo_chat').query_db( query, data )
 
     @classmethod
@@ -56,6 +75,32 @@ class User:
           return False
         else:
           return True
+
+    
+    @staticmethod
+    def validate_password(form):
+      is_valid = True 
+      errors = []
+      if not PASSWORD_REGEX.match(form["password"]):
+        errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
+        is_valid = False
+      return (is_valid,errors)
+
+
+    @staticmethod
+    def validate_update(form):
+      is_valid = True 
+      errors = []
+      if len(form["first_name"])<3:
+        errors.append("Nombre no puede estar vacio o tener menos de 3 letras")
+        is_valid = False
+      if len(form["last_name"])<3:
+        errors.append("Apellido no puede estar vacio o tener menos de 3 letras")
+        is_valid = False
+      if not EMAIL_REGEX.match(form["email"]):
+        errors.append("Correo invalido")
+        is_valid = False
+      return (is_valid,errors)
 
     @staticmethod
     def validate_user(user):

@@ -8708,3 +8708,12 @@ input[type="range"]:active::-webkit-slider-thumb {
   content: "I just love it "; }
 
 /** Star Rating **/
+.newInput {
+  display: none; }
+
+.newInput.active {
+  display: block; }
+
+.imgProfile {
+  width: 100px;
+  border-radius: 50%; }

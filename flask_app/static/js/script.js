@@ -2,24 +2,12 @@ window.addEventListener("scroll", function () {
   const nav = document.querySelector(".homeNavbar");
   if (nav != null) {
     nav.classList.toggle("sticky", window.scrollY > 0);
+    const span = nav.querySelector("h3");
+    span.classList.toggle("text-altprimary", window.scrollY > 0);
+    welcomeMsg = document.querySelector(".welcomeMsg");
+    welcomeMsg.classList.toggle("text-altprimary", window.scrollY > 0);
   }
-
-  const span = nav.querySelector("h3");
-  span.classList.toggle("text-altprimary", window.scrollY > 0);
-  welcomeMsg = document.querySelector(".welcomeMsg");
-  welcomeMsg.classList.toggle("text-altprimary", window.scrollY > 0);
 });
-
-/* -------- STAR RATING START ------*/
-
-/*const allInputs = document.querySelectorAll(".star-widget");
-          for (input of allInputs) {
-              input.addEventListener("click", (e) => {
-                  console.log(e.target.id.split("-")[1]);
-              })
-          }*/
-
-/* -------- STAR RATING END ------*/
 
 const loginForm = document.querySelector("#loginForm");
 loginForm.addEventListener("submit", async (e) => {
@@ -118,18 +106,21 @@ function fillColor() {
 /* --------SLIDER2 -----------*/
 
 window.onload = function () {
-  slideOne();
-  slideTwo();
-  slide3();
-  slide4();
-  slide5();
-  slide6();
-  slide7();
-  slide8();
-  slide9();
-  slide10();
-  slide11();
-  slide12();
+  const sliders = document.querySelector(".container-slider");
+  if (sliders != null) {
+    slideOne();
+    slideTwo();
+    slide3();
+    slide4();
+    slide5();
+    slide6();
+    slide7();
+    slide8();
+    slide9();
+    slide10();
+    slide11();
+    slide12();
+  }
 };
 
 let slider3 = document.getElementById("slider-3");

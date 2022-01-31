@@ -541,3 +541,16 @@ input[type="range"]:active::-webkit-slider-thumb {
 
 
 /** Star Rating **/
+
+.newInput {
+    display: none;
+}
+
+.newInput.active {
+    display: block;
+}
+
+.imgProfile {
+    width: 100px;
+    border-radius: 50%;
+}

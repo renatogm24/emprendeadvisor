@@ -12,7 +12,7 @@ def register():
     # validar el formulario aquí...
     # crear el hash
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
-    print(pw_hash)
+    
     # poner pw_hash en el diccionario de datos
     data = {
       "first_name": request.form['first_name'],
@@ -53,6 +53,56 @@ def dashboard():
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
   return render_template("dashboard.html",userSession=userSession)
+
+
+@app.route('/getUserSession')
+def getUserSession():
+  userSession = ""
+  if 'user_id' not in session:
+    return redirect("/")
+  userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  return userSession.get_info()
+
+@app.route('/updateProfile', methods=['POST'])
+def updateProfile():
+    data = {
+      "id" : session["user_id"],
+      "first_name" : request.form["first_name"],
+      "last_name" : request.form["last_name"],
+      "email" : request.form["email"]
+    }
+    user_validation = user.User.validate_update(data)
+    if not user_validation[0]:
+      return jsonify(error = user_validation[1])
+    
+    user.User.updateUser(data)
+
+    response = {
+      "updated" : True, 
+    }
+    return jsonify(response)
+
+@app.route('/updatePassword', methods=['POST'])
+def updatePassword():
+    user_validation = user.User.validate_password(request.form)
+    if not user_validation[0]:
+      return jsonify(error = user_validation[1])
+    
+    user_in_db = user.User.get_user_by_id({"id": session["user_id"]})
+    if not bcrypt.check_password_hash(user_in_db.password, request.form['actual_password']):
+      return jsonify(error="Incorrect password")
+    
+    data = {
+      "id" : session["user_id"],
+      "password" : bcrypt.generate_password_hash(request.form['password']),
+    }
+    user.User.updatePassword(data)
+
+    response = {
+      "updated" : True, 
+    }
+    return jsonify(response)
+
 
 @app.route('/logout')
 def logout():

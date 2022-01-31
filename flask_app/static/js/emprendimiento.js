@@ -68,3 +68,27 @@ document.addEventListener("click", function (e) {
 });
 
 /* -------*/
+
+function checkNewCategory(element) {
+  inputCategory1 = document.querySelector("#categoria");
+  inputCategory2 = document.querySelector("#subcategoria");
+  newInput1 = document.querySelectorAll(".newInput")[0];
+  if (element.checked) {
+    inputCategory1.disabled = true;
+    inputCategory2.disabled = true;
+    newInput1.classList.toggle("active");
+  } else {
+    inputCategory1.disabled = false;
+    inputCategory2.disabled = false;
+    newInput1.classList.toggle("active");
+  }
+}
+
+function checkNewSubcategory(element) {
+  newInput2 = document.querySelectorAll(".newInput")[1];
+  if (element.checked) {
+    newInput2.classList.toggle("active");
+  } else {
+    newInput2.classList.toggle("active");
+  }
+}
