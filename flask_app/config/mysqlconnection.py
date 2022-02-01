@@ -28,6 +28,9 @@ class MySQLConnection:
                     # las consultas SELECT devolverán los datos de la base de datos como una LISTA DE DICCIONARIOS
                     result = cursor.fetchall()
                     return result
+                elif query.lower().find("delete") >= 0:
+                    result = cursor.rowcount
+                    return result
                 else:
                     # las consultas UPDATE y DELETE no devolverán nada
                     self.connection.commit()
