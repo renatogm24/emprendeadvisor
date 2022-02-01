@@ -214,7 +214,7 @@ for (const option of optionsMenu) {
           listActions: [
             {
               class: ["btn", "btn-success", "mx-lg-2"],
-              type: "update user",
+              type: "update users",
               getPath: (id) => {
                 return `/admin/users/${id}`;
               },
@@ -222,7 +222,7 @@ for (const option of optionsMenu) {
             },
             {
               class: ["btn", "btn-danger", "mx-lg-2"],
-              type: "delete user",
+              type: "delete users",
               getPath: (id) => {
                 return `/admin/users/delete/${id}`;
               },
@@ -293,7 +293,7 @@ for (const option of optionsMenu) {
           listActions: [
             {
               class: ["btn", "btn-success", "mx-lg-2"],
-              type: "accept category",
+              type: "accept categories",
               getPath: (id) => {
                 return `/admin/categories/accept/${id}`;
               },
@@ -301,7 +301,7 @@ for (const option of optionsMenu) {
             },
             {
               class: ["btn", "btn-danger", "mx-lg-2"],
-              type: "delete category",
+              type: "delete categories",
               getPath: (id) => {
                 return `/admin/categories/delete/${id}`;
               },
@@ -364,6 +364,25 @@ async function tableCreate(action, element, headers, path, limit) {
   let users = [];
   if (action === "create") {
     profileForm.innerHTML = "";
+
+    const button = document.createElement("input");
+    button.classList.add("btn", "btn-success", "text-light", "my-3", "col-3");
+    button.setAttribute("type", "button");
+    button.value = "Crear registro";
+
+    arrPath = path.split("/");
+    button.addEventListener("click", (e) => {
+      actionElement(
+        e,
+        "create " + arrPath[arrPath.length - 1],
+        path + "/create"
+      );
+    });
+
+    //const tableDiv = document.querySelector(".table-responsive");
+
+    //tableDiv.parentElement.insertBefore(button, tableDiv);
+    profileForm.appendChild(button);
 
     const offset = 0;
     const response = await fetch(
@@ -516,7 +535,7 @@ async function actionElement(e, type, url) {
   const [action, dataType] = type.split(" ");
   let fields = [];
 
-  if (dataType === "user") {
+  if (dataType === "users") {
     fields = [
       { title: "id", name: "id" },
       { title: "Nombres", name: "first_name" },
@@ -526,7 +545,7 @@ async function actionElement(e, type, url) {
     ];
   }
 
-  if (action === "update") {
+  if (action === "update" || action === "create") {
     profileForm = document.querySelector(".profileForm");
     profileForm.innerHTML = "";
 
@@ -544,7 +563,7 @@ async function actionElement(e, type, url) {
     backButton.appendChild(icon);
     backButton.appendChild(text);
 
-    if (dataType === "user") {
+    if (dataType === "users") {
       backButton.addEventListener("click", () => {
         document.querySelectorAll(".menuProfileOpt")[0].click();
       });
@@ -552,13 +571,17 @@ async function actionElement(e, type, url) {
 
     profileForm.appendChild(backButton);
 
-    const response = await fetch(`http://127.0.0.1:5000${url}`);
-    const data = await response.json();
+    let response = "";
+    let data = {};
+
+    if (action === "update") {
+      response = await fetch(`http://127.0.0.1:5000${url}`);
+      data = await response.json();
+    }
     let result = "";
     if (dataType in data) {
       result = data[dataType];
     }
-
     const form = document.createElement("form");
 
     for (const field of fields) {
@@ -570,7 +593,11 @@ async function actionElement(e, type, url) {
       }
 
       const field_input = document.createElement("input");
-      field_input.value = result[field.name];
+      if (action === "update") {
+        field_input.value = result[field.name];
+      } else if (action === "update") {
+        field_input.value = "";
+      }
       field_input.name = field.name;
       field_input.classList.add("form-control", "mb-2");
       if (field.name === "password") {
@@ -585,7 +612,12 @@ async function actionElement(e, type, url) {
     const button = document.createElement("input");
     button.classList.add("btn", "btn-altprimary", "text-light", "my-3");
     button.setAttribute("type", "submit");
-    button.value = "Actualizar";
+    if (action === "update") {
+      button.value = "Actualizar";
+    } else if (action === "create") {
+      button.value = "Guardar";
+    }
+
     form.appendChild(button);
 
     const urlArr = url.split("/");
@@ -646,6 +678,13 @@ async function updateForm(event, url) {
     errorLogin.classList.add("py-3");
   } else if (data.updated) {
     success.innerText = "Se ha sido actualizado correctamente";
+    success.classList.add("py-3");
+    setTimeout(() => {
+      success.innerText = "";
+      success.classList.remove("py-3");
+    }, 3000);
+  } else if (data.created) {
+    success.innerText = "Se ha creado el nuevo registro";
     success.classList.add("py-3");
     setTimeout(() => {
       success.innerText = "";

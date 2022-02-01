@@ -198,3 +198,25 @@ class User:
         errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
         is_valid = False
       return (is_valid,errors)
+
+    @staticmethod
+    def validate_user_admin(user):
+      is_valid = True 
+      errors = []
+      if len(user["first_name"])<3:
+        errors.append("Nombre no puede estar vacio o tener menos de 3 letras")
+        is_valid = False
+      if len(user["last_name"])<3:
+        errors.append("Apellido no puede estar vacio o tener menos de 3 letras")
+        is_valid = False
+      if not EMAIL_REGEX.match(user["email"]):
+        errors.append("Correo invalido")
+        is_valid = False
+      data = {"email":user["email"]}
+      if User.exist_mail(data):
+        errors.append("Correo en uso")
+        is_valid = False
+      if not PASSWORD_REGEX.match(user["password"]):
+        errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
+        is_valid = False
+      return (is_valid,errors)

@@ -22,7 +22,7 @@ def getUser(id):
   if userResult != False:
     userResult = userResult.get_info_raw_complete()
   response = {
-      "user" : userResult, 
+      "users" : userResult, 
     }
   return jsonify(response)
 
@@ -98,6 +98,36 @@ def updateUser():
 
     response = {
       "updated" : True, 
+      "created" : False
+    }
+    return jsonify(response)
+
+@app.route('/admin/users/create', methods=['POST'])
+def createUser():
+    user_validation = user.User.validate_user_admin(request.form)
+    if not user_validation[0]:
+      return jsonify(error = user_validation[1])
+    
+    data = {
+      "id" : request.form["id"],
+      "first_name" : request.form["first_name"],
+      "last_name" : request.form["last_name"],
+      "email" : request.form["email"],
+      "password": bcrypt.generate_password_hash(request.form['password'])
+    }    
+    
+    user_id = user.User.save(data)
+
+    if user_id == False:
+      response = {
+      "updated" : False, 
+      "created" : False
+      }
+      return jsonify(response)
+
+    response = {
+      "updated" : False, 
+      "created" : True
     }
     return jsonify(response)
 
@@ -105,6 +135,6 @@ def updateUser():
 def deleteUser(id):
     user_deleted = user.User.delete({"id":id})
     response = {
-      "user" : user_deleted, 
+      "users" : user_deleted, 
     }
     return jsonify(response)
