@@ -391,21 +391,16 @@ async function tableCreate(action, element, headers, path, limit) {
     console.log(link);
     let data;
 
-    fetch(link)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Something went wrong");
-        }
-      })
-      .then((responseJson) => {
-        console.log(responseJson);
-        data = responseJson;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const response = await fetch(link);
+      if (!response.ok) {
+        throw Error(`${response.status} ${response.statusText}`);
+      }
+      console(response.json());
+    } catch (error) {
+      console.log("Looks like there was a problem: ", error);
+    }
+
     /*
     const response = await fetch(link, {
       headers: {
