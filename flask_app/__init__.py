@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, support_credentials=True)
 
 app.secret_key = os.environ.get("secret_key")
 
