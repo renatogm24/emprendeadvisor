@@ -389,6 +389,24 @@ async function tableCreate(action, element, headers, path, limit) {
     const offset = 0;
     const link = `https://emprendeadvisor.com${path}/${limit}/${offset}`;
     console.log(link);
+    let data;
+
+    fetch(link)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Something went wrong");
+        }
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+        data = responseJson;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    /*
     const response = await fetch(link, {
       headers: {
         "Content-Type": "application/json",
@@ -399,8 +417,8 @@ async function tableCreate(action, element, headers, path, limit) {
     let resp = JSON.stringify(response);
     console.log(resp);
     console.log(resp2);
-    console.log(response);
-    const data = await response.json();
+    console.log(response);*/
+    //const data = await response.json();
 
     if ("users" in data) {
       users = data.users;
