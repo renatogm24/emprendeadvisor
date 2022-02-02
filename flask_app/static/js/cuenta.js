@@ -387,7 +387,7 @@ async function tableCreate(action, element, headers, path, limit) {
     profileForm.appendChild(button);
 
     const offset = 0;
-    const link = `https://emprendeadvisor.com/${path}/${limit}/${offset}`;
+    const link = `https://emprendeadvisor.com${path}/${limit}/${offset}`;
     console.log(link);
     const response = await fetch(link);
     const data = await response.json();
