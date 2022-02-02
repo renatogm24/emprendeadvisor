@@ -14,7 +14,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://127.0.0.1:5000/login", {
+  const response = await fetch("http://127.0.0.1/login", {
     method: "POST",
     body: form,
   });
