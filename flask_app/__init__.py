@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 CORS(app, support_credentials=True)
 
-app.secret_key = "secret_key"
+app.secret_key = os.environ.get("secret_key")
 
 assets = Environment(app)
 
