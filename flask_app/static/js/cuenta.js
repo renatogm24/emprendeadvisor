@@ -390,8 +390,9 @@ async function tableCreate(action, element, headers, path, limit) {
     const link = `https://emprendeadvisor.com${path}/${limit}/${offset}`;
     console.log(link);
     const response = await fetch(link, {
-      header: {
+      headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     });
     console.log(response);
