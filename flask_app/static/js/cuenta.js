@@ -368,7 +368,7 @@ async function tableCreate(action, element, headers, path, limit) {
     const button = document.createElement("input");
     button.classList.add("btn", "btn-success", "text-light", "my-3", "col-3");
     button.setAttribute("type", "button");
-    button.value = "Crear registro";
+    button.value = "Añadir";
 
     arrPath = path.split("/");
     button.addEventListener("click", (e) => {
@@ -566,6 +566,9 @@ async function actionElement(e, type, url) {
     if (dataType === "users") {
       backButton.addEventListener("click", () => {
         document.querySelectorAll(".menuProfileOpt")[0].click();
+        const errorLogin = document.querySelector(".errorLogin");
+        errorLogin.innerText = "";
+        errorLogin.classList.remove("py-3");
       });
     }
 
