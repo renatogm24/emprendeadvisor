@@ -387,33 +387,17 @@ async function tableCreate(action, element, headers, path, limit) {
     profileForm.appendChild(button);
 
     const offset = 0;
-    const link = `https://emprendeadvisor.com${path}/${limit}/${offset}`;
+    const link = `http://18.205.29.39:5000${path}/${limit}/${offset}`;
     console.log(link);
-    let data;
 
-    try {
-      const response = await fetch(link);
-      if (!response.ok) {
-        throw Error(`${response.status} ${response.statusText}`);
-      }
-      console(response.json());
-    } catch (error) {
-      console.log("Looks like there was a problem: ", error);
-    }
-
-    /*
     const response = await fetch(link, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
     });
-    let resp2 = await JSON.parse(response);
-    let resp = JSON.stringify(response);
-    console.log(resp);
-    console.log(resp2);
-    console.log(response);*/
-    //const data = await response.json();
+    console.log(response);
+    const data = await response.json();
 
     if ("users" in data) {
       users = data.users;
