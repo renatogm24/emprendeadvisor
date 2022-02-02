@@ -14,7 +14,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5000/login", {
+  const response = await fetch("https://www.emprendeadvisor.com/login", {
     method: "POST",
     body: form,
     credentials: "same-origin",
@@ -44,11 +44,14 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5000/register/user", {
-    method: "POST",
-    body: form,
-    credentials: "same-origin",
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/register/user",
+    {
+      method: "POST",
+      body: form,
+      credentials: "same-origin",
+    }
+  );
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
