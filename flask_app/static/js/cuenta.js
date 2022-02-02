@@ -36,7 +36,6 @@ for (const option of optionsMenu) {
           "https://emprendeadvisor.com/getUserSession",
           {
             method: "GET",
-            body: form,
             credentials: "same-origin",
           }
         );
