@@ -395,8 +395,10 @@ async function tableCreate(action, element, headers, path, limit) {
         Accept: "application/json",
       },
     });
+    let resp2 = JSON.parse(response);
     let resp = JSON.stringify(response);
     console.log(resp);
+    console.log(resp2);
     console.log(response);
     const data = await response.json();
 
