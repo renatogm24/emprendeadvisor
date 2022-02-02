@@ -388,7 +388,7 @@ async function tableCreate(action, element, headers, path, limit) {
 
     const offset = 0;
     const response = await fetch(
-      `https://emprendeadvisor.com${path}/${limit}/${offset}`
+      `https://emprendeadvisor.com/${path}/${limit}/${offset}`
     );
     const data = await response.json();
 
