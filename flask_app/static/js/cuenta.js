@@ -33,7 +33,7 @@ for (const option of optionsMenu) {
 
       if (optionTxt === "Mi Perfil") {
         const response = await fetch(
-          "https://emprendeadvisor.com/getUserSession",
+          "http://18.205.29.39:5000/getUserSession",
           {
             method: "GET",
             credentials: "same-origin",
