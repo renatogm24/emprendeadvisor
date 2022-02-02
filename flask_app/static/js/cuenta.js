@@ -32,7 +32,9 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch("http://18.205.29.39:5000/getUserSession");
+        const response = await fetch(
+          "https://www.emprendeadvisor.com/getUserSession"
+        );
         const data = await response.json();
 
         profileForm.innerHTML = "";
