@@ -32,13 +32,7 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch(
-          "http://18.205.29.39:5000/getUserSession",
-          {
-            method: "GET",
-            credentials: "same-origin",
-          }
-        );
+        const response = await fetch("http://18.205.29.39:5000/getUserSession");
         const data = await response.json();
 
         profileForm.innerHTML = "";
