@@ -44,7 +44,7 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://127.0.0.1:5000/register/user", {
+  const response = await fetch("https://emprendeadvisor.com/register/user", {
     method: "POST",
     body: form,
     credentials: "same-origin",

@@ -32,7 +32,9 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch("http://127.0.0.1:5000/getUserSession");
+        const response = await fetch(
+          "https://emprendeadvisor.com/getUserSession"
+        );
         const data = await response.json();
 
         profileForm.innerHTML = "";
@@ -386,7 +388,7 @@ async function tableCreate(action, element, headers, path, limit) {
 
     const offset = 0;
     const response = await fetch(
-      `http://127.0.0.1:5000${path}/${limit}/${offset}`
+      `https://emprendeadvisor.com${path}/${limit}/${offset}`
     );
     const data = await response.json();
 
@@ -438,7 +440,7 @@ async function tableCreate(action, element, headers, path, limit) {
       offset = 0;
     }
     const response = await fetch(
-      `http://127.0.0.1:5000${path}/${limit}/${offset}`
+      `https://emprendeadvisor.com${path}/${limit}/${offset}`
     );
     const data = await response.json();
     if ("users" in data) {
@@ -456,7 +458,7 @@ async function tableCreate(action, element, headers, path, limit) {
   if (action === "search") {
     const offset = 0;
     const response = await fetch(
-      `http://127.0.0.1:5000${path}/${limit}/${offset}`
+      `https://emprendeadvisor.com${path}/${limit}/${offset}`
     );
     const data = await response.json();
     if ("users" in data) {
@@ -578,7 +580,7 @@ async function actionElement(e, type, url) {
     let data = {};
 
     if (action === "update") {
-      response = await fetch(`http://127.0.0.1:5000${url}`);
+      response = await fetch(`https://emprendeadvisor.com${url}`);
       data = await response.json();
     }
     let result = "";
@@ -639,7 +641,7 @@ async function actionElement(e, type, url) {
   }
 
   if (action === "delete") {
-    const response = await fetch(`http://127.0.0.1:5000${url}`);
+    const response = await fetch(`https://emprendeadvisor.com${url}`);
     const data = await response.json();
     let result = "";
     if (dataType in data) {
@@ -671,7 +673,7 @@ async function updateForm(event, url) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch(`http://127.0.0.1:5000${url}`, {
+  const response = await fetch(`https://emprendeadvisor.com${url}`, {
     method: "POST",
     body: form,
   });
@@ -707,7 +709,7 @@ async function updateProfile(event) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch("http://127.0.0.1:5000/updateProfile", {
+  const response = await fetch("https://emprendeadvisor.com/updateProfile", {
     method: "POST",
     body: form,
   });
@@ -751,7 +753,7 @@ async function updatePassword(event) {
     return;
   }
 
-  const response = await fetch("http://127.0.0.1:5000/updatePassword", {
+  const response = await fetch("https://emprendeadvisor.com/updatePassword", {
     method: "POST",
     body: form,
   });
