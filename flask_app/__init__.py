@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, resources={r'*':{'origins':['https://www.emprendeadvisor.com','https://www.emprendeadvisor.com/','https://emprendeadvisor.com/','https://emprendeadvisor.com']}})
+CORS(app, resources={r'*':{'origins':['https://www.emprendeadvisor.com','https://www.emprendeadvisor.com/','https://emprendeadvisor.com/','https://emprendeadvisor.com','http://127.0.0.1:5000']}})
 app.config['SESSION_COOKIE_HTTPONLY'] = False
 #CORS(app, support_credentials=True)
 #app.config['CORS_HEADERS'] = 'Content-Type'
