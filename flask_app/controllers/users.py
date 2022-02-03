@@ -46,6 +46,7 @@ def login():
       "isRedirect" : True 
     }
     toreturn = jsonify(response)
+    toreturn.Cookies["session"].Domain = "emprendeadvisor.com";
     return toreturn
 
 @app.route('/dashboard')
