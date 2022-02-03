@@ -3,6 +3,9 @@ from flask_app.models import user
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+from flask.sessions import SecureCookieSessionInterface
+
+session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
 
 @app.route('/register/user', methods=['POST'])
 def register():
@@ -30,6 +33,7 @@ def register():
     }
     return jsonify(response)
 
+@app.after_request
 @app.route('/login', methods=['POST'])
 def login():
     # ver si el nombre de usuario proporcionado existe en la base de datos
@@ -45,7 +49,8 @@ def login():
       "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 
     }
-    toreturn = jsonify(response)
+    same_cookie = session_cookie.dumps(dict(session))
+    toreturn = jsonify(response).headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
     return toreturn
 
 @app.route('/dashboard')
