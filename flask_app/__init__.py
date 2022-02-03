@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, support_credentials=True)
 #app.config['SESSION_COOKIE_HTTPONLY'] = False
 #app.config['SESSION_COOKIE_HTTPONLY'] = False
-#app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SECURE'] = False
 #CORS(app, support_credentials=True)
 #app.config['CORS_HEADERS'] = 'Content-Type'
 
