@@ -390,9 +390,7 @@ async function tableCreate(action, element, headers, path, limit) {
     const link = `https://emprendeadvisor.com${path}/${limit}/${offset}`;
     console.log(link);
 
-    const response = await fetch(link, {
-      withCredentials = True
-    });
+    const response = await fetch(link);
     console.log(response);
     const data = await response.json();
 
