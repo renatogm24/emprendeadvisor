@@ -6,6 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 CORS(app)
+app.config['SESSION_COOKIE_HTTPONLY'] = False
 #CORS(app, support_credentials=True)
 #app.config['CORS_HEADERS'] = 'Content-Type'
 
