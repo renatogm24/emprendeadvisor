@@ -48,8 +48,7 @@ def login():
       "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 
     }
-    same_cookie = session_cookie.dumps(dict(session))
-    toreturn = jsonify(response).headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
+    toreturn = jsonify(response)
     return toreturn
 
 @app.route('/dashboard')
