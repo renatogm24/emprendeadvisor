@@ -17,7 +17,7 @@ loginForm.addEventListener("submit", async (e) => {
   const response = await fetch("https://emprendeadvisor.com/login", {
     method: "POST",
     body: form,
-    method: "cors",
+    mode: "cors",
   });
   const data = await response.json();
   if ("error" in data) {
