@@ -46,7 +46,6 @@ def login():
       "isRedirect" : True 
     }
     toreturn = jsonify(response)
-    toreturn.headers['Content-Type','Authorization']
     return toreturn
 
 @app.route('/dashboard')
