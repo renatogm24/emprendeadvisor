@@ -17,7 +17,6 @@ loginForm.addEventListener("submit", async (e) => {
   const response = await fetch("http://18.205.29.39:5000/login", {
     method: "POST",
     body: form,
-    withCredentials = True
   });
   const data = await response.json();
   if ("error" in data) {
