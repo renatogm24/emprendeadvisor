@@ -33,7 +33,6 @@ def register():
     }
     return jsonify(response)
 
-@app.after_request
 @app.route('/login', methods=['POST'])
 def login():
     # ver si el nombre de usuario proporcionado existe en la base de datos
