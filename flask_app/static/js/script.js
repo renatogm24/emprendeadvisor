@@ -14,7 +14,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://emprendeadvisor.com/login", {
+  const response = await fetch("http://127.0.0.1:5000/login", {
     method: "POST",
     body: form,
   });
@@ -43,7 +43,7 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://emprendeadvisor.com/register/user", {
+  const response = await fetch("http://127.0.0.1:5000/register/user", {
     method: "POST",
     body: form,
   });
