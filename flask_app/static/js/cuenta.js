@@ -391,10 +391,7 @@ async function tableCreate(action, element, headers, path, limit) {
     console.log(link);
 
     const response = await fetch(link, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      withCredentials = True
     });
     console.log(response);
     const data = await response.json();
