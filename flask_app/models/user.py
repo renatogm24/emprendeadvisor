@@ -15,6 +15,7 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.image = ""
     
     def get_info(self):
       data = {
@@ -46,7 +47,7 @@ class User:
     
     @classmethod
     def save(cls, data ):
-        query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW() );"
+        query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at, image_id ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW(), 1 );"
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
@@ -79,11 +80,13 @@ class User:
 
     @classmethod
     def get_user_by_id(cls,data):
-        query = "SELECT * FROM users WHERE id = %(id)s;"
+        query = "SELECT * FROM users left join images on users.image_id = images.id WHERE users.id = %(id)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) < 1:
           return False
-        return cls(results[0])
+        user = cls(results[0])
+        user.image = results[0]["url"]
+        return user
 
     @classmethod
     def get_users_except_id(cls,data):
