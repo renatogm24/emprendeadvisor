@@ -132,7 +132,7 @@ class User:
 
     @classmethod
     def get_users_except_admin_like(cls,data):
-        query = "SELECT * FROM users WHERE id != %(id)s and is_active = %(is_active)s and (first_name like %(word)s or last_name like %(word)s or email like %(word)s) limit %(offset)s,%(limit)s;"
+        query = "SELECT * FROM users WHERE id != %(id)s and is_active = %(is_active)s and level != 9 and (first_name like %(word)s or last_name like %(word)s or email like %(word)s) limit %(offset)s,%(limit)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
