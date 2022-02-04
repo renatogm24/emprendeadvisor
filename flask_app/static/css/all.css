@@ -8724,5 +8724,5 @@ input[type="range"]:active::-webkit-slider-thumb {
 #frame {
   background-color: lightgray; }
 
-#btnClearImg {
+#deleteImgBtn {
   width: fit-content; }

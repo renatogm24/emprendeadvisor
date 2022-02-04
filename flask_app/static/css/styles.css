@@ -563,6 +563,6 @@ input[type="range"]:active::-webkit-slider-thumb {
     background-color: lightgray;
 }
 
-#btnClearImg {
+#deleteImgBtn {
     width: fit-content;
 }
