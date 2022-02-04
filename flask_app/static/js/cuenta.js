@@ -238,24 +238,9 @@ for (const option of optionsMenu) {
 
       const path = "/admin/users";
 
-      const button = document.createElement("input");
-      button.classList.add(
-        "btn",
-        "btn-altprimary",
-        "text-light",
-        "my-3",
-        "LoadMoreBtn"
-      );
-      button.setAttribute("type", "button");
-      button.value = "Cargar más registros";
-      button.addEventListener("click", () => {
-        tableCreate("append", profileForm, headers, path, limit);
-      });
-
-      profileForm.appendChild(button);
-      profileForm.insertBefore(search, profileForm.firstChild);
-
       await tableCreate("create", profileForm, headers, path, limit);
+
+      profileForm.insertBefore(search, profileForm.firstChild);
 
       //const searchBtn = document.querySelector(".searchBtn");
       const searchBtn = document.querySelector(".inputSearch");
