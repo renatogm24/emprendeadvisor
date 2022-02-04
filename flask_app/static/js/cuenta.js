@@ -383,13 +383,6 @@ async function tableCreate(action, element, headers, path, limit) {
       users = data.users;
     }
 
-    if ("endList" in data) {
-      if (data.endList) {
-        const btn = document.querySelector(".LoadMoreBtn");
-        btn.disabled = true;
-      }
-    }
-
     const tableBx = document.createElement("div");
     tableBx.classList.add("table-responsive");
 
@@ -434,8 +427,14 @@ async function tableCreate(action, element, headers, path, limit) {
       tableCreate("append", profileForm, headers, path, limit);
     });
 
-    //profileForm.insertBefore(buttonLoad, profileForm.firstChild);
     profileForm.appendChild(buttonLoad);
+
+    if ("endList" in data) {
+      if (data.endList) {
+        const btn = document.querySelector(".LoadMoreBtn");
+        btn.disabled = true;
+      }
+    }
   }
 
   if (action === "append") {
