@@ -562,3 +562,7 @@ input[type="range"]:active::-webkit-slider-thumb {
 #frame {
     background-color: lightgray;
 }
+
+#btnClearImg {
+    width: fit-content;
+}

@@ -78,7 +78,8 @@ for (const option of optionsMenu) {
         inputImg.onchange = () => preview();
 
         const btnClearImg = document.createElement("button");
-        btnClearImg.classList.add("btn", "btn-danger", "mt-3");
+        btnClearImg.classList.add("btn", "btn-warning", "mt-3");
+        btnClearImg.setAttribute("id", "deleteImgBtn");
         btnClearImg.innerText = "Borrar foto";
         btnClearImg.onclick = () => clearImage();
 
