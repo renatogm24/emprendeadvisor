@@ -252,10 +252,10 @@ for (const option of optionsMenu) {
         tableCreate("append", profileForm, headers, path, limit);
       });
 
-      await tableCreate("create", profileForm, headers, path, limit);
-
       profileForm.appendChild(button);
       profileForm.insertBefore(search, profileForm.firstChild);
+
+      await tableCreate("create", profileForm, headers, path, limit);
 
       //const searchBtn = document.querySelector(".searchBtn");
       const searchBtn = document.querySelector(".inputSearch");
