@@ -71,6 +71,11 @@ for (const option of optionsMenu) {
           "flex-column",
           "justify-content-center"
         );
+
+        const img_label = document.createElement("label");
+        img_label.classList.add("form-label", "mb-2");
+        img_label.innerText = "Foto de perfil";
+
         const inputImg = document.createElement("input");
         inputImg.classList.add("form-control");
         inputImg.setAttribute("type", "file");
@@ -78,11 +83,12 @@ for (const option of optionsMenu) {
         inputImg.onchange = () => preview();
 
         const btnClearImg = document.createElement("button");
-        btnClearImg.classList.add("btn", "btn-warning", "mt-3");
+        btnClearImg.classList.add("btn", "btn-warning", "mt-3", "text-light");
         btnClearImg.setAttribute("id", "deleteImgBtn");
         btnClearImg.innerText = "Borrar foto";
         btnClearImg.onclick = () => clearImage();
 
+        inputImgBx.appendChild(img_label);
         inputImgBx.appendChild(inputImg);
         inputImgBx.appendChild(btnClearImg);
         imgBx.appendChild(inputImgBx);
