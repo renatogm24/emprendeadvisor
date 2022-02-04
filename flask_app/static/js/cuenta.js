@@ -79,7 +79,9 @@ for (const option of optionsMenu) {
 
         inputImgBx.appendChild(inputImg);
         inputImgBx.appendChild(btnClearImg);
-        form.appendChild(inputImgBx);
+        imgBx.appendChild(inputImgBx);
+
+        form.appendChild(imgBx);
 
         const first_name_label = document.createElement("label");
         first_name_label.classList.add("form-label", "mb-2");
