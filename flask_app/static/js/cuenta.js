@@ -65,17 +65,17 @@ for (const option of optionsMenu) {
         imgBx.appendChild(imgProfileBx);
 
         const inputImgBx = document.createElement("div");
-        inputImgBx.classList.add("col-9");
+        inputImgBx.classList.add("col-9", "align-items-center");
         const inputImg = document.createElement("input");
         inputImg.classList.add("form-control");
         inputImg.setAttribute("type", "file");
         inputImg.setAttribute("id", "formFile");
-        //inputImg.onchange = () => preview();
+        inputImg.onchange = () => preview();
 
         const btnClearImg = document.createElement("button");
         btnClearImg.classList.add("btn", "btn-danger", "mt-3");
         btnClearImg.innerText = "Borrar foto";
-        //btnClearImg.onclick = () => clearImage();
+        btnClearImg.onclick = () => clearImage();
 
         inputImgBx.appendChild(inputImg);
         inputImgBx.appendChild(btnClearImg);
