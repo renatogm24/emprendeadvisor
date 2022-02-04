@@ -65,6 +65,11 @@ class User:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def update_state_blocked(cls, data ):
+        query = "UPDATE users SET is_active = %(blocked)s , updated_at = NOW() WHERE id = %(id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
     def updateUserAll(cls, data ):
         query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s, password= %(password)s, updated_at = NOW() WHERE id = %(id)s;"
         return connectToMySQL('emprendeadvisor').query_db( query, data )

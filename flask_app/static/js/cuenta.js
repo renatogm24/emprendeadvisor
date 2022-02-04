@@ -20,6 +20,7 @@ for (const option of optionsMenu) {
         "Mi Contraseña",
         "Mis Favoritos",
         "Usuarios",
+        "Bloqueados",
         "Solicitud Categorias",
       ].includes(optionTxt)
     ) {
@@ -226,9 +227,9 @@ for (const option of optionsMenu) {
               class: ["btn", "btn-danger", "mx-lg-2"],
               type: "delete users",
               getPath: (id) => {
-                return `/admin/users/delete/${id}`;
+                return `/admin/users/block/${id}`;
               },
-              logo: "bi-trash",
+              logo: "bi-person-x",
             },
           ],
         },
@@ -259,6 +260,70 @@ for (const option of optionsMenu) {
       const title = document.createElement("h3");
       title.classList.add("my-2", "text-center");
       title.innerHTML = "Lista de usuarios";
+      profileForm.insertBefore(title, profileForm.firstChild);
+    }
+
+    if (optionTxt === "Bloqueados") {
+      const search = document.createElement("div");
+      search.classList.add("input-group", "mb-3", "searchBx");
+      search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
+  </div>`;
+
+      const headers = [
+        { title: "id", name: "id" },
+        { title: "Nombres", name: "first_name" },
+        { title: "Apellidos", name: "last_name" },
+        { title: "Email", name: "email" },
+        {
+          title: "Actions",
+          listActions: [
+            {
+              class: ["btn", "btn-success", "mx-lg-2"],
+              type: "delete users",
+              getPath: (id) => {
+                return `/admin/users/block/${id}`;
+              },
+              logo: "bi-person-check",
+            },
+            {
+              class: ["btn", "btn-danger", "mx-lg-2"],
+              type: "delete users",
+              getPath: (id) => {
+                return `/admin/users/delete/${id}`;
+              },
+              logo: "bi-trash",
+            },
+          ],
+        },
+      ];
+
+      const limit = 5;
+
+      const path = "/admin/users/blocked";
+
+      await tableCreate("create", profileForm, headers, path, limit);
+
+      profileForm.insertBefore(search, profileForm.firstChild);
+
+      //const searchBtn = document.querySelector(".searchBtn");
+      const searchBtn = document.querySelector(".inputSearch");
+      searchBtn.focus();
+
+      searchBtn.addEventListener("input", () => {
+        const searchWord = document.querySelector(".inputSearch").value;
+        if (searchWord === "") {
+          option.click();
+          return;
+        }
+        const path = `/admin/searchUsers/blocked/${searchWord}`;
+        tableCreate("search", profileForm, headers, path, limit);
+      });
+
+      const title = document.createElement("h3");
+      title.classList.add("my-2", "text-center");
+      title.innerHTML = "Lista de usuarios bloqueados";
       profileForm.insertBefore(title, profileForm.firstChild);
     }
 

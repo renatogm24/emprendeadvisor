@@ -159,3 +159,19 @@ def deleteUser(id):
       "users" : user_deleted, 
     }
     return jsonify(response)
+
+@app.route('/admin/users/block/<int:id>')
+def blockUser(id):
+    if 'level' in session and session["level"] != 9:
+      return redirect("/")
+    
+    user_blocked = user.User.get_user_by_id({"id":id})
+    if user_blocked.is_active == 1:
+      blocked = 0
+    else:
+      blocked = 1
+    user.User.update_state_blocked({"id":id,"blocked":blocked})
+    response = {
+      "users" : 1, 
+    }
+    return jsonify(response)
