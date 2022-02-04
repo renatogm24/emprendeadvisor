@@ -317,6 +317,8 @@ for (const option of optionsMenu) {
 
       const path = "/admin/users";
 
+      profileForm.insertBefore(search, profileForm.firstChild);
+
       await tableCreate("create", profileForm, headers, path, limit);
 
       //const searchBtn = document.querySelector(".searchBtn");
