@@ -12,5 +12,6 @@ app.secret_key = os.environ.get("secret_key")
 assets = Environment(app)
 
 assets.url = app.static_url_path
+assets.debug = True
 scss = Bundle('sass/main.scss','css/styles.css', filters='libsass', depends=('../../assets/bootstrap/scss/*.scss') ,output='css/all.css')
 assets.register('scss_all', scss)
