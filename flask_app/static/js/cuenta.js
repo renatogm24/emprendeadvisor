@@ -369,23 +369,6 @@ async function tableCreate(action, element, headers, path, limit) {
     //tableDiv.parentElement.insertBefore(button, tableDiv);
     profileForm.appendChild(button);
 
-    const buttonLoad = document.createElement("input");
-    buttonLoad.classList.add(
-      "btn",
-      "btn-altprimary",
-      "text-light",
-      "my-3",
-      "LoadMoreBtn"
-    );
-    buttonLoad.setAttribute("type", "button");
-    buttonLoad.value = "Cargar más registros";
-    buttonLoad.addEventListener("click", () => {
-      tableCreate("append", profileForm, headers, path, limit);
-    });
-
-    //profileForm.insertBefore(buttonLoad, profileForm.firstChild);
-    profileForm.appendChild(buttonLoad);
-
     const offset = 0;
     const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
     console.log(link);
@@ -434,6 +417,23 @@ async function tableCreate(action, element, headers, path, limit) {
     tableBx.appendChild(tbl);
 
     element.appendChild(tableBx);
+
+    const buttonLoad = document.createElement("input");
+    buttonLoad.classList.add(
+      "btn",
+      "btn-altprimary",
+      "text-light",
+      "my-3",
+      "LoadMoreBtn"
+    );
+    buttonLoad.setAttribute("type", "button");
+    buttonLoad.value = "Cargar más registros";
+    buttonLoad.addEventListener("click", () => {
+      tableCreate("append", profileForm, headers, path, limit);
+    });
+
+    //profileForm.insertBefore(buttonLoad, profileForm.firstChild);
+    profileForm.appendChild(buttonLoad);
   }
 
   if (action === "append") {
