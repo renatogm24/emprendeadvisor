@@ -382,9 +382,8 @@ async function tableCreate(action, element, headers, path, limit) {
     buttonLoad.addEventListener("click", () => {
       tableCreate("append", profileForm, headers, path, limit);
     });
-    const search = document.querySelector(".searchBx");
-    profileForm.appendChild(buttonLoad);
-    profileForm.insertBefore(search, profileForm.firstChild);
+
+    profileForm.insertBefore(buttonLoad, profileForm.firstChild);
 
     const offset = 0;
     const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
