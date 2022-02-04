@@ -317,24 +317,7 @@ for (const option of optionsMenu) {
 
       const path = "/admin/users";
 
-      const button = document.createElement("input");
-      button.classList.add(
-        "btn",
-        "btn-altprimary",
-        "text-light",
-        "my-3",
-        "LoadMoreBtn"
-      );
-      button.setAttribute("type", "button");
-      button.value = "Cargar más registros";
-      button.addEventListener("click", () => {
-        tableCreate("append", profileForm, headers, path, limit);
-      });
-
       await tableCreate("create", profileForm, headers, path, limit);
-
-      profileForm.appendChild(button);
-      profileForm.insertBefore(search, profileForm.firstChild);
 
       //const searchBtn = document.querySelector(".searchBtn");
       const searchBtn = document.querySelector(".inputSearch");
@@ -385,6 +368,23 @@ async function tableCreate(action, element, headers, path, limit) {
 
     //tableDiv.parentElement.insertBefore(button, tableDiv);
     profileForm.appendChild(button);
+
+    const buttonLoad = document.createElement("input");
+    buttonLoad.classList.add(
+      "btn",
+      "btn-altprimary",
+      "text-light",
+      "my-3",
+      "LoadMoreBtn"
+    );
+    buttonLoad.setAttribute("type", "button");
+    buttonLoad.value = "Cargar más registros";
+    buttonLoad.addEventListener("click", () => {
+      tableCreate("append", profileForm, headers, path, limit);
+    });
+    const searchBtn = document.querySelector(".inputSearch");
+    profileForm.appendChild(buttonLoad);
+    profileForm.insertBefore(search, profileForm.firstChild);
 
     const offset = 0;
     const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
