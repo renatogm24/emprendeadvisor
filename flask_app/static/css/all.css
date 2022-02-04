@@ -8720,3 +8720,8 @@ input[type="range"]:active::-webkit-slider-thumb {
 
 .menuProfileOpt {
   cursor: pointer; }
+
+#frame {
+  background-color: lightgray;
+  width: 216px;
+  height: 216px; }
