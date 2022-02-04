@@ -73,8 +73,8 @@ for (const option of optionsMenu) {
         );
 
         const img_label = document.createElement("label");
-        img_label.classList.add("form-label", "mb-2");
-        img_label.innerText = "Foto de perfil";
+        img_label.classList.add("form-label", "mb-3");
+        img_label.innerText = "Foto de perfil:";
 
         const inputImg = document.createElement("input");
         inputImg.classList.add("form-control");
