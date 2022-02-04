@@ -47,32 +47,32 @@ class User:
     @classmethod
     def save(cls, data ):
         query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW() );"
-        return connectToMySQL('dojo_chat').query_db( query, data )
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def delete(cls, data ):
         query = "DELETE FROM users where id = %(id)s;"
-        return connectToMySQL('dojo_chat').query_db( query, data )
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def updateUser(cls, data ):
         query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
-        return connectToMySQL('dojo_chat').query_db( query, data )
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def updateUserAll(cls, data ):
         query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s, password= %(password)s, updated_at = NOW() WHERE id = %(id)s;"
-        return connectToMySQL('dojo_chat').query_db( query, data )
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def updatePassword(cls, data ):
         query = "UPDATE users SET password = %(password)s, updated_at = NOW() WHERE id = %(id)s;"
-        return connectToMySQL('dojo_chat').query_db( query, data )
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def get_user_by_email(cls,data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) < 1:
           return False
         return cls(results[0])
@@ -80,7 +80,7 @@ class User:
     @classmethod
     def get_user_by_id(cls,data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) < 1:
           return False
         return cls(results[0])
@@ -88,7 +88,7 @@ class User:
     @classmethod
     def get_users_except_id(cls,data):
         query = "SELECT * FROM users WHERE id != %(id)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
           return False
@@ -99,7 +99,7 @@ class User:
     @classmethod
     def exist_mail(cls,data):
         query = "SELECT * FROM users where email = %(email)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) == 0:
           return False
         else:
@@ -109,7 +109,7 @@ class User:
     @classmethod
     def get_users_except_admin(cls,data):
         query = "SELECT * FROM users WHERE id != %(id)s limit %(offset)s,%(limit)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
           return False
@@ -121,7 +121,7 @@ class User:
     @classmethod
     def get_users_except_admin_like(cls,data):
         query = "SELECT * FROM users WHERE id != %(id)s and (first_name like %(word)s or last_name like %(word)s or email like %(word)s) limit %(offset)s,%(limit)s;"
-        results = connectToMySQL('dojo_chat').query_db(query,data)
+        results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
           return False

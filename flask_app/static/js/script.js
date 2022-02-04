@@ -49,6 +49,7 @@ registerForm.addEventListener("submit", async (e) => {
     {
       method: "POST",
       body: form,
+      credentials: "include",
     }
   );
   const data = await response.json();
