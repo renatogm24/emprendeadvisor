@@ -200,7 +200,7 @@ for (const option of optionsMenu) {
     }
     if (optionTxt === "Usuarios") {
       const search = document.createElement("div");
-      search.classList.add("input-group", "mb-3");
+      search.classList.add("input-group", "mb-3", "searchBx");
       search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
@@ -382,7 +382,7 @@ async function tableCreate(action, element, headers, path, limit) {
     buttonLoad.addEventListener("click", () => {
       tableCreate("append", profileForm, headers, path, limit);
     });
-    const searchBtn = document.querySelector(".inputSearch");
+    const search = document.querySelector(".searchBx");
     profileForm.appendChild(buttonLoad);
     profileForm.insertBefore(search, profileForm.firstChild);
 
