@@ -86,7 +86,7 @@ for (const option of optionsMenu) {
         btnClearImg.classList.add("btn", "btn-warning", "mt-3", "text-light");
         btnClearImg.setAttribute("id", "deleteImgBtn");
         btnClearImg.setAttribute("type", "button");
-        btnClearImg.innerText = "Borrar foto";
+        btnClearImg.value = "Borrar foto";
         btnClearImg.onclick = () => clearImage();
 
         inputImgBx.appendChild(img_label);
