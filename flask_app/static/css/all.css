@@ -8722,6 +8722,4 @@ input[type="range"]:active::-webkit-slider-thumb {
   cursor: pointer; }
 
 #frame {
-  background-color: lightgray;
-  width: 216px;
-  height: 216px; }
+  background-color: lightgray; }

@@ -65,7 +65,12 @@ for (const option of optionsMenu) {
         imgBx.appendChild(imgProfileBx);
 
         const inputImgBx = document.createElement("div");
-        inputImgBx.classList.add("col-9", "align-items-center");
+        inputImgBx.classList.add(
+          "col-9",
+          "d-flex",
+          "flex-col",
+          "justify-content-center"
+        );
         const inputImg = document.createElement("input");
         inputImg.classList.add("form-control");
         inputImg.setAttribute("type", "file");
