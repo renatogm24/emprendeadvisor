@@ -15,6 +15,8 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.is_active = data['is_active']
+        self.level = data['level']
         self.image = ""
     
     def get_info(self):
@@ -23,6 +25,7 @@ class User:
           'first_name': self.first_name,
           'last_name': self.last_name,
           'email': self.email,
+          'image': self.image
       }
       return jsonify(data)
 
@@ -32,6 +35,7 @@ class User:
           'first_name': self.first_name,
           'last_name': self.last_name,
           'email': self.email,
+          'image': self.image
       }
       return data
 
@@ -47,7 +51,7 @@ class User:
     
     @classmethod
     def save(cls, data ):
-        query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at, image_id ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW(), 1 );"
+        query = "INSERT INTO users (first_name, last_name, email , password, created_at, updated_at, image_id, is_active, level ) VALUES ( %(first_name)s , %(last_name)s ,%(email)s ,%(password)s ,NOW() , NOW(), 1, 1, 1 );"
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
@@ -72,7 +76,7 @@ class User:
 
     @classmethod
     def get_user_by_email(cls,data):
-        query = "SELECT * FROM users WHERE email = %(email)s;"
+        query = "SELECT * FROM users WHERE email = %(email)s and is_active = 1;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) < 1:
           return False
@@ -90,7 +94,7 @@ class User:
 
     @classmethod
     def get_users_except_id(cls,data):
-        query = "SELECT * FROM users WHERE id != %(id)s;"
+        query = "SELECT * FROM users WHERE id != %(id)s is_active = %(is_active)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
@@ -111,7 +115,7 @@ class User:
     #Falta actualizar query que no tome usuarios admin
     @classmethod
     def get_users_except_admin(cls,data):
-        query = "SELECT * FROM users WHERE id != %(id)s limit %(offset)s,%(limit)s;"
+        query = "SELECT * FROM users WHERE id != %(id)s and level != 9 and is_active = %(is_active)s limit %(offset)s,%(limit)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:
@@ -123,7 +127,7 @@ class User:
 
     @classmethod
     def get_users_except_admin_like(cls,data):
-        query = "SELECT * FROM users WHERE id != %(id)s and (first_name like %(word)s or last_name like %(word)s or email like %(word)s) limit %(offset)s,%(limit)s;"
+        query = "SELECT * FROM users WHERE id != %(id)s and is_active = %(is_active)s and (first_name like %(word)s or last_name like %(word)s or email like %(word)s) limit %(offset)s,%(limit)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         users = []
         if len(results) < 1:

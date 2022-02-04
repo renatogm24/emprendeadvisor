@@ -22,6 +22,8 @@ def cuenta():
   userSession = ""
   if 'user_id' not in session:
     return redirect("/")
+  if session["level"] == 9:
+    return redirect("/admin")
   userSession = user.User.get_user_by_id({"id":session["user_id"]})
   return render_template("cuenta.html",userSession=userSession)
 

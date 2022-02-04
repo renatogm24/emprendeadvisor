@@ -27,6 +27,7 @@ def register():
     user_id = user.User.save(data)
     # almacenar id de usuario en la sesión
     session['user_id'] = user_id
+    session['level'] = 1
     response = {
       "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 
@@ -44,6 +45,7 @@ def login():
     if not bcrypt.check_password_hash(user_in_db.password, request.form['password']):
       return jsonify(error="Invalid Email/Password")
     session['user_id'] = user_in_db.id
+    session['level'] = user_in_db.level
     response = {
       "redirectUrl" : request.form["pathname"], 
       "isRedirect" : True 

@@ -251,9 +251,8 @@
             </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        {% if userSession.isAdmin == false %}
-                        <a class="dropdown-item" href="/cuenta">Configurar</a> {% else %}
-                        <a class="dropdown-item" href="/admin">Admin</a> {% endif %}
+
+                        <a class="dropdown-item" href="/admin">Admin</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Cerrar Sesión</a
               >
@@ -284,9 +283,9 @@
             <div class="bg-graytheme w-100 d-flex flex-column align-items-center p-3">
               <h4 class="mb-3 helloBx">¡Hola {{userSession["first_name"]}} {{userSession["last_name"]}}!</h4>
 
-              {% if userSession.isAdmin != true %}
+            
               <h4>Admin</h4>
-              {% endif %}
+            
 
             <img class="imgProfile" src={{userSession["image"]}} alt="">
             </div>

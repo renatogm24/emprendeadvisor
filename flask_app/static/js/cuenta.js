@@ -236,7 +236,7 @@ for (const option of optionsMenu) {
 
       const limit = 5;
 
-      const path = "/admin/users";
+      const path = "/admin/users/active";
 
       await tableCreate("create", profileForm, headers, path, limit);
 
@@ -252,7 +252,7 @@ for (const option of optionsMenu) {
           option.click();
           return;
         }
-        const path = `/admin/searchUsers/${searchWord}`;
+        const path = `/admin/searchUsers/active/${searchWord}`;
         tableCreate("search", profileForm, headers, path, limit);
       });
 
@@ -337,24 +337,24 @@ async function tableCreate(action, element, headers, path, limit) {
   if (action === "create") {
     profileForm.innerHTML = "";
 
-    const button = document.createElement("input");
-    button.classList.add("btn", "btn-success", "text-light", "my-3", "col-3");
-    button.setAttribute("type", "button");
-    button.value = "Añadir";
+    if (path.includes("/active")) {
+      const newPath = path.replace("/active", "");
+      const button = document.createElement("input");
+      button.classList.add("btn", "btn-success", "text-light", "my-3", "col-3");
+      button.setAttribute("type", "button");
+      button.value = "Añadir";
 
-    arrPath = path.split("/");
-    button.addEventListener("click", (e) => {
-      actionElement(
-        e,
-        "create " + arrPath[arrPath.length - 1],
-        path + "/create"
-      );
-    });
+      arrPath = newPath.split("/");
+      button.addEventListener("click", (e) => {
+        actionElement(
+          e,
+          "create " + arrPath[arrPath.length - 1],
+          newPath + "/create"
+        );
+      });
 
-    //const tableDiv = document.querySelector(".table-responsive");
-
-    //tableDiv.parentElement.insertBefore(button, tableDiv);
-    profileForm.appendChild(button);
+      profileForm.appendChild(button);
+    }
 
     const offset = 0;
     const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
