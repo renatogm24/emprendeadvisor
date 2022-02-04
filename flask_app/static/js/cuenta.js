@@ -68,7 +68,7 @@ for (const option of optionsMenu) {
         inputImgBx.classList.add(
           "col-9",
           "d-flex",
-          "flex-col",
+          "flex-column",
           "justify-content-center"
         );
         const inputImg = document.createElement("input");
