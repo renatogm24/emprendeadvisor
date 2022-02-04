@@ -1,5 +1,15 @@
 const optionsMenu = document.querySelectorAll(".menuProfileOpt");
 
+function preview() {
+  frame.src = URL.createObjectURL(event.target.files[0]);
+}
+
+function clearImage() {
+  document.getElementById("formFile").value = null;
+  frame.src =
+    "https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX460_.png";
+}
+
 function resetBtns() {
   optionsMenu.forEach((element) => {
     element.classList.remove("bg-primary", "text-light");
@@ -41,6 +51,35 @@ for (const option of optionsMenu) {
         profileForm.innerHTML = "";
 
         const form = document.createElement("form");
+
+        const imgBx = document.createElement("div");
+        imgBx.classList.add("row");
+
+        const imgProfileBx = document.createElement("div");
+        imgProfileBx.classList.add("col-3");
+        const imgProfile = document.createElement("img");
+        imgProfile.classList.add("img-fluid");
+        imgProfile.setAttribute("id", "frame");
+        imgProfile.src = data.image;
+        imgProfileBx.appendChild(imgProfile);
+        imgBx.appendChild(imgProfileBx);
+
+        const inputImgBx = document.createElement("div");
+        inputImgBx.classList.add("col-9");
+        const inputImg = document.createElement("input");
+        inputImg.classList.add("form-control");
+        inputImg.setAttribute("type", "file");
+        inputImg.setAttribute("id", "formFile");
+        inputImg.onchange = preview();
+
+        const btnClearImg = document.createElement("button");
+        btnClearImg.classList.add("btn", "btn-danger", "mt-3");
+        btnClearImg.innerText = "Borrar foto";
+        btnClearImg.onclick = clearImage();
+
+        inputImgBx.appendChild(inputImg);
+        inputImgBx.appendChild(btnClearImg);
+        form.appendChild(inputImgBx);
 
         const first_name_label = document.createElement("label");
         first_name_label.classList.add("form-label", "mb-2");
