@@ -70,12 +70,12 @@ for (const option of optionsMenu) {
         inputImg.classList.add("form-control");
         inputImg.setAttribute("type", "file");
         inputImg.setAttribute("id", "formFile");
-        inputImg.onchange = () => preview();
+        //inputImg.onchange = () => preview();
 
         const btnClearImg = document.createElement("button");
         btnClearImg.classList.add("btn", "btn-danger", "mt-3");
         btnClearImg.innerText = "Borrar foto";
-        btnClearImg.onclick = () => clearImage();
+        //btnClearImg.onclick = () => clearImage();
 
         inputImgBx.appendChild(inputImg);
         inputImgBx.appendChild(btnClearImg);
