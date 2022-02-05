@@ -14,7 +14,7 @@ def emprendimiento():
   userSession = ""
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
-  emprendimiento = {"categoria": "Algo"}
+  emprendimiento = {"category_id": ""}
   return render_template("emprendimiento.html",userSession=userSession, emprendimiento=emprendimiento)
 
 @app.route('/cuenta')
