@@ -10,8 +10,9 @@ redis_server = redis.StrictRedis(host='localhost', port=6379)
 
 def getIgData(igusername):
   url = "https://www.instagram.com/"+ igusername +"/?__a=1"
+  print(url)
   r  = requests.get(url)
-  r.encoding = "ascii"
+  #r.encoding = "ascii"
   data = r.text
   print(data)
   parsed_json = (json.loads(data))
