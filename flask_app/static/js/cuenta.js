@@ -1,13 +1,42 @@
 const optionsMenu = document.querySelectorAll(".menuProfileOpt");
 
 function preview() {
+  const frame = document.querySelector("#frame");
   frame.src = URL.createObjectURL(event.target.files[0]);
 }
 
-function clearImage() {
+async function clearImage() {
   document.getElementById("formFile").value = null;
+  const frame = document.querySelector("#frame");
+  const actualUrl = frame.src;
   frame.src =
     "https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX460_.png";
+
+  const payload = { url: actualUrl };
+  var dataPost = new FormData();
+  dataPost.append("json", JSON.stringify(payload));
+
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/deleteImageAndReset",
+    {
+      method: "POST",
+      body: dataPost,
+    }
+  );
+  const data = await response.json();
+
+  const profileImg = document.querySelector(".imgProfile");
+  profileImg.src =
+    "https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX460_.png";
+  if (data.updated === true) {
+    const success = document.querySelector(".success");
+    success.innerText = "Se ha sido actualizado la imagen de perfil";
+    success.classList.add("py-3");
+    setTimeout(() => {
+      success.innerText = "";
+      success.classList.remove("py-3");
+    }, 3000);
+  }
 }
 
 function resetBtns() {
@@ -52,6 +81,15 @@ for (const option of optionsMenu) {
 
         const form = document.createElement("form");
 
+        const actualImage = document.createElement("input");
+        actualImage.classList.add("actualImage");
+        actualImage.setAttribute("type", "text");
+        actualImage.setAttribute("type", "hidden");
+        actualImage.name = "actualImage";
+        actualImage.value = data.image;
+
+        form.appendChild(actualImage);
+
         const imgBx = document.createElement("div");
         imgBx.classList.add("row");
 
@@ -79,6 +117,7 @@ for (const option of optionsMenu) {
         const inputImg = document.createElement("input");
         inputImg.classList.add("form-control");
         inputImg.setAttribute("type", "file");
+        inputImg.name = "image";
         inputImg.setAttribute("id", "formFile");
         inputImg.onchange = () => preview();
 
@@ -477,10 +516,8 @@ async function tableCreate(action, element, headers, path, limit) {
 
     const offset = 0;
     const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
-    console.log(link);
 
     const response = await fetch(link);
-    console.log(response);
     const data = await response.json();
 
     if ("users" in data) {
@@ -834,6 +871,12 @@ async function updateProfile(event) {
     helloBx.innerText = `¡Hola ${form.get("first_name")} ${form.get(
       "last_name"
     )}!`;
+    if (data.url != "") {
+      const imgProfile = document.querySelector(".imgProfile");
+      const actualImage = document.querySelector(".actualImage");
+      imgProfile.src = data.url;
+      actualImage.value = data.url;
+    }
     setTimeout(() => {
       success.innerText = "";
       success.classList.remove("py-3");

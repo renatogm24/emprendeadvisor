@@ -1,11 +1,39 @@
 from flask import render_template, request, redirect, flash, session, jsonify, url_for
-from flask_app.models import user
+from flask_app.models import user, image
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
-from flask.sessions import SecureCookieSessionInterface
+import boto3, botocore
+from werkzeug.utils import secure_filename
+import uuid
+import json
 
-session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
+s3 = boto3.client(
+   "s3",
+   aws_access_key_id=app.config['S3_KEY'],
+   aws_secret_access_key=app.config['S3_SECRET']
+)
+
+def upload_file_to_s3(file, bucket_name, acl="public-read"):
+    """
+    Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
+    """
+    arrFilString = file.content_type.split("/")
+    file_name_uuid = str(uuid.uuid4()) + "." + arrFilString[-1]
+    try:
+        s3.upload_fileobj(
+            file,
+            bucket_name,
+            file_name_uuid,
+            ExtraArgs={
+                "ACL": acl,
+                "ContentType": file.content_type    #Set appropriate content type as per the file
+            }
+        )
+    except Exception as e:
+        print("Something Happened: ", e)
+        return e
+    return "{}{}".format(app.config["S3_LOCATION"], file_name_uuid)
 
 @app.route('/register/user', methods=['POST'])
 def register():
@@ -71,6 +99,7 @@ def getUserSession():
 
 @app.route('/updateProfile', methods=['POST'])
 def updateProfile():
+
     data = {
       "id" : session["user_id"],
       "first_name" : request.form["first_name"],
@@ -80,9 +109,39 @@ def updateProfile():
     user_validation = user.User.validate_update(data)
     if not user_validation[0]:
       return jsonify(error = user_validation[1])
-    
-    user.User.updateUser(data)
 
+    # Agregar imagen
+    file = request.files["image"]
+    url = ""
+    if file.filename != "":
+      if file:
+          file.filename = secure_filename(file.filename)
+          url = upload_file_to_s3(file, app.config["S3_BUCKET"])
+          idImage = image.Image.save_profile_image({"url":url})      
+          data["image_id"] = idImage
+          user.User.updateUserWithImg(data)
+          actualUrlDB = request.form["actualImage"]
+          actualUrl = actualUrlDB.replace("http://emprendeadvisor.s3.amazonaws.com/","")
+          response = s3.delete_object(Bucket='emprendeadvisor',Key=actualUrl)
+          image.Image.delete_image_by_url({"url":actualUrlDB})
+
+    else:
+      user.User.updateUser(data)
+    response = {
+      "updated" : True, 
+      "url": url
+    }
+    return jsonify(response)
+
+@app.route('/deleteImageAndReset', methods=['POST'])
+def deleteImageAndReset():
+    url = request.form["json"]
+    urlFormat = json.loads(url)
+    urlString = urlFormat["url"]
+    urlBucket = urlString.replace("http://emprendeadvisor.s3.amazonaws.com/","")
+    s3.delete_object(Bucket='emprendeadvisor',Key=urlBucket)
+    user.User.resetImgUser({"id": session["user_id"]})
+    image.Image.delete_image_by_url({"url":urlString})
     response = {
       "updated" : True, 
     }

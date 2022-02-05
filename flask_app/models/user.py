@@ -63,6 +63,16 @@ class User:
     def updateUser(cls, data ):
         query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
         return connectToMySQL('emprendeadvisor').query_db( query, data )
+    
+    @classmethod
+    def updateUserWithImg(cls, data ):
+        query = "UPDATE users SET first_name = %(first_name)s ,last_name = %(last_name)s,email = %(email)s, image_id = %(image_id)s, updated_at = NOW() WHERE id = %(id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
+    def resetImgUser(cls, data ):
+        query = "UPDATE users SET image_id = 1 WHERE id = %(id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
     def update_state_blocked(cls, data ):

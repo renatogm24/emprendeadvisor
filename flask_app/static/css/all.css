@@ -8716,6 +8716,7 @@ input[type="range"]:active::-webkit-slider-thumb {
 
 .imgProfile {
   width: 100px;
+  height: 100px;
   border-radius: 50%; }
 
 .menuProfileOpt {

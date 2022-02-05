@@ -58,11 +58,11 @@ Create your own `scss/custom.scss` to [import Bootstrap's Sass files]({{< docsre
 Include `src/index.js` before the closing `</body>` tag.
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
     <script src="./index.js"></script>
@@ -84,7 +84,7 @@ Add `dev` and `build` scripts in your `package.json` file.
 
 ### Run dev script
 
-Your app will be accessible at `http://127.0.0.1:1234`.
+Your app will be accessible at `https://www.emprendeadvisor.com:1234`.
 
 ```sh
 npm run dev
