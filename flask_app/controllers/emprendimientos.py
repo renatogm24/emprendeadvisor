@@ -13,6 +13,7 @@ def getIgData(igusername):
   r  = requests.get(url)
   r.encoding = "ascii"
   data = r.text
+  print(data)
   parsed_json = (json.loads(data))
 
   username = parsed_json["graphql"]["user"]["username"]
