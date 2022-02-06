@@ -35,6 +35,9 @@ class Emprendimiento:
           self.images = data['images']
         else:
           self.images = []
+        arr = data["profile_pic_url_hd"].split("?")
+        self.url_p1 = arr[0]
+        self.url_p2 = arr[1]
     
     @classmethod
     def search_by_username(cls, data ):
