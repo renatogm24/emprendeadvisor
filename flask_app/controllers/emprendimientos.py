@@ -62,7 +62,7 @@ def getDataInstagrapi(igusername):
   else:
       result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
       data = result.text
-      redis_server.set(igusername, json.dumps(data))
+      redis_server.set(igusername, data)
       parsed_json = (json.loads(data))
       print("Serve from API Emprendimiento Data")
   return parsed_json
