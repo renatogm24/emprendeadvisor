@@ -277,8 +277,39 @@
             ><span>Cargadores</span>
           </div>
         </div>
-        {% endif %}
-
+        {% endif %} {% if emprendimiento.is_private %}
+        <div class="row my3 border-bottom border-1 border-dark">
+          <div class="my-4 bg-primary p-3 text-light">
+            <p>
+              Este usuario es un perfil privado. EmprendeAdvisor califica
+              perfiles públicos y de negocios
+            </p>
+            <a
+              class="btn btn-altprimary"
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#clasificar"
+              >Clasificar</a
+            >
+          </div>
+        </div>
+        {% elif emprendimiento.is_business != true %}
+        <div class="row my3 border-bottom border-1 border-dark">
+          <div class="my-4 bg-primary p-3 text-light">
+            <p>
+              Este perfil no corresponde a un negocio. EmprendeAdvisor califica
+              perfiles públicos y de negocios
+            </p>
+            <a
+              class="btn btn-altprimary"
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#clasificar"
+              >Clasificar</a
+            >
+          </div>
+        </div>
+        {% else %}
         <div class="row my3 border-bottom border-1 border-dark">
           <div class="col-lg-4 p-4 text-center">
             <img
@@ -371,8 +402,7 @@
             {% endif %}
           </div>
         </div>
-
-        {% if emprendimiento.category_id != "" %}
+        {% endif %} {% if emprendimiento.category_id != "" %}
         <div class="row py-3">
           <div class="col-lg-3 py-2">
             <h4>Opiniones de usuarios</h4>
