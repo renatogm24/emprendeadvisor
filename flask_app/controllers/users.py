@@ -118,8 +118,12 @@ def updateProfile():
       if file:
           file.filename = secure_filename(file.filename)
           photo_size = request.files['image'].read()
-          size = len(photo_size)
-          print(size)
+          size = len(photo_size)/1024/1024 #file in mb
+          if(size > 10):
+            return jsonify(error = "La foto seleccionada pesa más de 10MB, elige una de menor tamaño")
+          arrTypes = file.content_type.split("/")
+          if arrTypes[0] != "images" or arrTypes[0] not in ["jpeg","jpg","png"]:
+            return jsonify(error = "Formatos permitidos: jpg, jpeg, png")
           url = upload_file_to_s3(file, app.config["S3_BUCKET"])
           idImage = image.Image.save_profile_image({"url":url})      
           data["image_id"] = idImage
