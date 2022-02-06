@@ -117,8 +117,9 @@ def updateProfile():
     if file.filename != "":
       if file:
           file.filename = secure_filename(file.filename)
-          photo_size = os.stat(request.files['image']).st_size
-          print(photo_size)
+          photo_size = request.files['image'].read()
+          size = len(photo_size)
+          print(size)
           url = upload_file_to_s3(file, app.config["S3_BUCKET"])
           idImage = image.Image.save_profile_image({"url":url})      
           data["image_id"] = idImage
