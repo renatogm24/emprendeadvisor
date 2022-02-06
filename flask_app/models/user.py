@@ -216,9 +216,6 @@ class User:
         errors.append("Correo invalido")
         is_valid = False
       data = {"email":user["email"]}
-      if not PASSWORD_REGEX_UPDATE.match(user["password"]):
-        errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
-        is_valid = False
       return (is_valid,errors)
 
     @staticmethod
