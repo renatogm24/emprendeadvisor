@@ -269,6 +269,15 @@
       </div>
     </nav>
     <section class="container-fluid catologoBx">
+      {% if error = true %}
+      <div class="container">
+        <div class="row my3 border-bottom border-1 border-dark">
+          <div class="my-4 bg-primary p-3 text-light">
+            <p>Este usuario no existe</p>
+          </div>
+        </div>
+      </div>
+      {% else %}
       <div class="container">
         {% if emprendimiento.category_id != "" %}
         <div class="row my-3">
@@ -564,6 +573,7 @@
         </div>
         {% endif %}
       </div>
+      {% endif %}
     </section>
 
     <section class="footer">

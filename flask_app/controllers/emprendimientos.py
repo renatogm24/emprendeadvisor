@@ -65,7 +65,8 @@ def search(igusername):
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch: 
     result = getDataInstagrapi(igusername)
-    print(result)  
+    if "error" in result:
+      return render_template("emprendimiento.html",error=True)
     emprendAux = emprendimiento.Emprendimiento(result)
   return render_template("emprendimiento.html",emprendimiento=emprendAux)
 
