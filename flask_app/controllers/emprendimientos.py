@@ -10,11 +10,11 @@ from instagrapi import Client
 redis_server = redis.StrictRedis(host='localhost', port=6379)
 
 cl = Client()
-cl.login("renato.gm24", "Lc0de#2021")
+cl.login("newuser334455", "Lc0de#2020")
 cl.set_proxy("socks5://127.0.0.1:30235")
 
 def getIgData(igusername):
-  url = "https://www.instagram.com/"+ igusername +"/channel/?__a=1"
+  url = "https://www.instagram.com/"+ igusername +"/?__a=1"
   print(url)
   r  = requests.get(url)
   #r.encoding = "ascii"
