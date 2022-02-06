@@ -56,7 +56,9 @@ def getIgData(igusername):
 
 def getDataInstagrapi(igusername):
   result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
-  return result
+  data = result.text
+  parsed_json = (json.loads(data))
+  return parsed_json
 
 @app.route('/search/<string:igusername>')
 def search(igusername):
