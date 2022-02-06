@@ -91,7 +91,7 @@ class User:
 
     @classmethod
     def get_user_by_email(cls,data):
-        query = "SELECT * FROM users WHERE email = %(email)s and is_active = 1;"
+        query = "SELECT * FROM users WHERE email = %(email)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)
         if len(results) < 1:
           return False

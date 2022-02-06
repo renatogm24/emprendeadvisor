@@ -73,6 +73,8 @@ def login():
       return jsonify(error="Invalid Email/Password")
     if not bcrypt.check_password_hash(user_in_db.password, request.form['password']):
       return jsonify(error="Invalid Email/Password")
+    if user_in_db.is_active == 0:
+      return jsonify(error="Usuario bloqueado")
     session['user_id'] = user_in_db.id
     session['level'] = user_in_db.level
     response = {
@@ -119,8 +121,8 @@ def updateProfile():
           file.filename = secure_filename(file.filename)
           photo_size = request.files['image'].read()
           size = len(photo_size)/1024/1024 #file in mb
-          if(size > 3):
-            return jsonify(error = "La foto seleccionada pesa más de 10MB, elige una de menor tamaño")
+          if(size > 5):
+            return jsonify(error = "La foto seleccionada pesa más de 5MB, elige una de menor tamaño")
           arrTypes = file.content_type.split("/")
           if arrTypes[0] != "images" or arrTypes[0] not in ["jpeg","jpg","png"]:
             return jsonify(error = "Formatos permitidos: jpg, jpeg, png")
