@@ -125,10 +125,10 @@ def updateProfile():
           if arrTypes[0] != "image" or arrTypes[1] not in ["jpeg","jpg","png"]:
             return jsonify(error = f"Formatos permitidos: jpg, jpeg, png")
           
-          photo_size = file.read()          
-          size = len(photo_size)/1024/1024 #file in mb
-          if(size > 5):
-            return jsonify(error = "La foto seleccionada pesa más de 5MB, elige una de menor tamaño")
+          # photo_size = file.read()          
+          # size = len(photo_size)/1024/1024 #file in mb
+          # if(size > 5):
+          #   return jsonify(error = "La foto seleccionada pesa más de 5MB, elige una de menor tamaño")
           
           
           url = upload_file_to_s3(file, app.config["S3_BUCKET"])
