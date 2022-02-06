@@ -87,7 +87,7 @@ def getDataInstagrapi(igusername):
       data = result.text
       parsed_json = (json.loads(data))
       print(parsed_json["category_name"])
-      parsed_json["category_name"] = translate_text(parsed_json["category_name"],"es")
+      parsed_json["category_name"] = translate_text("es",parsed_json["category_name"])
       data = json.dumps(parsed_json)
       redis_server.set(igusername, data)
       print("Serve from API Emprendimiento Data")
