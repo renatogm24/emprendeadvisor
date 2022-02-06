@@ -5,13 +5,8 @@ import requests
 import json
 import redis
 from io import BytesIO
-from instagrapi import Client
 
 redis_server = redis.StrictRedis(host='localhost', port=6379)
-
-cl = Client()
-cl.login("newuser334455", "Lc0de#2020")
-cl.set_proxy("socks5://127.0.0.1:30235")
 
 def getIgData(igusername):
   url = "https://www.instagram.com/"+ igusername +"/?__a=1"
@@ -60,14 +55,14 @@ def getIgData(igusername):
   return response
 
 def getDataInstagrapi(igusername):
-  result = cl.user_info_by_username(igusername).dict()
+  result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
   return result
 
 @app.route('/search/<string:igusername>')
 def search(igusername):
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
-  if not emprendimientoSearch:
-    emprendAux = emprendimiento.Emprendimiento(getDataInstagrapi(igusername))    
+  if not emprendimientoSearch:    
+    emprendAux = emprendimiento.Emprendimiento(getDataInstagrapi(igusername))
   return render_template("emprendimiento.html",emprendimiento=emprendAux)
 
 @app.route('/img/<path:url>&<params>')
