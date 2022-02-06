@@ -285,7 +285,7 @@
             />
           </div>
           <div class="col-lg-8 p-3">
-            <h3>Rumbero</h3>
+            <h3>{{emprendimiento.full_name}}</h3>
 
             {% if emprendimiento.categoria != "None" %}
             <div
@@ -309,24 +309,20 @@
             </div>
             {% endif %}
 
-            <div class="my-2">
-              ¡Para todos los rumberos que lleven la salsa en la piel! Ropa
-              salsera del Perú Hecho en algodón peruano Envíos gratis a todo el
-              Perú
-            </div>
+            <div class="my-2">{{emprendimiento.biography}}</div>
             <div class="my-3">
               <i class="bi bi-instagram starIcon h4 mx-2"></i>
-              <a href="https://www.instagram.com/rumbero.ropasalsera/"
-                >rumbero.ropasalsera</a
+              <a href="https://www.instagram.com/{{emprendimiento.username}}/"
+                >{{emprendimiento.username}}</a
               >
             </div>
             <div class="my-3">
               <i class="bi bi-people-fill starIcon h4 mx-2"></i>
-              <span>1,342 seguidores</span>
+              <span>{{emprendimiento.follower_count}} seguidores</span>
             </div>
             <div class="my-3">
               <i class="bi bi-whatsapp starIcon h4 mx-2"></i>
-              <span>922 774 566</span>
+              <span>{{emprendimiento.contact_phone_number}}</span>
             </div>
 
             {% if emprendimiento.categoria == "None" %}
