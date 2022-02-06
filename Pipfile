@@ -25,6 +25,8 @@ Werkzeug = "==2.0.2"
 boto3 = "*"
 requests = "*"
 redis = "*"
+instagrapi = "*"
+pillow = "*"
 
 [dev-packages]
 
