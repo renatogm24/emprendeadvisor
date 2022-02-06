@@ -324,23 +324,23 @@
               <span>{{emprendimiento.follower_count}} seguidores</span>
             </div>
 
-            {% if emprendimiento.contact_phone_number != "None" %}
+            {% if emprendimiento.contact_phone_number != None %}
             <div class="my-3">
               <i class="bi bi-whatsapp starIcon h4 mx-2"></i>
               <span>{{emprendimiento.contact_phone_number}}</span>
             </div>
-            {% endif %} {% if emprendimiento.external_url != "None" %}
+            {% endif %} {% if emprendimiento.external_url != None %}
             <div class="my-3">
               <i class="bi bi-globe starIcon h4 mx-2"></i>
               <span
                 ><a href="{{emprendimiento.external_url}}">Sitio web</a></span>
                 </div>
-                {% endif %} {% if emprendimiento.category_name != "None" %}
+                {% endif %} {% if emprendimiento.category_name != None %}
                 <div class="my-3">
                     <i class="bi bi-tag starIcon h4 mx-2"></i>
                     <span>{{emprendimiento.category_name}}</span>
                 </div>
-                {% endif %} {% if emprendimiento.public_email != "None" %}
+                {% endif %} {% if emprendimiento.public_email != None %}
                 <div class="my-3">
                     <i class="bi bi-envelope starIcon h4 mx-2"></i>
                     <span>{{emprendimiento.public_email}}</span>
