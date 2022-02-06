@@ -66,10 +66,7 @@ def getDataInstagrapi(igusername):
 def search(igusername):
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch:
-    emprendAux = emprendimiento.Emprendimiento(getDataInstagrapi(igusername))
-    arr = emprendAux["profile_pic_url_hd"].split("?")
-    emprendAux["url_p1"] = arr[0]
-    emprendAux["url_p2"] = arr[1]
+    emprendAux = emprendimiento.Emprendimiento(getDataInstagrapi(igusername))    
   return render_template("emprendimiento.html",emprendimiento=emprendAux)
 
 @app.route('/img/<path:url>&<params>')
