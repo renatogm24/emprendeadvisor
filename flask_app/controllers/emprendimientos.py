@@ -11,6 +11,7 @@ redis_server = redis.StrictRedis(host='localhost', port=6379)
 
 cl = Client()
 cl.login("renato.gm24", "Lc0de#2021")
+cl.set_proxy("socks5://127.0.0.1:30235")
 
 def getIgData(igusername):
   url = "https://www.instagram.com/"+ igusername +"/channel/?__a=1"
