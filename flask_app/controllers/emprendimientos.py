@@ -61,6 +61,8 @@ def translate_text(target, text):
     Target must be an ISO 639-1 language code.
     See https://g.co/cloud/translate/v2/translate-reference#supported_languages
     """
+    import os
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/ubuntu/emprendeadvisor-e0425dce8ff1.json"
     import six
     from google.cloud import translate_v2 as translate
 
