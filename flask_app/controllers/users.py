@@ -7,6 +7,7 @@ import boto3, botocore
 from werkzeug.utils import secure_filename
 import uuid
 import json
+import os
 
 s3 = boto3.client(
    "s3",
@@ -116,6 +117,8 @@ def updateProfile():
     if file.filename != "":
       if file:
           file.filename = secure_filename(file.filename)
+          photo_size = os.stat(request.files['image']).st_size
+          print(photo_size)
           url = upload_file_to_s3(file, app.config["S3_BUCKET"])
           idImage = image.Image.save_profile_image({"url":url})      
           data["image_id"] = idImage
