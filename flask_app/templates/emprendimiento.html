@@ -270,12 +270,15 @@
     </nav>
     <section class="container-fluid catologoBx">
       <div class="container">
+        {% if emprendimiento.category_id != "" %}
         <div class="row my-3">
           <div class="col-12">
             <span>Celulares</span><span class="mx-3">></span
             ><span>Cargadores</span>
           </div>
         </div>
+        {% endif %}
+
         <div class="row my3 border-bottom border-1 border-dark">
           <div class="col-lg-4 p-4 text-center">
             <img
@@ -287,7 +290,7 @@
           <div class="col-lg-8 p-3">
             <h3>{{emprendimiento.full_name}}</h3>
 
-            {% if emprendimiento.categoria != "None" %}
+            {% if emprendimiento.category_id != "" %}
             <div
               class="mt-3 d-flex justify-content-between align-items-center text-yellowstar"
             >
@@ -320,24 +323,34 @@
               <i class="bi bi-people-fill starIcon h4 mx-2"></i>
               <span>{{emprendimiento.follower_count}} seguidores</span>
             </div>
+
+            {% if emprendimiento.contact_phone_number != "None" %}
             <div class="my-3">
               <i class="bi bi-whatsapp starIcon h4 mx-2"></i>
               <span>{{emprendimiento.contact_phone_number}}</span>
             </div>
-
-            {% if emprendimiento.category_id == "" %}
-            <div class="my-4 bg-primary p-3 text-light">
-              <p>
-                Este emprendimiento aún no ha sido categorizado. Ayúdanos a
-                clasificarlo y que forme parte de la comunidad de
-                EmprendeAdvisor
-              </p>
-              <a
-                class="btn btn-altprimary"
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#clasificar"
-                >Clasificar</a
+            {% endif %} {% if emprendimiento.external_url != "None" %}
+            <div class="my-3">
+              <i class="bi bi-globe starIcon h4 mx-2"></i>
+              <span
+                ><a href="{{emprendimiento.external_url}}">Sitio web</a></span>
+                </div>
+                {% endif %} {% if emprendimiento.category_name != "None" %}
+                <div class="my-3">
+                    <i class="bi bi-tag starIcon h4 mx-2"></i>
+                    <span>{{emprendimiento.category_name}}</span>
+                </div>
+                {% endif %} {% if emprendimiento.public_email != "None" %}
+                <div class="my-3">
+                    <i class="bi bi-envelope starIcon h4 mx-2"></i>
+                    <span>{{emprendimiento.public_email}}</span>
+                </div>
+                {% endif %} {% if emprendimiento.category_id == "" %}
+                <div class="my-4 bg-primary p-3 text-light">
+                    <p>
+                        Este emprendimiento aún no ha sido categorizado. Ayúdanos a clasificarlo y que forme parte de la comunidad de EmprendeAdvisor
+                    </p>
+                    <a class="btn btn-altprimary" href="#" data-bs-toggle="modal" data-bs-target="#clasificar">Clasificar</a
               >
             </div>
             {% endif %}
@@ -360,10 +373,10 @@
             <div class="d-flex flex-column">
               <div class="d-flex align-items-center my-2">
                 <a class="" style="min-width: 90px">5 estrellas</a>
-                <div class="progress flex-grow-1 mx-2">
-                    <div class="progress-bar" role="progressbar" style="width: 67%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <a class="" style="cursor: pointer">67%</a>
+                    <div class="progress flex-grow-1 mx-2">
+                        <div class="progress-bar" role="progressbar" style="width: 67%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <a class="" style="cursor: pointer">67%</a>
                 </div>
                 <div class="d-flex align-items-center my-2">
                     <a class="" style="min-width: 90px">4 estrellas</a>
