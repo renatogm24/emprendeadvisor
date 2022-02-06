@@ -119,7 +119,7 @@ def updateProfile():
           file.filename = secure_filename(file.filename)
           photo_size = request.files['image'].read()
           size = len(photo_size)/1024/1024 #file in mb
-          if(size > 10):
+          if(size > 3):
             return jsonify(error = "La foto seleccionada pesa más de 10MB, elige una de menor tamaño")
           arrTypes = file.content_type.split("/")
           if arrTypes[0] != "images" or arrTypes[0] not in ["jpeg","jpg","png"]:
