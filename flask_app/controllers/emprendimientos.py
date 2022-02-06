@@ -55,9 +55,16 @@ def getIgData(igusername):
   return response
 
 def getDataInstagrapi(igusername):
-  result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
-  data = result.text
-  parsed_json = (json.loads(data))
+  cached = redis_server.get(igusername)
+  if cached:
+      parsed_json = (json.loads(cached))
+      print("Serve from cached Emprendimiento Data")
+  else:
+      result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
+      data = result.text
+      redis_server.set(igusername, json.dumps(data))
+      parsed_json = (json.loads(data))
+      print("Serve from API Emprendimiento Data")
   return parsed_json
 
 @app.route('/search/<string:igusername>')
