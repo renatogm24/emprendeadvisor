@@ -1,4 +1,5 @@
-from flask import jsonify,render_template,send_file
+from crypt import methods
+from flask import jsonify,render_template,send_file, request
 from flask_app import app
 from flask_app.models import emprendimiento
 import requests
@@ -67,8 +68,9 @@ def getDataInstagrapi(igusername):
       print("Serve from API Emprendimiento Data")
   return parsed_json
 
-@app.route('/search/<string:igusername>')
-def search(igusername):
+@app.route('/search',methods = ["POST"])
+def search():
+  igusername = request.form["search"]
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch: 
     result = getDataInstagrapi(igusername)
