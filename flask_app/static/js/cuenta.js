@@ -888,7 +888,7 @@ async function updateProfile(event) {
         }, 3000);
       }
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 }
 
 async function updatePassword(event) {
