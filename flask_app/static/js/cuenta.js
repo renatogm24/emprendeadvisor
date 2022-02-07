@@ -888,7 +888,10 @@ async function updateProfile(event) {
         }, 3000);
       }
     })
-    .catch((err) => console.log(err));
+    .catch(() => {
+      errorLogin.innerText = "La imagen debe pesar menos de 5MB";
+      errorLogin.classList.add("py-3");
+    });
 }
 
 async function updatePassword(event) {
