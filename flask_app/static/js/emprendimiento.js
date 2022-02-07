@@ -95,3 +95,12 @@ function checkNewSubcategory(element) {
     newInput2.classList.toggle("active");
   }
 }
+
+const clasificarForm = document.querySelector(".clasificarForm");
+
+const searchForm = document.querySelector("#searchForm");
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  window.location.href = "/search/" + formData.get("search");
+});
