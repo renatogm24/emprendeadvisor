@@ -858,37 +858,37 @@ async function updateProfile(event) {
     alert(error);
   }
   const data = await response.json();*/
-  let data;
+  let data = {};
 
   fetch("http://18.205.29.39:5001/updateProfile", {
     method: "POST",
     body: form,
   })
     .then((response) => response.json())
-    .then((dataux) => (data = dataux))
+    .then((data) => {
+      if ("error" in data) {
+        errorLogin.innerText = data.error;
+        errorLogin.classList.add("py-3");
+      } else if (data.updated) {
+        success.innerText = "El usuario ha sido actualizado correctamente";
+        success.classList.add("py-3");
+        const helloBx = document.querySelector(".helloBx");
+        helloBx.innerText = `¡Hola ${form.get("first_name")} ${form.get(
+          "last_name"
+        )}!`;
+        if (data.url != "") {
+          const imgProfile = document.querySelector(".imgProfile");
+          const actualImage = document.querySelector(".actualImage");
+          imgProfile.src = data.url;
+          actualImage.value = data.url;
+        }
+        setTimeout(() => {
+          success.innerText = "";
+          success.classList.remove("py-3");
+        }, 3000);
+      }
+    })
     .catch((err) => console.error(err));
-
-  if ("error" in data) {
-    errorLogin.innerText = data.error;
-    errorLogin.classList.add("py-3");
-  } else if (data.updated) {
-    success.innerText = "El usuario ha sido actualizado correctamente";
-    success.classList.add("py-3");
-    const helloBx = document.querySelector(".helloBx");
-    helloBx.innerText = `¡Hola ${form.get("first_name")} ${form.get(
-      "last_name"
-    )}!`;
-    if (data.url != "") {
-      const imgProfile = document.querySelector(".imgProfile");
-      const actualImage = document.querySelector(".actualImage");
-      imgProfile.src = data.url;
-      actualImage.value = data.url;
-    }
-    setTimeout(() => {
-      success.innerText = "";
-      success.classList.remove("py-3");
-    }, 3000);
-  }
 }
 
 async function updatePassword(event) {
