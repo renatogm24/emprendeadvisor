@@ -848,10 +848,15 @@ async function updateProfile(event) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch("http://18.205.29.39:5001/updateProfile", {
-    method: "POST",
-    body: form,
-  });
+  try {
+    const response = await fetch("http://18.205.29.39:5001/updateProfile", {
+      method: "POST",
+      body: form,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   const data = await response.json();
   if ("error" in data) {
     errorLogin.innerText = data.error;
