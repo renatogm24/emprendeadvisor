@@ -848,7 +848,7 @@ async function updateProfile(event) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  let response;
+  /*let response;
   try {
     response = await fetch("http://18.205.29.39:5001/updateProfile", {
       method: "POST",
@@ -857,8 +857,17 @@ async function updateProfile(event) {
   } catch (error) {
     alert(error);
   }
+  const data = await response.json();*/
+  let data;
 
-  const data = await response.json();
+  fetch("http://18.205.29.39:5001/updateProfile", {
+    method: "POST",
+    body: form,
+  })
+    .then((response) => response.json())
+    .then((dataux) => (data = dataux))
+    .catch((err) => console.error(err));
+
   if ("error" in data) {
     errorLogin.innerText = data.error;
     errorLogin.classList.add("py-3");
