@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 app.secret_key = os.environ.get("secret_key")
-app.config['MAX_CONTENT_LENGTH'] = 3 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 S3_BUCKET = "emprendeadvisor"
 
