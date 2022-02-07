@@ -855,7 +855,7 @@ async function updateProfile(event) {
       body: form,
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 
   const data = await response.json();
