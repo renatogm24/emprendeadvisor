@@ -29,6 +29,13 @@ loginForm.addEventListener("submit", async (e) => {
   }
 });
 
+const searchForm = document.querySelector("#searchForm");
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  window.location.href = "/search/" + formData.get("search");
+});
+
 const registerForm = document.querySelector("#registerForm");
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();

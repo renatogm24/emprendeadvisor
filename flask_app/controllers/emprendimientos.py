@@ -96,9 +96,8 @@ def getDataInstagrapi(igusername):
         parsed_json = {"error":True}
   return parsed_json
 
-@app.route('/search',methods = ["POST"])
-def search():
-  igusername = request.form["search"]
+@app.route('/search/<string:igusername>')
+def search(igusername):
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch: 
     result = getDataInstagrapi(igusername)
