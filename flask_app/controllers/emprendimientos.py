@@ -83,13 +83,17 @@ def getDataInstagrapi(igusername):
       parsed_json = (json.loads(cached))
       print("Serve from cached Emprendimiento Data")
   else:
-      result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
-      data = result.text
-      parsed_json = (json.loads(data))
-      parsed_json["category_name"] = translate_text("es",parsed_json["category_name"])
-      data = json.dumps(parsed_json)
-      redis_server.set(igusername, data)
-      print("Serve from API Emprendimiento Data")
+      try:
+        result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
+        print(result)
+        data = result.text
+        parsed_json = (json.loads(data))
+        parsed_json["category_name"] = translate_text("es",parsed_json["category_name"])
+        data = json.dumps(parsed_json)
+        redis_server.set(igusername, data)
+        print("Serve from API Emprendimiento Data")
+      except:
+        parsed_json = {"error":True}
   return parsed_json
 
 @app.route('/search',methods = ["POST"])
