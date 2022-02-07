@@ -1,7 +1,7 @@
 from crypt import methods
-from flask import jsonify,render_template,send_file, request
+from flask import jsonify,render_template,send_file, request, session
 from flask_app import app
-from flask_app.models import emprendimiento
+from flask_app.models import emprendimiento, user
 import requests
 import json
 import redis
@@ -105,7 +105,10 @@ def search():
     if "error" in result:
       return render_template("emprendimiento.html",error=True)
     emprendAux = emprendimiento.Emprendimiento(result)
-  return render_template("emprendimiento.html",emprendimiento=emprendAux)
+  userSession = ""
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession)
 
 @app.route('/img/<path:url>&<params>')
 def image(url,params):
