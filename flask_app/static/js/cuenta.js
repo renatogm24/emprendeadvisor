@@ -163,10 +163,16 @@ for (const option of optionsMenu) {
         email.classList.add("form-control", "mb-2");
         form.appendChild(email);
 
-        const button = document.createElement("input");
-        button.classList.add("btn", "btn-altprimary", "text-light", "my-3");
+        const button = document.createElement("button");
+        button.classList.add(
+          "btn",
+          "btn-altprimary",
+          "text-light",
+          "my-3",
+          "submitUpdateBtn"
+        );
         button.setAttribute("type", "submit");
-        button.value = "Actualizar";
+        button.innerHTML = "Actualizar";
         form.appendChild(button);
 
         form.addEventListener("submit", (e) => {
@@ -839,8 +845,12 @@ async function updateForm(event, url) {
 
 async function updateProfile(event) {
   event.preventDefault();
+  const buttonSubmit = document.querySelector(".submitUpdateBtn");
   const errorLogin = document.querySelector(".errorLogin");
   const success = document.querySelector(".success");
+  buttonSubmit.innerHTML = `<div class="spinner-border" role="status">
+  <span class="sr-only">Loading...</span>
+</div>`;
 
   errorLogin.innerText = "";
   errorLogin.classList.remove("py-3");
@@ -886,11 +896,13 @@ async function updateProfile(event) {
           success.innerText = "";
           success.classList.remove("py-3");
         }, 3000);
+        buttonSubmit.innerHTML = "Actualizar";
       }
     })
     .catch(() => {
       errorLogin.innerText = "La imagen debe pesar menos de 5MB";
       errorLogin.classList.add("py-3");
+      buttonSubmit.innerHTML = "Actualizar";
     });
 }
 
