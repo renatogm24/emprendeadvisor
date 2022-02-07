@@ -1,4 +1,4 @@
-from flask import render_template, redirect, session
+from flask import render_template, redirect, session,jsonify
 from flask_app import app
 from flask_app.models import user
 
@@ -31,3 +31,7 @@ def cuenta():
 def politica():
   print("test")
   return render_template("politica.html")
+
+@app.errorhandler(414)
+def resource_max_sized(e):
+    return jsonify(error="El archivo debe pesar menos de 5MB"), 414
