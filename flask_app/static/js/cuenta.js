@@ -61,6 +61,7 @@ for (const option of optionsMenu) {
         "Usuarios",
         "Bloqueados",
         "Solicitud Categorias",
+        "Categorias",
       ].includes(optionTxt)
     ) {
       const menu = document.querySelector(".profileMenu");
@@ -239,264 +240,364 @@ for (const option of optionsMenu) {
 
         profileForm.appendChild(form);
       }
-    }
-    if (optionTxt === "Mis Favoritos") {
-      profileForm.innerHTML = "";
 
-      for (let index = 0; index < 6; index++) {
-        const divContainer = document.createElement("div");
-        divContainer.classList.add("col-6", "col-lg-3", "my-2");
+      if (optionTxt === "Mis Favoritos") {
+        profileForm.innerHTML = "";
 
-        const divGrayBg = document.createElement("div");
-        divGrayBg.classList.add("bg-graytheme", "p-2");
+        for (let index = 0; index < 6; index++) {
+          const divContainer = document.createElement("div");
+          divContainer.classList.add("col-6", "col-lg-3", "my-2");
 
-        const imgEmprendimiento = document.createElement("img");
-        imgEmprendimiento.src = "/static/images/product.jpg";
-        imgEmprendimiento.classList.add("img-fluid");
+          const divGrayBg = document.createElement("div");
+          divGrayBg.classList.add("bg-graytheme", "p-2");
 
-        const nameAndHeart = document.createElement("div");
-        nameAndHeart.classList.add(
-          "mt-3",
-          "d-flex",
-          "justify-content-between",
-          "align-items-center"
+          const imgEmprendimiento = document.createElement("img");
+          imgEmprendimiento.src = "/static/images/product.jpg";
+          imgEmprendimiento.classList.add("img-fluid");
+
+          const nameAndHeart = document.createElement("div");
+          nameAndHeart.classList.add(
+            "mt-3",
+            "d-flex",
+            "justify-content-between",
+            "align-items-center"
+          );
+
+          const name = document.createElement("span");
+          name.classList.add("h6");
+          name.innerText = "Rumbero";
+
+          const heart = document.createElement("span");
+          heart.classList.add("h6");
+          heart.innerHTML = '<i class="bi bi-heart starIcon"></i>';
+
+          nameAndHeart.appendChild(name);
+          nameAndHeart.appendChild(heart);
+
+          const descrip = document.createElement("p");
+          descrip.classList.add("my-0", "textCardEmpre");
+          descrip.innerHTML =
+            "¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú";
+
+          const stars = document.createElement("div");
+          stars.classList.add("my-1", "text-yellowstar");
+          stars.innerHTML =
+            '<i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i>';
+
+          const reviewCount = document.createElement("div");
+          reviewCount.classList.add("mt-3", "textCardEmpre");
+          reviewCount.innerHTML = "(45 calificaciones)";
+
+          divGrayBg.appendChild(imgEmprendimiento);
+          divGrayBg.appendChild(nameAndHeart);
+          divGrayBg.appendChild(descrip);
+          divGrayBg.appendChild(stars);
+          divGrayBg.appendChild(reviewCount);
+
+          divContainer.appendChild(divGrayBg);
+
+          profileForm.appendChild(divContainer);
+        }
+      }
+
+      if (optionTxt === "Usuarios") {
+        const search = document.createElement("div");
+        search.classList.add("input-group", "mb-3", "searchBx");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
+  </div>`;
+
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "Nombres", name: "first_name" },
+          { title: "Apellidos", name: "last_name" },
+          { title: "Email", name: "email" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "update users",
+                getPath: (id) => {
+                  return `/admin/users/${id}`;
+                },
+                logo: "bi-pencil",
+              },
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete users",
+                getPath: (id) => {
+                  return `/admin/users/block/${id}`;
+                },
+                logo: "bi-person-x",
+              },
+            ],
+          },
+        ];
+
+        const limit = 5;
+
+        const path = "/admin/users/active";
+
+        await tableCreate("create", "users", profileForm, headers, path, limit);
+
+        profileForm.insertBefore(search, profileForm.firstChild);
+
+        //const searchBtn = document.querySelector(".searchBtn");
+        const searchBtn = document.querySelector(".inputSearch");
+        searchBtn.focus();
+
+        searchBtn.addEventListener("input", () => {
+          const searchWord = document.querySelector(".inputSearch").value;
+          if (searchWord === "") {
+            option.click();
+            return;
+          }
+          const path = `/admin/searchUsers/active/${searchWord}`;
+          tableCreate("search", "users", profileForm, headers, path, limit);
+        });
+
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de usuarios";
+        profileForm.insertBefore(title, profileForm.firstChild);
+      }
+
+      if (optionTxt === "Bloqueados") {
+        const search = document.createElement("div");
+        search.classList.add("input-group", "mb-3", "searchBx");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
+  </div>`;
+
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "Nombres", name: "first_name" },
+          { title: "Apellidos", name: "last_name" },
+          { title: "Email", name: "email" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "delete users",
+                getPath: (id) => {
+                  return `/admin/users/block/${id}`;
+                },
+                logo: "bi-person-check",
+              },
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete users",
+                getPath: (id) => {
+                  return `/admin/users/delete/${id}`;
+                },
+                logo: "bi-trash",
+              },
+            ],
+          },
+        ];
+
+        const limit = 5;
+
+        const path = "/admin/users/blocked";
+
+        await tableCreate("create", "users", profileForm, headers, path, limit);
+
+        profileForm.insertBefore(search, profileForm.firstChild);
+
+        //const searchBtn = document.querySelector(".searchBtn");
+        const searchBtn = document.querySelector(".inputSearch");
+        searchBtn.focus();
+
+        searchBtn.addEventListener("input", () => {
+          const searchWord = document.querySelector(".inputSearch").value;
+          if (searchWord === "") {
+            option.click();
+            return;
+          }
+          const path = `/admin/searchUsers/blocked/${searchWord}`;
+          tableCreate("search", "users", profileForm, headers, path, limit);
+        });
+
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de usuarios bloqueados";
+        profileForm.insertBefore(title, profileForm.firstChild);
+      }
+
+      if (optionTxt === "Categorias") {
+        const search = document.createElement("div");
+        search.classList.add("input-group", "mb-3", "searchBx");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar categoría..." aria-label="Buscar categoría" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
+  </div>`;
+
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "Nombre", name: "name" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "update categories",
+                getPath: (id) => {
+                  return `/admin/categories/${id}`;
+                },
+                logo: "bi-pencil",
+              },
+              {
+                class: ["btn", "btn-warning", "mx-lg-2"],
+                type: "list categories",
+                getPath: (id) => {
+                  return `/admin/categories/list/${id}`;
+                },
+                logo: "bi-list-nested",
+              },
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete categories",
+                getPath: (id) => {
+                  return `/admin/categories/delete/${id}`;
+                },
+                logo: "bi-trash",
+              },
+            ],
+          },
+        ];
+
+        const limit = 10;
+
+        const path = "/admin/categories/active";
+
+        await tableCreate(
+          "create",
+          "categories",
+          profileForm,
+          headers,
+          path,
+          limit
         );
 
-        const name = document.createElement("span");
-        name.classList.add("h6");
-        name.innerText = "Rumbero";
+        profileForm.insertBefore(search, profileForm.firstChild);
 
-        const heart = document.createElement("span");
-        heart.classList.add("h6");
-        heart.innerHTML = '<i class="bi bi-heart starIcon"></i>';
+        //const searchBtn = document.querySelector(".searchBtn");
+        const searchBtn = document.querySelector(".inputSearch");
+        searchBtn.focus();
 
-        nameAndHeart.appendChild(name);
-        nameAndHeart.appendChild(heart);
+        searchBtn.addEventListener("input", () => {
+          const searchWord = document.querySelector(".inputSearch").value;
+          if (searchWord === "") {
+            option.click();
+            return;
+          }
+          const path = `/admin/searchCategories/active/${searchWord}`;
+          tableCreate(
+            "search",
+            "categories",
+            profileForm,
+            headers,
+            path,
+            limit
+          );
+        });
 
-        const descrip = document.createElement("p");
-        descrip.classList.add("my-0", "textCardEmpre");
-        descrip.innerHTML =
-          "¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú";
-
-        const stars = document.createElement("div");
-        stars.classList.add("my-1", "text-yellowstar");
-        stars.innerHTML =
-          '<i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i>';
-
-        const reviewCount = document.createElement("div");
-        reviewCount.classList.add("mt-3", "textCardEmpre");
-        reviewCount.innerHTML = "(45 calificaciones)";
-
-        divGrayBg.appendChild(imgEmprendimiento);
-        divGrayBg.appendChild(nameAndHeart);
-        divGrayBg.appendChild(descrip);
-        divGrayBg.appendChild(stars);
-        divGrayBg.appendChild(reviewCount);
-
-        divContainer.appendChild(divGrayBg);
-
-        profileForm.appendChild(divContainer);
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de categorias";
+        profileForm.insertBefore(title, profileForm.firstChild);
       }
-    }
-    if (optionTxt === "Usuarios") {
-      const search = document.createElement("div");
-      search.classList.add("input-group", "mb-3", "searchBx");
-      search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
+
+      if (optionTxt === "Solicitud Categorias") {
+        const search = document.createElement("div");
+        search.classList.add("input-group", "mb-3");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar solicitud..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
   </div>`;
 
-      const headers = [
-        { title: "id", name: "id" },
-        { title: "Nombres", name: "first_name" },
-        { title: "Apellidos", name: "last_name" },
-        { title: "Email", name: "email" },
-        {
-          title: "Actions",
-          listActions: [
-            {
-              class: ["btn", "btn-success", "mx-lg-2"],
-              type: "update users",
-              getPath: (id) => {
-                return `/admin/users/${id}`;
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "Emprendimiento @ig", name: "ig_url" },
+          { title: "Categoría", name: "category_name" },
+          { title: "Subcategoría", name: "subcategory_name" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "accept categories",
+                getPath: (id) => {
+                  return `/admin/categories/accept/${id}`;
+                },
+                logo: "bi-check2",
               },
-              logo: "bi-pencil",
-            },
-            {
-              class: ["btn", "btn-danger", "mx-lg-2"],
-              type: "delete users",
-              getPath: (id) => {
-                return `/admin/users/block/${id}`;
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete categories",
+                getPath: (id) => {
+                  return `/admin/categories/delete/${id}`;
+                },
+                logo: "bi-x-circle",
               },
-              logo: "bi-person-x",
-            },
-          ],
-        },
-      ];
+            ],
+          },
+        ];
 
-      const limit = 5;
+        const limit = 5;
 
-      const path = "/admin/users/active";
+        const path = "/admin/categories";
 
-      await tableCreate("create", profileForm, headers, path, limit);
+        await tableCreate(
+          "create",
+          "categories",
+          profileForm,
+          headers,
+          path,
+          limit
+        );
 
-      profileForm.insertBefore(search, profileForm.firstChild);
+        profileForm.insertBefore(search, profileForm.firstChild);
 
-      //const searchBtn = document.querySelector(".searchBtn");
-      const searchBtn = document.querySelector(".inputSearch");
-      searchBtn.focus();
+        //const searchBtn = document.querySelector(".searchBtn");
+        const searchBtn = document.querySelector(".inputSearch");
+        searchBtn.focus();
 
-      searchBtn.addEventListener("input", () => {
-        const searchWord = document.querySelector(".inputSearch").value;
-        if (searchWord === "") {
-          option.click();
-          return;
-        }
-        const path = `/admin/searchUsers/active/${searchWord}`;
-        tableCreate("search", profileForm, headers, path, limit);
-      });
+        searchBtn.addEventListener("input", () => {
+          const searchWord = document.querySelector(".inputSearch").value;
+          if (searchWord === "") {
+            option.click();
+            return;
+          }
+          const path = `/admin/searchUsers/${searchWord}`;
+          tableCreate(
+            "search",
+            "categories",
+            profileForm,
+            headers,
+            path,
+            limit
+          );
+        });
 
-      const title = document.createElement("h3");
-      title.classList.add("my-2", "text-center");
-      title.innerHTML = "Lista de usuarios";
-      profileForm.insertBefore(title, profileForm.firstChild);
-    }
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de solicitudes";
+        profileForm.insertBefore(title, profileForm.firstChild);
+      }
 
-    if (optionTxt === "Bloqueados") {
-      const search = document.createElement("div");
-      search.classList.add("input-group", "mb-3", "searchBx");
-      search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar usuario..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
-  </div>`;
-
-      const headers = [
-        { title: "id", name: "id" },
-        { title: "Nombres", name: "first_name" },
-        { title: "Apellidos", name: "last_name" },
-        { title: "Email", name: "email" },
-        {
-          title: "Actions",
-          listActions: [
-            {
-              class: ["btn", "btn-success", "mx-lg-2"],
-              type: "delete users",
-              getPath: (id) => {
-                return `/admin/users/block/${id}`;
-              },
-              logo: "bi-person-check",
-            },
-            {
-              class: ["btn", "btn-danger", "mx-lg-2"],
-              type: "delete users",
-              getPath: (id) => {
-                return `/admin/users/delete/${id}`;
-              },
-              logo: "bi-trash",
-            },
-          ],
-        },
-      ];
-
-      const limit = 5;
-
-      const path = "/admin/users/blocked";
-
-      await tableCreate("create", profileForm, headers, path, limit);
-
-      profileForm.insertBefore(search, profileForm.firstChild);
-
-      //const searchBtn = document.querySelector(".searchBtn");
-      const searchBtn = document.querySelector(".inputSearch");
-      searchBtn.focus();
-
-      searchBtn.addEventListener("input", () => {
-        const searchWord = document.querySelector(".inputSearch").value;
-        if (searchWord === "") {
-          option.click();
-          return;
-        }
-        const path = `/admin/searchUsers/blocked/${searchWord}`;
-        tableCreate("search", profileForm, headers, path, limit);
-      });
-
-      const title = document.createElement("h3");
-      title.classList.add("my-2", "text-center");
-      title.innerHTML = "Lista de usuarios bloqueados";
-      profileForm.insertBefore(title, profileForm.firstChild);
-    }
-
-    if (optionTxt === "Solicitud Categorias") {
-      const search = document.createElement("div");
-      search.classList.add("input-group", "mb-3");
-      search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar solicitud..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
-  </div>`;
-
-      const headers = [
-        { title: "id", name: "id" },
-        { title: "Emprendimiento @ig", name: "ig_url" },
-        { title: "Categoría", name: "category_name" },
-        { title: "Subcategoría", name: "subcategory_name" },
-        {
-          title: "Actions",
-          listActions: [
-            {
-              class: ["btn", "btn-success", "mx-lg-2"],
-              type: "accept categories",
-              getPath: (id) => {
-                return `/admin/categories/accept/${id}`;
-              },
-              logo: "bi-check2",
-            },
-            {
-              class: ["btn", "btn-danger", "mx-lg-2"],
-              type: "delete categories",
-              getPath: (id) => {
-                return `/admin/categories/delete/${id}`;
-              },
-              logo: "bi-x-circle",
-            },
-          ],
-        },
-      ];
-
-      const limit = 5;
-
-      const path = "/admin/users";
-
-      await tableCreate("create", profileForm, headers, path, limit);
-
-      profileForm.insertBefore(search, profileForm.firstChild);
-
-      //const searchBtn = document.querySelector(".searchBtn");
-      const searchBtn = document.querySelector(".inputSearch");
-      searchBtn.focus();
-
-      searchBtn.addEventListener("input", () => {
-        const searchWord = document.querySelector(".inputSearch").value;
-        if (searchWord === "") {
-          option.click();
-          return;
-        }
-        const path = `/admin/searchUsers/${searchWord}`;
-        tableCreate("search", profileForm, headers, path, limit);
-      });
-
-      const title = document.createElement("h3");
-      title.classList.add("my-2", "text-center");
-      title.innerHTML = "Lista de solicitudes";
-      profileForm.insertBefore(title, profileForm.firstChild);
-    }
-
-    if (optionTxt === "Cerrar Sesión") {
-      window.location.href = "/logout";
+      if (optionTxt === "Cerrar Sesión") {
+        window.location.href = "/logout";
+      }
     }
   });
 }
 
-async function tableCreate(action, element, headers, path, limit) {
+async function tableCreate(action, typeObj, element, headers, path, limit) {
   let users = [];
   if (action === "create") {
     profileForm.innerHTML = "";
@@ -526,8 +627,8 @@ async function tableCreate(action, element, headers, path, limit) {
     const response = await fetch(link);
     const data = await response.json();
 
-    if ("users" in data) {
-      users = data.users;
+    if (typeObj in data) {
+      users = data[typeObj];
     }
 
     const tableBx = document.createElement("div");
@@ -571,7 +672,7 @@ async function tableCreate(action, element, headers, path, limit) {
     buttonLoad.setAttribute("type", "button");
     buttonLoad.value = "Cargar más registros";
     buttonLoad.addEventListener("click", () => {
-      tableCreate("append", profileForm, headers, path, limit);
+      tableCreate("append", typeObj, profileForm, headers, path, limit);
     });
 
     profileForm.appendChild(buttonLoad);
@@ -593,8 +694,8 @@ async function tableCreate(action, element, headers, path, limit) {
       `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
     );
     const data = await response.json();
-    if ("users" in data) {
-      users = data.users;
+    if (typeObj in data) {
+      users = data[typeObj];
     }
 
     if ("endList" in data) {
@@ -611,8 +712,8 @@ async function tableCreate(action, element, headers, path, limit) {
       `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
     );
     const data = await response.json();
-    if ("users" in data) {
-      users = data.users;
+    if (typeObj in data) {
+      users = data[typeObj];
     }
 
     const btnLoadMore = document.querySelector(".LoadMoreBtn");
@@ -629,7 +730,7 @@ async function tableCreate(action, element, headers, path, limit) {
     button.value = "Cargar más registros";
 
     button.addEventListener("click", () => {
-      tableCreate("append", profileForm, headers, path, limit);
+      tableCreate("append", typeObj, profileForm, headers, path, limit);
     });
 
     element.insertBefore(button, btnLoadMore);
@@ -697,6 +798,15 @@ async function actionElement(e, type, url) {
     ];
   }
 
+  if (dataType === "categories") {
+    fields = [
+      { title: "id", name: "id" },
+      { title: "Nombre", name: "name" },
+      { title: "Categoria", name: "category_id" },
+      { title: "Nivel", name: "level" },
+    ];
+  }
+
   if (action === "update" || action === "create") {
     profileForm = document.querySelector(".profileForm");
     profileForm.innerHTML = "";
@@ -724,6 +834,15 @@ async function actionElement(e, type, url) {
       });
     }
 
+    if (dataType === "categories") {
+      backButton.addEventListener("click", () => {
+        document.querySelectorAll(".menuProfileOpt")[3].click();
+        const errorLogin = document.querySelector(".errorLogin");
+        errorLogin.innerText = "";
+        errorLogin.classList.remove("py-3");
+      });
+    }
+
     profileForm.appendChild(backButton);
 
     let response = "";
@@ -740,28 +859,53 @@ async function actionElement(e, type, url) {
     const form = document.createElement("form");
 
     for (const field of fields) {
-      if (field.name !== "id") {
+      if (field.name !== "id" && field.name !== "level") {
         const field_label = document.createElement("label");
         field_label.classList.add("form-label", "mb-2");
         field_label.innerText = field.title;
         form.appendChild(field_label);
       }
 
-      const field_input = document.createElement("input");
-      if (action === "update") {
-        field_input.value = result[field.name];
-      } else if (action === "update") {
-        field_input.value = "";
+      if (field.name == "category_id") {
+        const field_input = document.createElement("select");
+        field_input.classList.add("form-select", "mb-2");
+        field_input.name = field.name;
+
+        const select_option = document.createElement("option");
+        select_option.value = 0;
+        select_option.innerHTML = "-- Seleccione para crear subcategoría --";
+        field_input.appendChild(select_option);
+
+        response = await fetch(`https://www.emprendeadvisor.com/categories`);
+        data = await response.json();
+        categories = data["categories"];
+        for (category of categories) {
+          const select_option = document.createElement("option");
+          select_option.value = category.id;
+          if (category.id === result["category_id"]) {
+            select_option.selected = true;
+          }
+          select_option.innerHTML = category.name;
+          field_input.appendChild(select_option);
+        }
+        form.appendChild(field_input);
+      } else {
+        const field_input = document.createElement("input");
+        if (action === "update") {
+          field_input.value = result[field.name];
+        } else if (action === "update") {
+          field_input.value = "";
+        }
+        field_input.name = field.name;
+        field_input.classList.add("form-control", "mb-2");
+        if (field.name === "password") {
+          field_input.setAttribute("type", "password");
+        }
+        if (field.name === "id" || field.name === "level") {
+          field_input.setAttribute("type", "hidden");
+        }
+        form.appendChild(field_input);
       }
-      field_input.name = field.name;
-      field_input.classList.add("form-control", "mb-2");
-      if (field.name === "password") {
-        field_input.setAttribute("type", "password");
-      }
-      if (field.name === "id") {
-        field_input.setAttribute("type", "hidden");
-      }
-      form.appendChild(field_input);
     }
 
     const button = document.createElement("input");
@@ -809,6 +953,38 @@ async function actionElement(e, type, url) {
     } else if (e.target.tagName === "TD") {
       e.target.parentElement.remove();
     }
+  }
+
+  if (action === "list") {
+    const limit = 10;
+
+    const headers = [
+      { title: "id", name: "id" },
+      { title: "Nombre", name: "name" },
+      {
+        title: "Actions",
+        listActions: [
+          {
+            class: ["btn", "btn-success", "mx-lg-2"],
+            type: "update categories",
+            getPath: (id) => {
+              return `/admin/categories/${id}`;
+            },
+            logo: "bi-pencil",
+          },
+          {
+            class: ["btn", "btn-danger", "mx-lg-2"],
+            type: "delete categories",
+            getPath: (id) => {
+              return `/admin/categories/delete/${id}`;
+            },
+            logo: "bi-trash",
+          },
+        ],
+      },
+    ];
+
+    await tableCreate("create", "categories", profileForm, headers, url, limit);
   }
 }
 

@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, session, jsonify, url_for
-from flask_app.models import user
+from flask_app.models import user, category
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -10,8 +10,9 @@ def admin():
     return redirect("/cuenta")
   if 'user_id' not in session:
     return redirect("/")
+  categoriesList = category.Category.list_all_categories_with_subcategories()
   userSession = user.User.get_user_by_id({"id":session["user_id"]})
-  return render_template("admin.html",userSession=userSession)
+  return render_template("admin.html",userSession=userSession,categoriesList=categoriesList)
 
 
 @app.route('/admin/users/<int:id>')
@@ -173,5 +174,186 @@ def blockUser(id):
     user.User.update_state_blocked({"id":id,"blocked":blocked})
     response = {
       "users" : 1, 
+    }
+    return jsonify(response)
+
+
+
+@app.route('/admin/categories/<int:id>')
+def getCategory(id):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  categoryResult = category.Category.get_category({"id":id})
+  if categoryResult != False:
+    categoryResult = categoryResult.get_info_raw()
+  response = {
+      "categories" : categoryResult, 
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/categories/<string:is_active>/<int:limit>/<int:offset>')
+def getCategories(is_active,limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  if is_active not in ["active","requested"]:
+    return redirect("/")
+  if is_active == "active":
+    is_active = 1
+  else:
+    is_active = 0
+
+  categories = category.Category.list_categories({"level":1, "category_id":"" ,"limit":limit, "offset": offset, "is_active": is_active})
+  endList = False
+
+  if categories == False:
+    response = {
+      "categories" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  if len(categories) < limit:
+    endList = True
+  response = {
+      "categories" : list(map(lambda x : x.get_info_raw(), categories)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/searchCategories/<string:is_active>/<string:word>/<int:limit>/<int:offset>')
+def searchCategories(is_active,word,limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  
+  if is_active not in ["active","requested"]:
+    return redirect("/")
+  if is_active == "active":
+    is_active = 1
+  else:
+    is_active = 0
+
+  likeWord = "%%"+word+"%%"
+  categories = category.Category.get_categories_like({"level":1, "category_id":"", "limit":limit, "offset": offset, "word" : likeWord, "is_active": is_active})
+  endList = False
+  
+  if categories == False:
+    response = {
+      "categories" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  
+  if len(categories) < limit:
+    endList = True
+  response = {
+      "categories" : list(map(lambda x : x.get_info_raw(), categories)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/categories/list/<int:id>/<int:limit>/<int:offset>')
+def getSubcategories(id,limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+
+  categories = category.Category.list_categories({"level":2, "category_id":id ,"limit":limit, "offset": offset})
+  endList = False
+
+  if categories == False:
+    response = {
+      "categories" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  if len(categories) < limit:
+    endList = True
+  response = {
+      "categories" : list(map(lambda x : x.get_info_raw(), categories)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/categories/create', methods=['POST'])
+def createCategories():
+    if 'level' in session and session["level"] != 9:
+      return redirect("/")
+
+    categorie_validation = category.Category.validate_category(request.form)
+    if not categorie_validation[0]:
+      return jsonify(error = categorie_validation[1])
+    
+    data = {
+      "name" : request.form["name"],
+      "is_active" : "1"
+    }    
+
+    if request.form["category_id"] == "0":
+      data["category_id"] = "0"
+      data["level"] = 1
+    else:
+      data["category_id"] = request.form["category_id"]
+      data["level"] = 2
+    
+    category_id = category.Category.save_category(data)
+    if request.form["category_id"] == "0":
+      data2 = {
+      "name" : "General",
+      "is_active" : "1",
+      "level": "2",
+      "category_id": category_id
+    }  
+      category.Category.save_category(data2)
+
+    if category_id == False:
+      response = {
+      "updated" : False, 
+      "created" : False
+      }
+      return jsonify(response)
+
+    response = {
+      "updated" : False, 
+      "created" : True
+    }
+    return jsonify(response)
+
+@app.route('/admin/categories/delete/<int:id>')
+def deleteCategory(id):
+    if 'level' in session and session["level"] != 9:
+      return redirect("/")
+    category.Category.delete_subcategories({"id":id})
+    category_deleted = category.Category.delete_category({"id":id})
+    response = {
+      "categories" : category_deleted, 
+    }
+    return jsonify(response)
+
+@app.route('/admin/categories/update', methods=['POST'])
+def updateCategory():
+    if 'level' in session and session["level"] != 9:
+      return redirect("/")
+
+    print(request.form["level"])
+    category_validation = category.Category.validate_category(request.form)
+    if not category_validation[0]:
+      return jsonify(error = category_validation[1])
+    
+    data = {
+      "id" : request.form["id"],
+      "name" : request.form["name"],
+      "category_id" : request.form["category_id"],
+    }    
+    
+    category.Category.updateCategoryAll(data)
+
+    response = {
+      "updated" : True, 
+      "created" : False
     }
     return jsonify(response)

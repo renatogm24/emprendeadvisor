@@ -1,6 +1,6 @@
 from flask import render_template, redirect, session,jsonify
 from flask_app import app
-from flask_app.models import user
+from flask_app.models import user, category
 
 @app.route('/')
 def index():
@@ -15,7 +15,8 @@ def emprendimiento():
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
   emprendimiento = {"category_id": ""}
-  return render_template("emprendimiento.html",userSession=userSession, emprendimiento=emprendimiento)
+  categoriesList = category.Category.list_all_categories_with_subcategories()
+  return render_template("emprendimiento.html",userSession=userSession, emprendimiento=emprendimiento, categoriesList=categoriesList)
 
 @app.route('/cuenta')
 def cuenta():
@@ -24,8 +25,9 @@ def cuenta():
     return redirect("/")
   if session["level"] == 9:
     return redirect("/admin")
+  categoriesList = category.Category.list_all_categories_with_subcategories()
   userSession = user.User.get_user_by_id({"id":session["user_id"]})
-  return render_template("cuenta.html",userSession=userSession)
+  return render_template("cuenta.html",userSession=userSession,categoriesList=categoriesList)
 
 @app.route('/politica')
 def politica():

@@ -56,178 +56,25 @@
                 <div class="mega-content px-4">
                   <div class="container-fluid">
                     <div class="d-flex flex-wrap p-3">
+                      {% if categoriesList != False %}
+                      {% for category in categoriesList %}
                       <ul class="categoryBx">
                         <li>
                           <a
                             class="text-decoration-none text-altprimary h5"
-                            href=""
-                            >Celulares</a
+                            href="/emprendimientos/category/{{category.id}}"
+                            >{{category.name}}</a
                           >
                         </li>
                         <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
+                          {% for subcategory in category.subcategories %}
+                            <li>
+                              <a class="text-reset" href="/emprendimientos/subcategory/{{subcategory.id}}">{{subcategory.name}}</a>
                 </li>
-                <li>
-                    <a class="text-reset" href="#">Cargadores</a>
-                </li>
-                <li>
-                    <a class="text-reset" href="#">Baterias</a>
-                </li>
-                <li>
-                    <a class="text-reset" href="#">Inalambricos</a>
-                </li>
-                <li>
-                    <a class="text-reset" href="#">Cargadores</a>
-                </li>
-                <li>
-                    <a class="text-reset" href="#">Baterias</a>
-                </li>
-                <li>
-                    <a class="text-reset" href="#">Inalambricos</a>
-                </li>
+                {% endfor %}
                 </ul>
                 </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
-                <ul class="categoryBx">
-                    <li>
-                        <a class="text-decoration-none text-altprimary h5" href="">Celulares</a
-                          >
-                        </li>
-                        <ul class="mt-3">
-                          <li>
-                            <a class="text-reset" href="#">Carcasas</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Cargadores</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Baterias</a>
-                    </li>
-                    <li>
-                        <a class="text-reset" href="#">Inalambricos</a>
-                    </li>
-                </ul>
-                </ul>
+                {% endfor %} {% endif %}
         </div>
         </div>
         </div>

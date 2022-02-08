@@ -1,7 +1,6 @@
-from crypt import methods
 from flask import jsonify,render_template,send_file, request, session
 from flask_app import app
-from flask_app.models import emprendimiento, user
+from flask_app.models import emprendimiento, user,category
 import requests
 import json
 import redis
@@ -56,26 +55,24 @@ def getIgData(igusername):
   return response
 
 def translate_text(target, text):
-    """Translates text into the target language.
+    try:
+      import os
+      os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/ubuntu/emprendeadvisor-e0425dce8ff1.json"
+      import six
+      from google.cloud import translate_v2 as translate
 
-    Target must be an ISO 639-1 language code.
-    See https://g.co/cloud/translate/v2/translate-reference#supported_languages
-    """
-    import os
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/ubuntu/emprendeadvisor-e0425dce8ff1.json"
-    import six
-    from google.cloud import translate_v2 as translate
+      translate_client = translate.Client()
 
-    translate_client = translate.Client()
+      if isinstance(text, six.binary_type):
+          text = text.decode("utf-8")
 
-    if isinstance(text, six.binary_type):
-        text = text.decode("utf-8")
-
-    # Text can also be a sequence of strings, in which case this method
-    # will return a sequence of results for each text.
-    result = translate_client.translate(text, target_language=target)
-
-    return result["translatedText"]
+      # Text can also be a sequence of strings, in which case this method
+      # will return a sequence of results for each text.
+      result = translate_client.translate(text, target_language=target)
+      result = result["translatedText"]
+    except:
+      result = text
+    return result
 
 def getDataInstagrapi(igusername):
   cached = redis_server.get(igusername)
@@ -85,8 +82,8 @@ def getDataInstagrapi(igusername):
   else:
       try:
         result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
-        print(result)
         data = result.text
+        print(data)
         parsed_json = (json.loads(data))
         parsed_json["category_name"] = translate_text("es",parsed_json["category_name"])
         data = json.dumps(parsed_json)
@@ -107,7 +104,8 @@ def search(igusername):
   userSession = ""
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
-  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession)
+  categoriesList = category.Category.list_all_categories_with_subcategories()
+  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList)
 
 @app.route('/img/<path:url>&<params>')
 def image(url,params):
