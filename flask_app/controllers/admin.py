@@ -255,12 +255,19 @@ def searchCategories(is_active,word,limit,offset):
   return jsonify(response)
 
 
-@app.route('/admin/categories/list/<int:id>/<int:limit>/<int:offset>')
-def getSubcategories(id,limit,offset):
+@app.route('/admin/categories/<string:is_active>/list/<int:id>/<int:limit>/<int:offset>')
+def getSubcategories(id,limit,offset,is_active):
   if 'level' in session and session["level"] != 9:
     return redirect("/")
+  
+  if is_active not in ["active","requested"]:
+    return redirect("/")
+  if is_active == "active":
+    is_active = 1
+  else:
+    is_active = 0
 
-  categories = category.Category.list_categories({"level":2, "category_id":id ,"limit":limit, "offset": offset})
+  categories = category.Category.list_categories({"level":2, "category_id":id ,"limit":limit, "offset": offset, "is_active":is_active})
   endList = False
 
   if categories == False:
@@ -339,7 +346,6 @@ def updateCategory():
     if 'level' in session and session["level"] != 9:
       return redirect("/")
 
-    print(request.form["level"])
     category_validation = category.Category.validate_category(request.form)
     if not category_validation[0]:
       return jsonify(error = category_validation[1])
@@ -355,5 +361,17 @@ def updateCategory():
     response = {
       "updated" : True, 
       "created" : False
+    }
+    return jsonify(response)
+
+@app.route('/admin/categories/approve/<int:id>')
+def approveCategory(id):
+    if 'level' in session and session["level"] != 9:
+      return redirect("/")
+
+    category.Category.approveCategory({"id":id})
+
+    response = {
+      "categories" : 1, 
     }
     return jsonify(response)

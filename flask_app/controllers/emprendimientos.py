@@ -101,6 +101,8 @@ def search(igusername):
     if "error" in result:
       return render_template("emprendimiento.html",error=True)
     emprendAux = emprendimiento.Emprendimiento(result)
+  else:
+    emprendAux = emprendimiento.Emprendimiento(emprendimientoSearch)
   userSession = ""
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})

@@ -36,6 +36,11 @@ class Category:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def approveCategory(cls, data ):
+        query = "UPDATE categories SET is_active = 1 WHERE category_id = %(id)s or id = %(id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
     def delete_category(cls, data ):
         query = "DELETE FROM categories where id = %(id)s;"
         return connectToMySQL('emprendeadvisor').query_db( query, data )
@@ -61,9 +66,9 @@ class Category:
     @classmethod
     def list_categories(cls, data ):
         if data["category_id"] == "":
-          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = 1 and c1.level = %(level)s and c2.name is NULL limit %(offset)s,%(limit)s;"
+          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = %(is_active)s and c1.level = %(level)s and c2.name is NULL limit %(offset)s,%(limit)s;"
         else:
-          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = 1 and c1.level = %(level)s and c1.category_id = %(category_id)s limit %(offset)s,%(limit)s;"
+          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = %(is_active)s and c1.level = %(level)s and c1.category_id = %(category_id)s limit %(offset)s,%(limit)s;"
         results = connectToMySQL('emprendeadvisor').query_db( query, data )
         if not results:
           return False
@@ -75,7 +80,7 @@ class Category:
 
     @classmethod
     def list_all_categories(cls ):        
-        query = "SELECT * FROM categories where level = 1;"
+        query = "SELECT * FROM categories where level = 1 and is_active = 1;"
         results = connectToMySQL('emprendeadvisor').query_db( query)
         if not results:
           return False
@@ -86,8 +91,30 @@ class Category:
         return categories
 
     @classmethod
+    def get_category_by_name(cls, data ):        
+        query = "SELECT * FROM categories where level = 1 and name = %(name)s ;"
+        results = connectToMySQL('emprendeadvisor').query_db( query, data)
+        if not results:
+          return False
+        else:
+          category = cls(results[0])
+        return category
+
+    @classmethod
+    def list_subcategories(cls, data ):        
+        query = "SELECT * FROM categories where level = 2 and category_id = %(id)s and is_active = 1;"
+        results = connectToMySQL('emprendeadvisor').query_db( query, data)
+        if not results:
+          return False
+        else:
+          categories = []
+          for categorie in results:
+            categories.append(cls(categorie))
+        return categories
+
+    @classmethod
     def list_all_categories_with_subcategories(cls):
-        query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.level = 2;"
+        query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.level = 2 and c1.is_active = 1;"
         results = connectToMySQL('emprendeadvisor').query_db( query)
         if not results:
           return False

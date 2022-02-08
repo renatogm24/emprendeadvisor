@@ -41,9 +41,14 @@ class Emprendimiento:
     
     @classmethod
     def search_by_username(cls, data ):
-        query = "SELECT * from emprendimientos where username = %(username)s;"
+        query = "SELECT * from emprendimientos left join categories on emprendimientos.category_id = categories.id where username = %(username)s and categories.is_active = 1;"
         results = connectToMySQL('emprendeadvisor').query_db( query, data )
         if not results or len(results)<1:
           return False
         else:
           return results[0]
+
+    @classmethod
+    def save(cls, data ):
+        query = "INSERT INTO emprendimientos (`username`,`full_name`,`biography`,`external_url`,`follower_count`,`is_business`,`public_email`,`contact_phone_number`,`category_name`,`is_private`,`profile_pic_url`,`profile_pic_url_hd`,`category_id`,`created_at`,`updated_at` ) VALUES (%(username)s,%(full_name)s,%(biography)s,%(external_url)s,%(follower_count)s,%(is_business)s,%(public_email)s,%(contact_phone_number)s,%(category_name)s,%(is_private)s,%(profile_pic_url)s,%(profile_pic_url_hd)s,%(category_id)s,NOW(),NOW());"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )

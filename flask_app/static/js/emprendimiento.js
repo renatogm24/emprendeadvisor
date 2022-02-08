@@ -12,7 +12,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://www.emprendeadvisor.com/login", {
+  const response = await fetch("http://127.0.0.1/login", {
     method: "POST",
     body: form,
     credentials: "same-origin",
@@ -42,14 +42,11 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/register/user",
-    {
-      method: "POST",
-      body: form,
-      credentials: "same-origin",
-    }
-  );
+  const response = await fetch("http://127.0.0.1/register/user", {
+    method: "POST",
+    body: form,
+    credentials: "same-origin",
+  });
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
@@ -96,7 +93,105 @@ function checkNewSubcategory(element) {
   }
 }
 
-const clasificarForm = document.querySelector(".clasificarForm");
+const clasificarForm = document.querySelector("#clasificarForm");
+
+const selectFormClasif = document.querySelector("#categoria");
+const selectFormSubcat = document.querySelector("#subcategoria");
+
+try {
+  selectFormClasif.addEventListener("change", async (e) => {
+    const categorySelected = e.target.value;
+    const response = await fetch(
+      "http://127.0.0.1/subcategories/" + categorySelected
+    );
+    const data = await response.json();
+    selectFormSubcat.innerHTML = "";
+    newOpt = document.createElement("option");
+    newOpt.value = 0;
+    newOpt.innerHTML = "-- Seleccion subcategoría --";
+    selectFormSubcat.appendChild(newOpt);
+    for (category of data.categories) {
+      newOpt = document.createElement("option");
+      newOpt.value = category.id;
+      newOpt.innerHTML = category.name;
+      selectFormSubcat.appendChild(newOpt);
+    }
+  });
+} catch (error) {
+  console.log("Error");
+}
+
+try {
+  clasificarForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    success = document.querySelector(".successCategory");
+    success.innerHTML = "";
+    success.classList.remove("p-3");
+    error = document.querySelector(".errorCategory");
+    error.innerHTML = "";
+    error.classList.remove("p-3");
+    const formData = new FormData(e.target);
+
+    checkCat = document.querySelector("#categoriaCheckBx").checked;
+    checkSub = document.querySelector("#subcategoriaCheckBx").checked;
+    selectCat = document.querySelector("#categoria").value;
+    selectSub = document.querySelector("#subcategoria").value;
+
+    if (!checkCat) {
+      if (selectCat === "0" || selectCat === "0") {
+        error.innerHTML = "Debes ingresar una categoría y subcategoría valida";
+        error.classList.add("p-3");
+        return;
+      }
+    }
+
+    if (checkCat && !checkSub) {
+      if (formData.get("nuevaCategoria").length < 1) {
+        error.innerHTML = "El nombre de la categoría no puede estar vacío";
+        error.classList.add("p-3");
+        return;
+      }
+    }
+
+    if (checkCat && checkSub) {
+      if (
+        formData.get("nuevaCategoria").length < 1 ||
+        formData.get("nuevaSubcategoria").length < 1
+      ) {
+        error.innerHTML = "Los nombres de categorías no pueden estar vacíos";
+        error.classList.add("p-3");
+        return;
+      }
+    }
+
+    formData.append("pathname", window.location.pathname);
+    const response = await fetch("http://127.0.0.1/categories/create", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if ("error" in data) {
+      error.innerHTML = "Ya existe la categoría";
+      error.classList.add("p-3");
+      return;
+    }
+    if ("created" in data) {
+      success.innerHTML = "La solicitud de categoria ha sido enviada";
+      success.classList.add("p-3");
+      setTimeout(() => {
+        const modalCloseBtn = document.querySelector(".closeModalClas");
+        modalCloseBtn.click();
+      }, 1500);
+    }
+    if ("redirect" in data) {
+      if (data.redirect === true) {
+        window.location.href = data.url;
+      }
+    }
+  });
+} catch (error) {
+  console.log("Error");
+}
 
 const searchForm = document.querySelector("#searchForm");
 searchForm.addEventListener("submit", async (e) => {

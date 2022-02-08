@@ -14,7 +14,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://www.emprendeadvisor.com/login", {
+  const response = await fetch("http://127.0.0.1/login", {
     method: "POST",
     body: form,
     credentials: "include",
@@ -29,12 +29,16 @@ loginForm.addEventListener("submit", async (e) => {
   }
 });
 
-const searchForm = document.querySelector("#searchForm");
-searchForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  window.location.href = "/search/" + formData.get("search");
-});
+try {
+  const searchForm = document.querySelector("#searchForm");
+  searchForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    window.location.href = "/search/" + formData.get("search");
+  });
+} catch (error) {
+  console.log("Error");
+}
 
 const registerForm = document.querySelector("#registerForm");
 registerForm.addEventListener("submit", async (e) => {
@@ -51,14 +55,11 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/register/user",
-    {
-      method: "POST",
-      body: form,
-      credentials: "include",
-    }
-  );
+  const response = await fetch("http://127.0.0.1/register/user", {
+    method: "POST",
+    body: form,
+    credentials: "include",
+  });
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {

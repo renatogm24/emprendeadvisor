@@ -181,7 +181,7 @@
           <div class="col-lg-4 p-4 text-center">
             <img
               class="img-fluid"
-              src="https://www.emprendeadvisor.com/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
+              src="http://127.0.0.1/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
               alt=""
             />
           </div>
@@ -853,14 +853,17 @@
               <h5 class="modal-title" id="exampleModalLabel">Clasificar</h5>
               <button
                 type="button"
-                class="btn-close"
+                class="btn-close closeModalClas"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
             <div class="modal-body">
               <div
-                class="errorLogin bg-warning text-light rounded-3 text-center"
+                class="successCategory bg-success text-light rounded-3 text-center"
+              ></div>
+              <div
+                class="errorCategory bg-warning text-light rounded-3 text-center"
               ></div>
 
               <p class="mb-1">
@@ -871,9 +874,9 @@
               <label for="categoria" class="form-label my-2">Categoria:</label>
               <select class="form-select" name="categoria" id="categoria">
                 <option value="0" selected>-- Seleccione categoría --</option>
-                <option value="1">Categoría 1</option>
-                <option value="2">Categoría 2</option>
-                <option value="3">Categoría 3</option>
+                {% for category in categoriesList %}
+                <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
               </select>
 
               <label for="subcategoria" class="form-label my-2"
@@ -883,20 +886,17 @@
                 <option value="0" selected>
                   -- Seleccione subcategoría --
                 </option>
-                <option value="1">Subcategoría 1</option>
-                <option value="2">Subcategoría 2</option>
-                <option value="3">Subcategoría 3</option>
               </select>
 
               <div class="my-2">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  value=""
+                  name="haveCategory"
                   id="categoriaCheckBx"
                   onchange="checkNewCategory(this)"
                 />
-                <label class="form-check-label" for="flexCheckDefault">
+                <label class="form-check-label" for="categoriaCheckBx">
                   ¿No encuentras la categoría?
                 </label>
 
@@ -915,11 +915,11 @@
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      value=""
+                      name="haveSubcategory"
                       id="subcategoriaCheckBx"
                       onchange="checkNewSubcategory(this)"
                     />
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <label class="form-check-label" for="subcategoriaCheckBx">
                       ¿Tiene subcategoría?
                     </label>
                     <p class="mb-0">

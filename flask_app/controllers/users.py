@@ -57,8 +57,12 @@ def register():
     # almacenar id de usuario en la sesión
     session['user_id'] = user_id
     session['level'] = 1
+    if "pathname" not in request.form:
+      pathname = "/"
+    else:
+      pathname = request.form["pathname"]
     response = {
-      "redirectUrl" : request.form["pathname"], 
+      "redirectUrl" : pathname, 
       "isRedirect" : True 
     }
     return jsonify(response)
@@ -77,8 +81,13 @@ def login():
       return jsonify(error="Usuario bloqueado")
     session['user_id'] = user_in_db.id
     session['level'] = user_in_db.level
+
+    if "pathname" not in request.form:
+      pathname = "/"
+    else:
+      pathname = request.form["pathname"]
     response = {
-      "redirectUrl" : request.form["pathname"], 
+      "redirectUrl" : pathname, 
       "isRedirect" : True 
     }
     toreturn = jsonify(response)

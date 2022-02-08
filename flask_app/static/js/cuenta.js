@@ -16,13 +16,10 @@ async function clearImage() {
   var dataPost = new FormData();
   dataPost.append("json", JSON.stringify(payload));
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/deleteImageAndReset",
-    {
-      method: "POST",
-      body: dataPost,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/deleteImageAndReset", {
+    method: "POST",
+    body: dataPost,
+  });
   const data = await response.json();
 
   const profileImg = document.querySelector(".imgProfile");
@@ -73,9 +70,7 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch(
-          "https://www.emprendeadvisor.com/getUserSession"
-        );
+        const response = await fetch("http://127.0.0.1/getUserSession");
         const data = await response.json();
 
         profileForm.innerHTML = "";
@@ -454,7 +449,7 @@ for (const option of optionsMenu) {
                 class: ["btn", "btn-warning", "mx-lg-2"],
                 type: "list categories",
                 getPath: (id) => {
-                  return `/admin/categories/list/${id}`;
+                  return `/admin/categories/active/list/${id}`;
                 },
                 logo: "bi-list-nested",
               },
@@ -514,27 +509,33 @@ for (const option of optionsMenu) {
 
       if (optionTxt === "Solicitud Categorias") {
         const search = document.createElement("div");
-        search.classList.add("input-group", "mb-3");
-        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar solicitud..." aria-label="Buscar usuario" aria-describedby="basic-addon2">
+        search.classList.add("input-group", "mb-3", "searchBx");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar solicitud..." aria-label="Buscar solicitud" aria-describedby="basic-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
   </div>`;
 
         const headers = [
           { title: "id", name: "id" },
-          { title: "Emprendimiento @ig", name: "ig_url" },
-          { title: "Categoría", name: "category_name" },
-          { title: "Subcategoría", name: "subcategory_name" },
+          { title: "Nombre", name: "name" },
           {
             title: "Actions",
             listActions: [
               {
                 class: ["btn", "btn-success", "mx-lg-2"],
-                type: "accept categories",
+                type: "update categories",
                 getPath: (id) => {
-                  return `/admin/categories/accept/${id}`;
+                  return `/admin/categories/${id}`;
                 },
-                logo: "bi-check2",
+                logo: "bi-pencil",
+              },
+              {
+                class: ["btn", "btn-warning", "mx-lg-2"],
+                type: "list categories",
+                getPath: (id) => {
+                  return `/admin/categories/requested/list/${id}`;
+                },
+                logo: "bi-list-nested",
               },
               {
                 class: ["btn", "btn-danger", "mx-lg-2"],
@@ -542,15 +543,23 @@ for (const option of optionsMenu) {
                 getPath: (id) => {
                   return `/admin/categories/delete/${id}`;
                 },
-                logo: "bi-x-circle",
+                logo: "bi-trash",
+              },
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "delete categories",
+                getPath: (id) => {
+                  return `/admin/categories/approve/${id}`;
+                },
+                logo: "bi-check2-square",
               },
             ],
           },
         ];
 
-        const limit = 5;
+        const limit = 10;
 
-        const path = "/admin/categories";
+        const path = "/admin/categories/requested";
 
         await tableCreate(
           "create",
@@ -573,7 +582,7 @@ for (const option of optionsMenu) {
             option.click();
             return;
           }
-          const path = `/admin/searchUsers/${searchWord}`;
+          const path = `/admin/searchCategories/requested/${searchWord}`;
           tableCreate(
             "search",
             "categories",
@@ -622,7 +631,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
     }
 
     const offset = 0;
-    const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
+    const link = `http://127.0.0.1${path}/${limit}/${offset}`;
 
     const response = await fetch(link);
     const data = await response.json();
@@ -690,9 +699,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
     if (offset < 0) {
       offset = 0;
     }
-    const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
-    );
+    const response = await fetch(`http://127.0.0.1${path}/${limit}/${offset}`);
     const data = await response.json();
     if (typeObj in data) {
       users = data[typeObj];
@@ -708,9 +715,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
 
   if (action === "search") {
     const offset = 0;
-    const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
-    );
+    const response = await fetch(`http://127.0.0.1${path}/${limit}/${offset}`);
     const data = await response.json();
     if (typeObj in data) {
       users = data[typeObj];
@@ -849,7 +854,7 @@ async function actionElement(e, type, url) {
     let data = {};
 
     if (action === "update") {
-      response = await fetch(`https://www.emprendeadvisor.com${url}`);
+      response = await fetch(`http://127.0.0.1${url}`);
       data = await response.json();
     }
     let result = "";
@@ -876,7 +881,7 @@ async function actionElement(e, type, url) {
         select_option.innerHTML = "-- Seleccione para crear subcategoría --";
         field_input.appendChild(select_option);
 
-        response = await fetch(`https://www.emprendeadvisor.com/categories`);
+        response = await fetch(`http://127.0.0.1/categories`);
         data = await response.json();
         categories = data["categories"];
         for (category of categories) {
@@ -935,7 +940,7 @@ async function actionElement(e, type, url) {
   }
 
   if (action === "delete") {
-    const response = await fetch(`https://www.emprendeadvisor.com${url}`);
+    const response = await fetch(`http://127.0.0.1${url}`);
     const data = await response.json();
     let result = "";
     if (dataType in data) {
@@ -999,7 +1004,7 @@ async function updateForm(event, url) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch(`https://www.emprendeadvisor.com${url}`, {
+  const response = await fetch(`http://127.0.0.1${url}`, {
     method: "POST",
     body: form,
   });
@@ -1041,7 +1046,7 @@ async function updateProfile(event) {
   const form = new FormData(event.target);
   /*let response;
   try {
-    response = await fetch("https://www.emprendeadvisor.com/updateProfile", {
+    response = await fetch("http://127.0.0.1/updateProfile", {
       method: "POST",
       body: form,
     });
@@ -1051,7 +1056,7 @@ async function updateProfile(event) {
   const data = await response.json();*/
   let data = {};
 
-  fetch("https://www.emprendeadvisor.com/updateProfile", {
+  fetch("http://127.0.0.1/updateProfile", {
     method: "POST",
     body: form,
   })
@@ -1109,13 +1114,10 @@ async function updatePassword(event) {
     return;
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/updatePassword",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/updatePassword", {
+    method: "POST",
+    body: form,
+  });
   const data = await response.json();
   if ("error" in data) {
     errorLogin.innerText = data.error;
