@@ -12,7 +12,7 @@ loadMoreEmp.addEventListener("submit", async (e) => {
   form.append("offset", offset);
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -47,7 +47,7 @@ empOrderSelector.addEventListener("change", async (e) => {
   form.append("offset", offset);
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -97,7 +97,7 @@ filter1.addEventListener("click", async () => {
   form.append("offset", offset);
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -144,7 +144,7 @@ filter2.addEventListener("click", async () => {
   form.append("offset", offset);
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -201,7 +201,7 @@ function createEmprendimiento(emprendimiento) {
                     >                
                     <img
                     class="img-fluid"
-                    src="https://www.emprendeadvisor.com/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
+                    src="http://18.205.29.39:5001/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
                     alt=""
                   /></a>
                   <div
