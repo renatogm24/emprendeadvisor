@@ -99,10 +99,21 @@ def dashboard():
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
   categoriesList = category.Category.list_all_categories_with_subcategories()
-  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos({"offset":0,"limit":8,"order_by":"promedio"})
   dataMaxMin = emprendimiento.Emprendimiento.get_emprendimientos_max_min({})
   if dataMaxMin["max_promedio"] == None:
     dataMaxMin = {'max_promedio': 0, 'min_promedio': 0, 'max_reviews': 0, 'min_reviews': 0, 'max_followers': 0, 'min_followers': 0}
+  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos({
+    "offset":0,
+    "limit":8,
+    "order_by":"promedio",
+    'max_promedio': dataMaxMin["max_promedio"], 
+    'min_promedio': dataMaxMin["min_promedio"], 
+    'max_reviews': dataMaxMin["max_reviews"], 
+    'min_reviews': dataMaxMin["min_reviews"], 
+    'max_followers': dataMaxMin["max_followers"], 
+    'min_followers': dataMaxMin["min_followers"]
+    })
+  
   totalCuenta = emprendimiento.Emprendimiento.get_emprendimientos_total_count({})
   tipo = "general"
   return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo)
