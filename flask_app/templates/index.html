@@ -56,13 +56,6 @@
               EmprendeAdvisor busca ser el primer directorio digital de
               emprendimientos del Perú
             </p>
-            <button
-              class="btn btn-altdark text-light"
-              data-bs-toggle="modal"
-              data-bs-target="#register"
-            >
-              Registrar
-            </button>
             <a class="btn btn-altdark text-light mx-3" href="/dashboard"
               >Buscar</a
             >
@@ -121,141 +114,96 @@
           </div>
           <div class="col-md-8 col-lg-8">
             <div class="row justify-content-evenly text-light g-4">
-              <div
-                class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
+              <a href="/emprendimientos/category/3">
+                <div
+                  class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
+                >
+                  <img
+                    class="img-fluid"
+                    src="{{ url_for('static', filename='images/burgers.svg') }}"
+                  />
+                  <h5 class="text-center my-3">Comida</h5>
+                </div></a
               >
-                <img
-                  class="img-fluid"
-                  src="{{ url_for('static', filename='images/burgers.svg') }}"
-                />
-                <h5 class="text-center my-3">Comida</h5>
-              </div>
-              <div
-                class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
-              >
-                <img
-                  class="img-fluid"
-                  src="{{ url_for('static', filename='images/mascotas.svg') }}"
-                />
-                <h5 class="text-center my-3">Mascotas</h5>
-              </div>
-              <div
-                class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
-              >
-                <img
-                  class="img-fluid"
-                  src="{{ url_for('static', filename='images/gifts.svg') }}"
-                />
-                <h5 class="text-center my-3">Regalos</h5>
-              </div>
-            </div>
-          </div>
+              <a href="/emprendimientos/category/15">
+                <div
+                  class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
+                >
+                  <img
+                    class="img-fluid"
+                    src="{{ url_for('static', filename='images/mascotas.svg') }}"
+                  />
+                  <h5 class="text-center my-3">Mascotas</h5>
+                </div>
+              </a>
+                    <a href="/emprendimientos/category/21">
+                        <div class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/gifts.svg') }}" />
+                            <h5 class="text-center my-3">Regalos</h5>
+                        </div>
+                    </a>
         </div>
-      </div>
-    </section>
+        </div>
+        </div>
+        </div>
+        </section>
 
-    <section class="footer">
-      <div class="row container">
-        <div class="col-sm-4 text-light text-center">
-          <h4 class="my-4">
-            Emprende<span class="text-tertiary">Advisor</span>
-          </h4>
-          <h5 class="mb-4">Libro de reclamaciones</h5>
-          <img
-            class="img-fluid"
-            style="filter: invert(1)"
-            src="{{ url_for('static', filename='images/facebook.svg') }}"
-          />
-          <img
-            class="img-fluid"
-            style="filter: invert(1)"
-            src="{{ url_for('static', filename='images/instagram.svg') }}"
-          />
-          <img
-            class="img-fluid"
-            style="filter: invert(1)"
-            src="{{ url_for('static', filename='images/tiktok.svg') }}"
-          />
-        </div>
-        <div class="col-sm-4 text-light text-center">
-          <h5 class="text-tertiary my-4">Conocenos</h5>
-          <h5>Acerca de nosotros</h5>
-          <h5>Preguntas frecuentes</h5>
-          <h5>
-            <a class="text-reset text-decoration-none" href="/politica"
-              >Pólitica de privacidad</a
+        <section class="footer">
+            <div class="row container">
+                <div class="col-sm-4 text-light text-center">
+                    <h4 class="my-4">
+                        Emprende<span class="text-tertiary">Advisor</span>
+                    </h4>
+                    <h5 class="mb-4">Libro de reclamaciones</h5>
+                    <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/facebook.svg') }}" />
+                    <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/instagram.svg') }}" />
+                    <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/tiktok.svg') }}" />
+                </div>
+                <div class="col-sm-4 text-light text-center">
+                    <h5 class="text-tertiary my-4">Conocenos</h5>
+                    <h5>Acerca de nosotros</h5>
+                    <h5>Preguntas frecuentes</h5>
+                    <h5>
+                        <a class="text-reset text-decoration-none" href="/politica">Pólitica de privacidad</a
             >
           </h5>
         </div>
         <div class="col-sm-4 text-light text-center">
           <h5 class="text-tertiary my-4">Categorías</h5>
-          <h5>Postres</h5>
-          <h5>Joyería</h5>
-          <h5>Ropa mujer</h5>
-          <h5>Más categorías</h5>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="register"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <form
-            action="/register/user"
-            method="post"
-            id="registerForm"
-            novalidate
-          >
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Registrar</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+          <a href="/emprendimientos/subcategory/29"><h5>Postres</h5></a>
+                        <a href="/emprendimientos/subcategory/71">
+                            <h5>Joyería</h5>
+                        </a>
+                        <a href="/emprendimientos/subcategory/38">
+                            <h5>Ropa mujer</h5>
+                        </a>
+                        <a href="/dashboard">
+                            <h5>Más categorías</h5>
+                        </a>
+                </div>
             </div>
-            <div class="modal-body">
-              <div
-                class="errorRegister bg-warning text-light rounded-3 mb-3 px-3"
-              ></div>
-              <label for="first_name" class="form-label">Nombre:</label>
-              <input
-                type="text"
-                name="first_name"
-                class="form-control"
-                id="first_name"
-              />
-              <label for="last_name" class="form-label">Apellidos:</label>
-              <input
-                type="text"
-                name="last_name"
-                class="form-control"
-                id="last_name"
-              />
-              <label for="email" class="form-label">Correo:</label>
-              <input
-                type="email"
-                name="email"
-                class="form-control"
-                id="email"
-              />
-              <label for="password" class="form-label">Contraseña:</label>
-              <input
-                type="password"
-                name="password"
-                class="form-control"
-                id="password"
-              />
-              <label for="repeat_password" class="form-label"
-                >Repita contraseña:</label
+        </section>
+
+        <!-- Modal -->
+        <div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="/register/user" method="post" id="registerForm" novalidate>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Registrar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="errorRegister bg-warning text-light rounded-3 mb-3 px-3"></div>
+                            <label for="first_name" class="form-label">Nombre:</label>
+                            <input type="text" name="first_name" class="form-control" id="first_name" />
+                            <label for="last_name" class="form-label">Apellidos:</label>
+                            <input type="text" name="last_name" class="form-control" id="last_name" />
+                            <label for="email" class="form-label">Correo:</label>
+                            <input type="email" name="email" class="form-control" id="email" />
+                            <label for="password" class="form-label">Contraseña:</label>
+                            <input type="password" name="password" class="form-control" id="password" />
+                            <label for="repeat_password" class="form-label">Repita contraseña:</label
               >
               <input
                 type="password"
@@ -278,53 +226,39 @@
                     >Terminos y Condiciones</span
                   >
                 </label>
-              </div>
-              <button type="submit" class="btn btn-altdark text-light">
+                        </div>
+                        <button type="submit" class="btn btn-altdark text-light">
                 Registrar
               </button>
+                </div>
+                </form>
             </div>
-          </form>
         </div>
-      </div>
-    </div>
+        </div>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="login"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <form action="/login" method="post" novalidate id="loginForm">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ingresar</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div
-                class="errorLogin bg-warning text-light rounded-3 text-center"
-              ></div>
-              <label for="email" class="form-label">Correo</label>
-              <input type="email" name="email" class="form-control" />
-              <label for="password" class="form-label">Contraseña:</label>
-              <input type="password" name="password" class="form-control" />
-            </div>
-            <div class="modal-footer d-flex flex-column justify-content-center">
-              <button type="submit" class="btn btn-altdark text-light">
+        <!-- Modal -->
+        <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="/login" method="post" novalidate id="loginForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ingresar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="errorLogin bg-warning text-light rounded-3 text-center"></div>
+                            <label for="email" class="form-label">Correo</label>
+                            <input type="email" name="email" class="form-control" />
+                            <label for="password" class="form-label">Contraseña:</label>
+                            <input type="password" name="password" class="form-control" />
+                        </div>
+                        <div class="modal-footer d-flex flex-column justify-content-center">
+                            <button type="submit" class="btn btn-altdark text-light">
                 Ingresar
               </button>
-              <p class="mt-3">
-                ¿No tiene una cuenta?
-                <a href="#" data-bs-toggle="modal" data-bs-target="#register"
-                  >Registrese</a
+                            <p class="mt-3">
+                                ¿No tiene una cuenta?
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#register">Registrese</a
                 >
               </p>
             </div>
