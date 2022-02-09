@@ -1,6 +1,6 @@
-from flask import jsonify,render_template,send_file, request, session
+from flask import jsonify,render_template,send_file, request, session, redirect
 from flask_app import app
-from flask_app.models import emprendimiento, user,category
+from flask_app.models import emprendimiento, user,category, review
 import requests
 import json
 import redis
@@ -103,10 +103,7 @@ def search(igusername):
       return render_template("emprendimiento.html",error=True)
     emprendAux = emprendimiento.Emprendimiento(result)
   else:
-    emprendAux = emprendimiento.Emprendimiento(emprendimientoSearch)
-    categoryEmp = category.Category.get_category_by_id({"id":emprendAux.category_id})
-    emprendAux.categoria = categoryEmp.name
-    emprendAux.subcategoria = categoryEmp.padre
+    return redirect("/emprendimiento/"+str(emprendimientoSearch["id"]))
   userSession = ""
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
@@ -126,10 +123,14 @@ def getById(id):
     emprendAux.subcategoria = categoryEmp.padre
 
   userSession = ""
+  user_session_id = "0"
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
+    user_session_id = userSession.id
   categoriesList = category.Category.list_all_categories_with_subcategories()
-  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList)
+  reviewsList = review.Review.list_reviews_by_id({"id":id,"offset":0,"limit":3,"user_session_id":user_session_id})
+  print(reviewsList)
+  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList, reviewsList=reviewsList)
 
 @app.route('/emprendimientos/category/<int:id>')
 def getCategoriesEmp(id):

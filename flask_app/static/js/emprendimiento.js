@@ -205,3 +205,49 @@ searchForm.addEventListener("submit", async (e) => {
   const formData = new FormData(e.target);
   window.location.href = "/search/" + formData.get("search");
 });
+
+const likesBtns = document.querySelectorAll(".likeButton");
+for (likeBtn of likesBtns) {
+  likeBtn.addEventListener("click", async (e) => {
+    const id_session_hidden =
+      document.querySelector("#id_session_hidden").value;
+    if (id_session_hidden != "0") {
+      let id;
+      let elementStart;
+      if (e.target.tagName == "A") {
+        id = e.target.id;
+        elementStart = e.target;
+      } else if (e.target.tagName == "I") {
+        id = e.target.parentElement.id;
+        elementStart = e.target.parentElement;
+      }
+
+      id = id.split("-")[1];
+
+      const likeButtonIcon = elementStart.querySelector(".likeButtonIcon");
+
+      const elementCount = elementStart.parentElement.parentElement
+        .querySelectorAll(".commentBxMsg")[1]
+        .querySelector(".likesCountSpan");
+
+      if (likeButtonIcon.classList.contains("bi-hand-thumbs-up")) {
+        elementCount.innerHTML = parseInt(elementCount.innerHTML) + 1;
+        likeButtonIcon.classList.remove("bi-hand-thumbs-up");
+        likeButtonIcon.classList.add("bi-hand-thumbs-down");
+      } else {
+        elementCount.innerHTML = parseInt(elementCount.innerHTML) - 1;
+        likeButtonIcon.classList.remove("bi-hand-thumbs-down");
+        likeButtonIcon.classList.add("bi-hand-thumbs-up");
+      }
+
+      const response = await fetch(
+        "https://www.emprendeadvisor.com/like/" + id
+      );
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
+      writeOpinionBtn.click();
+    }
+  });
+}
