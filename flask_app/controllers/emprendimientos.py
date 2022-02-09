@@ -155,7 +155,8 @@ def getCategoriesEmp(id):
   categoryObj = category.Category.get_category_by_id({"id":id})
   tipo = "categoria"
   categoria = categoryObj.name
-  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,categoria=categoria)
+  pathCategory = id
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,categoria=categoria,pathCategory=pathCategory)
 
 
 @app.route('/emprendimientos/subcategory/<int:id>')
@@ -183,7 +184,8 @@ def getSubcategoriesEmp(id):
   tipo = "subcategoria"
   categoria = categoryObj.name
   subcategoria = categoryObj.padre
-  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,subcategoria=subcategoria,categoria=categoria)
+  pathCategory = id
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,subcategoria=subcategoria,categoria=categoria,pathCategory=pathCategory)
 
 @app.route('/img/<path:url>&<params>')
 def image(url,params):

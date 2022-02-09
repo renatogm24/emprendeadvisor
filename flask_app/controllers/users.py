@@ -116,7 +116,8 @@ def dashboard():
   
   totalCuenta = emprendimiento.Emprendimiento.get_emprendimientos_total_count({})
   tipo = "general"
-  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo)
+  pathCategory = "0"
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,pathCategory=pathCategory)
 
 
 @app.route('/getUserSession')
