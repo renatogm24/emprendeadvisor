@@ -163,6 +163,9 @@ filter2.addEventListener("click", async () => {
   }
 
   btn.disabled = false;
+
+  const closeOffCanvas = document.querySelector("#closeOffCanvas");
+  closeOffCanvas.click();
 });
 
 function createEmprendimiento(emprendimiento) {

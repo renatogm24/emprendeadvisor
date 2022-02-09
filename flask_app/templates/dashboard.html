@@ -352,12 +352,14 @@
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtros</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="closeOffCanvas"></button>
                 </div>
                 <div class="offcanvas-body">
                     <div class="col-12">
                         <div class="bg-graytheme p-4 my-3">
-                            <span class="h4 border-start border-5 border-altprimary px-2">CARGADORES</span
+                            <span class="h4 border-start border-5 border-altprimary px-2">{% if tipo == "general" %} GENERAL {% elif tipo == "categoria"
+                %} {{categoria}} {% elif tipo == "subcategoria" %}
+                {{subcategoria}} {% endif %}</span
               >
             </div>
             <div class="bg-graytheme p-4 my-3 filterBx">
