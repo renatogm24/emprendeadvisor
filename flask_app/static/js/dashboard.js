@@ -10,10 +10,13 @@ loadMoreEmp.addEventListener("submit", async (e) => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
-  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 
@@ -42,10 +45,13 @@ empOrderSelector.addEventListener("change", async (e) => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
-  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 
@@ -89,10 +95,13 @@ filter1.addEventListener("click", async () => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
-  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 
@@ -133,10 +142,13 @@ filter2.addEventListener("click", async () => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
-  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 
@@ -185,7 +197,7 @@ function createEmprendimiento(emprendimiento) {
                     >                
                     <img
                     class="img-fluid"
-                    src="http://127.0.0.1/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
+                    src="https://www.emprendeadvisor.com/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
                     alt=""
                   /></a>
                   <div
