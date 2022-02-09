@@ -12,7 +12,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5001/login", {
+  const response = await fetch("https://www.emprendeadvisor.com/login", {
     method: "POST",
     body: form,
     credentials: "same-origin",
@@ -42,11 +42,14 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5001/register/user", {
-    method: "POST",
-    body: form,
-    credentials: "same-origin",
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/register/user",
+    {
+      method: "POST",
+      body: form,
+      credentials: "same-origin",
+    }
+  );
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
@@ -102,7 +105,7 @@ try {
   selectFormClasif.addEventListener("change", async (e) => {
     const categorySelected = e.target.value;
     const response = await fetch(
-      "http://18.205.29.39:5001/subcategories/" + categorySelected
+      "https://www.emprendeadvisor.com/subcategories/" + categorySelected
     );
     const data = await response.json();
     selectFormSubcat.innerHTML = "";
@@ -165,10 +168,13 @@ try {
     }
 
     formData.append("pathname", window.location.pathname);
-    const response = await fetch("http://18.205.29.39:5001/categories/create", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "https://www.emprendeadvisor.com/categories/create",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const data = await response.json();
     if ("error" in data) {
       error.innerHTML = "Ya existe la categoría";
@@ -234,7 +240,9 @@ for (likeBtn of likesBtns) {
         likeButtonIcon.classList.add("bi-hand-thumbs-up");
       }
 
-      const response = await fetch("http://18.205.29.39:5001/like/" + id);
+      const response = await fetch(
+        "https://www.emprendeadvisor.com/like/" + id
+      );
       const data = await response.json();
       console.log(data);
     } else {
