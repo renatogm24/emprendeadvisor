@@ -114,34 +114,28 @@
           </div>
           <div class="col-md-8 col-lg-8">
             <div class="row justify-content-evenly text-light g-4">
-              <a href="/emprendimientos/category/3">
-                <div
-                  class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
-                >
+              <div
+                class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
+              >
+                <a href="/emprendimientos/category/3">
                   <img
                     class="img-fluid"
                     src="{{ url_for('static', filename='images/burgers.svg') }}"
-                  />
-                  <h5 class="text-center my-3">Comida</h5>
-                </div></a
-              >
-              <a href="/emprendimientos/category/15">
-                <div
-                  class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome"
-                >
-                  <img
-                    class="img-fluid"
-                    src="{{ url_for('static', filename='images/mascotas.svg') }}"
-                  />
-                  <h5 class="text-center my-3">Mascotas</h5>
-                </div>
-              </a>
-                    <a href="/emprendimientos/category/21">
-                        <div class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/gifts.svg') }}" />
-                            <h5 class="text-center my-3">Regalos</h5>
-                        </div>
-                    </a>
+                /></a>
+                    <h5 class="text-center my-3">Comida</h5>
+        </div>
+
+        <div class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome">
+            <a href="/emprendimientos/category/15">
+                <img class="img-fluid" src="{{ url_for('static', filename='images/mascotas.svg') }}" /></a>
+            <h5 class="text-center my-3">Mascotas</h5>
+        </div>
+
+        <div class="col-7 col-sm-3 bg-mainblue rounded-3 p-4 categoryBxHome">
+            <a href="/emprendimientos/category/21">
+                <img class="img-fluid" src="{{ url_for('static', filename='images/gifts.svg') }}" /></a>
+            <h5 class="text-center my-3">Regalos</h5>
+        </div>
         </div>
         </div>
         </div>
@@ -171,13 +165,13 @@
         <div class="col-sm-4 text-light text-center">
           <h5 class="text-tertiary my-4">Categorías</h5>
           <a href="/emprendimientos/subcategory/29"><h5>Postres</h5></a>
-                        <a href="/emprendimientos/subcategory/71">
+                        <a class="text-reset text-decoration-none" href="/emprendimientos/subcategory/71">
                             <h5>Joyería</h5>
                         </a>
-                        <a href="/emprendimientos/subcategory/38">
+                        <a class="text-reset text-decoration-none" href="/emprendimientos/subcategory/38">
                             <h5>Ropa mujer</h5>
                         </a>
-                        <a href="/dashboard">
+                        <a class="text-reset text-decoration-none" href="/dashboard">
                             <h5>Más categorías</h5>
                         </a>
                 </div>
