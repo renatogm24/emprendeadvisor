@@ -340,8 +340,7 @@
           </div>
           <div class="col-lg-9 py-2 px-lg-5 d-flex flex-column">
             <h4 class="mb-3">Recientes</h4>
-
-            {% for review in reviewsList %}
+            {% if reviewsList != False %} {% for review in reviewsList %}
             <div class="d-flex flex-column commentBx my-3">
               <div class="d-flex align-items-center">
                 <img
@@ -391,7 +390,7 @@
               </div>
               {% endif %}
             </div>
-            {% endfor %}
+            {% endfor %} {% endif %}
 
             <div class="d-flex flex-column commentBx my-3">
               <div class="d-flex align-items-center">
