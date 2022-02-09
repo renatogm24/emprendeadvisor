@@ -52,6 +52,12 @@ empOrderSelector.addEventListener("change", async (e) => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
+  const pathCategory = document.querySelector("#pathCategory");
+
+  if (pathCategory.value != "0") {
+    form.append("category_id", pathCategory.value);
+  }
+
   const response = await fetch(
     "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
@@ -102,6 +108,12 @@ filter1.addEventListener("click", async () => {
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
 
+  const pathCategory = document.querySelector("#pathCategory");
+
+  if (pathCategory.value != "0") {
+    form.append("category_id", pathCategory.value);
+  }
+
   const response = await fetch(
     "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
@@ -148,6 +160,12 @@ filter2.addEventListener("click", async () => {
 
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
+
+  const pathCategory = document.querySelector("#pathCategory");
+
+  if (pathCategory.value != "0") {
+    form.append("category_id", pathCategory.value);
+  }
 
   const response = await fetch(
     "http://18.205.29.39:5001/emprendimientos/loadmore",
