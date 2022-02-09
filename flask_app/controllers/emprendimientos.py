@@ -95,6 +95,7 @@ def getDataInstagrapi(igusername):
 
 @app.route('/search/<string:igusername>')
 def search(igusername):
+  igusername = igusername.lower()
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch: 
     result = getDataInstagrapi(igusername)
