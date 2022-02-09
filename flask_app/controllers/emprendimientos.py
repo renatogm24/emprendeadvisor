@@ -104,10 +104,14 @@ def search(igusername):
     emprendAux = emprendimiento.Emprendimiento(result)
   else:
     emprendAux = emprendimiento.Emprendimiento(emprendimientoSearch)
+    categoryEmp = category.Category.get_category_by_id({"id":emprendAux.category_id})
+    emprendAux.categoria = categoryEmp.name
+    emprendAux.subcategoria = categoryEmp.padre
   userSession = ""
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
   categoriesList = category.Category.list_all_categories_with_subcategories()
+
   return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList)
 
 @app.route('/emprendimiento/<int:id>')
