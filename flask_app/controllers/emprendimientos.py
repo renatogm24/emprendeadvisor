@@ -218,6 +218,9 @@ def loadmore():
     "min_followers" : int(request.form["min_followers"]),
     "max_followers" : int(request.form["max_followers"])
   }
+
+  if "category_id" in request.form:
+    data["category_id"] = request.form["category_id"]
   
   emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos(data)
   endList = False
