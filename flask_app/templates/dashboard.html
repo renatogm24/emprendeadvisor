@@ -138,16 +138,31 @@
     </nav>
     <section class="container-fluid catologoBx">
       <div class="container">
+        {% if tipo != "general" %}
         <div class="row my-3">
           <div class="col-12">
-            <span>Celulares</span><span class="mx-3">></span
-            ><span>Cargadores</span>
+            {% if tipo == "categoria" %}
+            <span>{{categoria}}</span>
+
+            {% elif tipo == "subcategoria" %}
+            <span>{{subcategoria}}</span><span class="mx-3">></span
+            ><span>{{categoria}}</span>
+
+            {% endif %}
           </div>
         </div>
+        {% endif %}
         <div
           class="row my-3 justify-content-between border-bottom border-dark pb-0 pb-lg-3 align-items-center"
         >
-          <div class="col-12 col-lg-6">273 Resultados en Cargadores</div>
+          {% if tipo == "general" %}
+          <div class="col-12 col-lg-6">
+            {{totalCuenta}} Resultados en General
+          </div>
+          {% else %} {% if tipo == "categoria" %}{{totalCuenta}} Resultados en
+          {{categoria}} {% elif tipo == "subcategoria" %} {{totalCuenta}}
+          Resultados en {{subcategoria}} {% endif %} {% endif %}
+
           <a
             class="btn btn-altprimary col-6 d-lg-none text-light my-3"
             data-bs-toggle="offcanvas"
@@ -158,23 +173,25 @@
             Filtros
           </a>
             <div class="col-6 col-lg-3 ms-auto">
-                <select class="form-select shadow-none ms-auto" aria-label="Default select example">
-              <option value="menor">Más comentados</option>
-              <option value="mayor">Más followers</option>
-              <option value="recomendados" selected>Recomendados</option>
+                <select class="form-select shadow-none ms-auto" aria-label="Default select example" id="empOrderSelector">
+              <option value="cuenta">Más comentados</option>
+              <option value="follower_count">Más followers</option>
+              <option value="promedio" selected>Recomendados</option>
             </select>
             </div>
             </div>
             <div class="row">
                 <div class="d-none d-lg-block col-lg-3">
                     <div class="bg-graytheme p-4 my-3">
-                        <span class="h4 border-start border-5 border-altprimary px-2">CARGADORES</span
-              >
-            </div>
-            <div class="bg-graytheme p-4 my-3 filterBx">
-              <div class="applyFilters">
-                <a class="btn btn-primary text-light w-100" href="#"
-                  >Aplicar filtros</a
+                        <span class="h4 border-start border-5 border-altprimary px-2">
+                {% if tipo == "general" %} GENERAL {% elif tipo == "categoria"
+                %} {{categoria}} {% elif tipo == "subcategoria" %}
+                {{subcategoria}} {% endif %}
+              </span>
+                    </div>
+                    <div class="bg-graytheme p-4 my-3 filterBx">
+                        <div class="applyFilters">
+                            <a class="btn btn-primary text-light w-100" href="#" id="filter1">Aplicar filtros</a
                 >
               </div>
               <div class="d-flex my-4">
@@ -184,220 +201,149 @@
               <div class="wrapper-slider">
                 <div class="values-slider">
                   <span id="range1"> 0 </span>
-                        <span> &dash; </span>
-                        <span id="range2"> 5 </span>
-                        <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
+                  <span> &dash; </span>
+                  <span id="range2"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-star-fill starIcon"></i
                   ></span>
-                    </div>
-                    <div class="container-slider">
-                        <div class="slider-track"></div>
-                        <input type="range" min="0" max="500" value="0" id="slider-1" oninput="slideOne()" />
-                        <input type="range" min="0" max="500" value="500" id="slider-2" oninput="slideTwo()" />
-                    </div>
                 </div>
-                <div class="d-flex my-4">
-                    <i class="bi bi-sliders"></i>
-                    <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_promedio*100}}"
+                    value="{{dataMaxMin.min_promedio*100}}"
+                    id="slider-1"
+                    oninput="slideOne()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_promedio*100}}"
+                    value="{{dataMaxMin.max_promedio*100}}"
+                    id="slider-2"
+                    oninput="slideTwo()"
+                  />
                 </div>
-                <div class="wrapper-slider">
-                    <div class="values-slider">
-                        <span id="range3"> 0 </span>
-                        <span> &dash; </span>
-                        <span id="range4"> 5 </span>
-                        <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
+              </div>
+              <div class="d-flex my-4">
+                <i class="bi bi-sliders"></i>
+                <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
+              </div>
+              <div class="wrapper-slider">
+                <div class="values-slider">
+                  <span id="range3"> 0 </span>
+                  <span> &dash; </span>
+                  <span id="range4"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-chat-left-quote-fill starIcon"></i
                   ></span>
-                    </div>
-                    <div class="container-slider">
-                        <div class="slider-track"></div>
-                        <input type="range" min="0" max="500" value="0" id="slider-3" oninput="slide3()" />
-                        <input type="range" min="0" max="500" value="200" id="slider-4" oninput="slide4()" />
-                    </div>
                 </div>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_reviews}}"
+                    value="{{dataMaxMin.min_reviews}}"
+                    id="slider-3"
+                    oninput="slide3()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_reviews}}"
+                    value="{{dataMaxMin.max_reviews}}"
+                    id="slider-4"
+                    oninput="slide4()"
+                  />
+                </div>
+              </div>
 
-                <div class="d-flex my-4">
-                    <i class="bi bi-sliders"></i>
-                    <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
-                </div>
-                <div class="wrapper-slider">
-                    <div class="values-slider">
-                        <span id="range5"> 0 </span>
-                        <span> &dash; </span>
-                        <span id="range6"> 5 </span>
-                        <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
+              <div class="d-flex my-4">
+                <i class="bi bi-sliders"></i>
+                <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
+              </div>
+              <div class="wrapper-slider">
+                <div class="values-slider">
+                  <span id="range5"> 0 </span>
+                  <span> &dash; </span>
+                  <span id="range6"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-people-fill starIcon"></i
                   ></span>
-                    </div>
-                    <div class="container-slider">
-                        <div class="slider-track"></div>
-                        <input type="range" min="0" max="20000" value="0" id="slider-5" oninput="slide5()" />
-                        <input type="range" min="0" max="20000" value="5700" id="slider-6" oninput="slide6()" />
-                    </div>
                 </div>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_followers}}"
+                    value="{{dataMaxMin.min_followers}}"
+                    id="slider-5"
+                    oninput="slide5()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_followers}}"
+                    value="{{dataMaxMin.max_followers}}"
+                    id="slider-6"
+                    oninput="slide6()"
+                  />
+                </div>
+              </div>
             </div>
-            </div>
+          </div>
 
-            <div class="col-12 col-lg-9">
-                <div class="row justify-content-evenly">
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
+          <div class="col-12 col-lg-9">
+            <div class="row justify-content-evenly" id="emprendimientosBx">
+              {% if emprendimientoList != False %} {% for emprendimiento in
+              emprendimientoList %}
+              <div class="col-6 col-lg-3 my-2 empreBox">
+                <div class="bg-graytheme p-2">
+                  <a
+                    href="/emprendimiento/{{emprendimiento.id}}"
+                    style="cursor: pointer"
+                  >
+                    <img
+                      class="img-fluid"
+                      src="http://127.0.0.1/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
+                      alt=""
+                    />
+                  </a>
 
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
                             <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
+                                <span class="h6" style="line-height: 1.5em; height: 3em; overflow: hidden">{{emprendimiento.full_name}}</span
+                    >
+                    <span class="h6"><i class="bi bi-heart starIcon"></i></span>
                             </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
+                            <p class="my-0 textCardEmpre">{{emprendimiento.biography}}</p>
                             <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
+                                {% set stars = emprendimiento.promedio|round|int %} {% set remain = 5 - stars %} {% for n in range(stars) %}
+                                <i class="bi bi-star-fill mx-1"></i> {% endfor %} {% for n in range(remain) %} <i class="bi bi-star mx-1"></i> {% endfor %}
                             </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
+                            <div class="mt-3 textCardEmpre">
+                                {% if emprendimiento.cuenta == 0 %} Sin calificar {% elif emprendimiento.cuenta == 1 %} (1 calificación) {% else %} ({{emprendimiento.cuenta}} calificaciones) {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3 my-2">
-                        <div class="bg-graytheme p-2">
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/product.jpg') }}" alt="" />
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6">Rumbero</span>
-                                <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">
-                                ¡Para todos los rumberos que lleven la salsa en la piel! Ropa salsera del Perú Hecho en algodón peruano Envíos gratis a todo el Perú
-                            </p>
-                            <div class="my-1 text-yellowstar">
-                                <i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i
-                    ><i class="bi bi-star-fill mx-1"></i>
-                            </div>
-                            <div class="mt-3 textCardEmpre">(45 calificaciones)</div>
-                        </div>
-                    </div>
+                    {% endfor %} {% endif %}
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <form action="" id="loadMoreEmp">
+                        <input type="hidden" name="order_by" value="promedio" id="order_by" />
+                        <input type="hidden" name="min_promedio" value="{{dataMaxMin.min_promedio}}" id="min_promedio" />
+                        <input type="hidden" name="max_promedio" value="{{dataMaxMin.max_promedio}}" id="max_promedio" />
+                        <input type="hidden" name="min_reviews" value="{{dataMaxMin.min_reviews}}" id="min_reviews" />
+                        <input type="hidden" name="max_reviews" value="{{dataMaxMin.max_reviews}}" id="max_reviews" />
+                        <input type="hidden" name="min_followers" value="{{dataMaxMin.min_followers}}" id="min_followers" />
+                        <input type="hidden" name="max_followers" value="{{dataMaxMin.max_followers}}" id="max_followers" />
+                        <button type="submit" class="btn btn-altdark text-light btnLoadMoreEmp">
+                  Cargar más emprendimientos
+                </button>
+                    </form>
                 </div>
             </div>
             </div>
@@ -416,7 +362,10 @@
             </div>
             <div class="bg-graytheme p-4 my-3 filterBx">
               <div class="applyFilters">
-                <a class="btn btn-primary text-light w-100" href="#"
+                <a
+                  class="btn btn-primary text-light w-100"
+                  href="#"
+                  id="filter2"
                   >Aplicar filtros</a
                 >
               </div>
@@ -434,8 +383,8 @@
                         </div>
                         <div class="container-slider">
                             <div class="slider-track"></div>
-                            <input type="range" min="0" max="500" value="0" id="slider-7" oninput="slide7()" />
-                            <input type="range" min="0" max="500" value="500" id="slider-8" oninput="slide8()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.min_promedio*100}}" id="slider-7" oninput="slide7()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.max_promedio*100}}" id="slider-8" oninput="slide8()" />
                         </div>
                     </div>
                     <div class="d-flex my-4">
@@ -452,8 +401,8 @@
                         </div>
                         <div class="container-slider">
                             <div class="slider-track"></div>
-                            <input type="range" min="0" max="500" value="0" id="slider-9" oninput="slide9()" />
-                            <input type="range" min="0" max="500" value="200" id="slider-10" oninput="slide10()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.min_reviews}}" id="slider-9" oninput="slide9()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.max_reviews}}" id="slider-10" oninput="slide10()" />
                         </div>
                     </div>
 
@@ -471,8 +420,8 @@
                         </div>
                         <div class="container-slider">
                             <div class="slider-track"></div>
-                            <input type="range" min="0" max="20000" value="0" id="slider-11" oninput="slide11()" />
-                            <input type="range" min="0" max="20000" value="5700" id="slider-12" oninput="slide12()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.min_followers}}" id="slider-11" oninput="slide11()" />
+                            <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.max_followers}}" id="slider-12" oninput="slide12()" />
                         </div>
                     </div>
                 </div>
@@ -646,6 +595,11 @@
         </div>
       </div>
     </div>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
 
     <script
       type="text/javascript"

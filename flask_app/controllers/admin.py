@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, session, jsonify, url_for
-from flask_app.models import user, category
+from flask_app.models import user, category, emprendimiento
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -334,6 +334,7 @@ def createCategories():
 def deleteCategory(id):
     if 'level' in session and session["level"] != 9:
       return redirect("/")
+    emprendimiento.Emprendimiento.delete({"id":id})
     category.Category.delete_subcategories({"id":id})
     category_deleted = category.Category.delete_category({"id":id})
     response = {

@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, session, jsonify, url_for
-from flask_app.models import user, image, category
+from flask_app.models import user, image, category, emprendimiento
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -99,7 +99,11 @@ def dashboard():
   if 'user_id' in session:
     userSession = user.User.get_user_by_id({"id":session["user_id"]})
   categoriesList = category.Category.list_all_categories_with_subcategories()
-  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList)
+  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos({"offset":0,"limit":8,"order_by":"promedio"})
+  dataMaxMin = emprendimiento.Emprendimiento.get_emprendimientos_max_min({})
+  totalCuenta = emprendimiento.Emprendimiento.get_emprendimientos_total_count({})
+  tipo = "general"
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo)
 
 
 @app.route('/getUserSession')

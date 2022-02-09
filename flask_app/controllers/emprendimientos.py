@@ -109,6 +109,57 @@ def search(igusername):
   categoriesList = category.Category.list_all_categories_with_subcategories()
   return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList)
 
+@app.route('/emprendimiento/<int:id>')
+def getById(id):
+  emprendimientoSearch = emprendimiento.Emprendimiento.search_by_id({"id":id})
+  if not emprendimientoSearch: 
+    return render_template("emprendimiento.html",error=True)
+  else:
+    emprendAux = emprendimiento.Emprendimiento(emprendimientoSearch)
+    categoryEmp = category.Category.get_category_by_id({"id":emprendAux.category_id})
+    emprendAux.categoria = categoryEmp.name
+    emprendAux.subcategoria = categoryEmp.padre
+
+  userSession = ""
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  categoriesList = category.Category.list_all_categories_with_subcategories()
+  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList)
+
+@app.route('/emprendimientos/category/<int:id>')
+def getCategoriesEmp(id):
+  userSession = ""
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  categoriesList = category.Category.list_all_categories_with_subcategories()
+  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos({"offset":0,"limit":8,"order_by":"promedio","category_id":id})
+  dataMaxMin = emprendimiento.Emprendimiento.get_emprendimientos_max_min({"category_id":id})
+  if dataMaxMin["max_promedio"] == None:
+    dataMaxMin = {'max_promedio': 0, 'min_promedio': 0, 'max_reviews': 0, 'min_reviews': 0, 'max_followers': 0, 'min_followers': 0}
+  totalCuenta = emprendimiento.Emprendimiento.get_emprendimientos_total_count({"category_id":id})
+  categoryObj = category.Category.get_category_by_id({"id":id})
+  tipo = "categoria"
+  categoria = categoryObj.name
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,categoria=categoria)
+
+
+@app.route('/emprendimientos/subcategory/<int:id>')
+def getSubcategoriesEmp(id):
+  userSession = ""
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+  categoriesList = category.Category.list_all_categories_with_subcategories()
+  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos({"offset":0,"limit":8,"order_by":"promedio","category_id":id})
+  dataMaxMin = emprendimiento.Emprendimiento.get_emprendimientos_max_min({"category_id":id})
+  if dataMaxMin["max_promedio"] == None:
+    dataMaxMin = {'max_promedio': 0, 'min_promedio': 0, 'max_reviews': 0, 'min_reviews': 0, 'max_followers': 0, 'min_followers': 0}
+  totalCuenta = emprendimiento.Emprendimiento.get_emprendimientos_total_count({"category_id":id})
+  categoryObj = category.Category.get_category_by_id({"id":id})
+  tipo = "subcategoria"
+  categoria = categoryObj.name
+  subcategoria = categoryObj.padre
+  return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,subcategoria=subcategoria,categoria=categoria)
+
 @app.route('/img/<path:url>&<params>')
 def image(url,params):
     image_url = "{}?{}".format(url, params)    
@@ -124,3 +175,37 @@ def image(url,params):
         redis_server.setex(image_url, (60*60*24*7),buffer_image.getvalue())
         print("Get from API")
     return send_file(buffer_image, mimetype='image/jpeg')
+
+@app.route('/emprendimientos/loadmore', methods = ["POST"])
+def loadmore():
+  limit = 8
+
+  data = {
+    "offset" : int(request.form["offset"]),
+    "limit" : limit,
+    "order_by" : request.form["order_by"],
+    "min_promedio" : float(request.form["min_promedio"]),
+    "max_promedio" : float(request.form["max_promedio"]),
+    "min_reviews" : int(request.form["min_reviews"]),
+    "max_reviews" : int(request.form["max_reviews"]),
+    "min_followers" : int(request.form["min_followers"]),
+    "max_followers" : int(request.form["max_followers"])
+  }
+  
+  emprendimientoList = emprendimiento.Emprendimiento.get_emprendimientos(data)
+  endList = False
+  
+  if emprendimientoList == False:
+    response = {
+      "emprendimientos" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  if len(emprendimientoList) < limit:
+    endList = True
+  response = {
+      "emprendimientos" : list(map(lambda x : x.get_info_raw(), emprendimientoList)), 
+      "endList" : endList
+    }
+  return jsonify(response)

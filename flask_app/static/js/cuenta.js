@@ -518,6 +518,7 @@ for (const option of optionsMenu) {
         const headers = [
           { title: "id", name: "id" },
           { title: "Nombre", name: "name" },
+          { title: "Usuario IG", name: "emprendimiento" },
           {
             title: "Actions",
             listActions: [
@@ -779,7 +780,14 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
           trow2.appendChild(tdata4);
         } else {
           const tdata = document.createElement("td");
-          tdata.innerText = user[element.name];
+          if (element.name === "emprendimiento") {
+            tdata.innerHTML = `<a href="https://www.instagram.com/${
+              user[element.name]
+            }" target="_blank">${user[element.name]}</a>`;
+          } else {
+            tdata.innerText = user[element.name];
+          }
+
           trow2.appendChild(tdata);
         }
       }

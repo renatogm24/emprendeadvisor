@@ -8,6 +8,8 @@ class Category:
         self.category_id = data['category_id']
         self.level = data["level"]
         self.subcategories = []
+        self.emprendimiento = ""
+        self.padre = ""
 
     def get_info_raw(self):
       data = {
@@ -16,6 +18,7 @@ class Category:
           'is_active': self.is_active,
           'category_id': self.category_id,
           'level': self.level,
+          'emprendimiento' : self.emprendimiento
       }
       return data
     
@@ -65,17 +68,27 @@ class Category:
 
     @classmethod
     def list_categories(cls, data ):
-        if data["category_id"] == "":
-          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = %(is_active)s and c1.level = %(level)s and c2.name is NULL limit %(offset)s,%(limit)s;"
+        if data["is_active"] != 0:
+          if data["category_id"] == "":
+            query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s and c1.level = %(level)s and c2.name is NULL group by c1.id limit %(offset)s,%(limit)s;"
+          else:
+            query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s and c1.level = %(level)s and c1.category_id = %(category_id)s group by c1.id limit %(offset)s,%(limit)s;"
         else:
-          query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.is_active = %(is_active)s and c1.level = %(level)s and c1.category_id = %(category_id)s limit %(offset)s,%(limit)s;"
+          if data["category_id"] == "":
+            query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s  group by c1.id limit %(offset)s,%(limit)s;"
+          else:
+            query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s  and c1.category_id = %(category_id)s group by c1.id limit %(offset)s,%(limit)s;"
+        
         results = connectToMySQL('emprendeadvisor').query_db( query, data )
         if not results:
           return False
         else:
           categories = []
           for categorie in results:
-            categories.append(cls(categorie))
+            newCategory = cls(categorie)
+            if "username" in categorie:
+                newCategory.emprendimiento = categorie["username"]
+            categories.append(newCategory)
         return categories
 
     @classmethod
@@ -98,6 +111,17 @@ class Category:
           return False
         else:
           category = cls(results[0])
+        return category
+
+    @classmethod
+    def get_category_by_id(cls, data ):        
+        query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.id = %(id)s ;"
+        results = connectToMySQL('emprendeadvisor').query_db( query, data)
+        if not results:
+          return False
+        else:
+          category = cls(results[0])
+          category.padre = results[0]["c2.name"]
         return category
 
     @classmethod
