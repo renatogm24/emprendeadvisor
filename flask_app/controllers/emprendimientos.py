@@ -174,11 +174,11 @@ def createcomment():
   
   data = {
     "rating": request.form["rating"],
-    "title": request.form["title"],
+    "title": request.form["title"].replace("%", " por ciento"),
     "departamento": request.form["departamento"],
     "provincia": request.form["provincia"],
     "distrito": request.form["distrito"],
-    "comment": request.form["comment"],
+    "comment": request.form["comment"].replace("%", " por ciento"),
     "emprendimiento_id": request.form["emprendimiento_id"],
     "user_id":session["user_id"]
   }
