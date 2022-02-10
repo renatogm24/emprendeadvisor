@@ -36,9 +36,7 @@ try {
     const formData = new FormData(e.target);
     window.location.href = "/search/" + formData.get("search");
   });
-} catch (error) {
-  console.log("Error");
-}
+} catch (error) {}
 
 const registerForm = document.querySelector("#registerForm");
 registerForm.addEventListener("submit", async (e) => {

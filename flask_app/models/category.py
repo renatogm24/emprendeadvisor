@@ -210,9 +210,7 @@ class Category:
     def validate_category(category):
       is_valid = True 
       errors = []
-      print(category["level"])
       if category["level"] == "1":        
-        print(category["category_id"])
         if category["category_id"] != "0":
           errors.append("Categoria 1 no puede depender de otra Categoria 1")
           is_valid = False

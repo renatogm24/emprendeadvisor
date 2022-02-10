@@ -1,5 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app.models import user
+from flask_app.models import user, image
 
 class Review:
     def __init__( self , data ):
@@ -21,6 +21,7 @@ class Review:
         else:
           self.likesCount = 0
         self.isLikedBySession = False
+        self.images = ""
 
     def get_info_raw(self):
       data = {
@@ -40,9 +41,48 @@ class Review:
       }
       return data
 
+    def get_info_raw_w_user(self):
+
+      if self.images == []:
+        imagesAux = []
+      else:
+        imagesAux = list(map( lambda x : x.get_info_raw(), self.images ))
+
+      data = {
+          'id': self.id,
+          'rating': self.rating,
+          'title': self.title,
+          'departamento': self.departamento,
+          'provincia': self.provincia,
+          'distrito' : self.distrito,
+          'comment' : self.comment,
+          'emprendimiento_id' : self.emprendimiento_id,
+          'user_id' : self.user_id,
+          'created_at' : self.created_at,
+          'updated_at' : self.updated_at,
+          'likesCount' : self.likesCount,
+          'isLikedBySession': self.isLikedBySession,
+          'user' : self.user.get_info_raw(),
+          'images' : imagesAux
+      }
+      return data
+    
+    @classmethod
+    def save(cls, data ):
+        query = "INSERT INTO reviews (rating, title, departamento , provincia, distrito, comment, emprendimiento_id, user_id, created_at, updated_at ) VALUES ( %(rating)s , %(title)s ,%(departamento)s ,%(provincia)s, %(distrito)s , %(comment)s ,%(emprendimiento_id)s ,%(user_id)s, NOW(), NOW());"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
+    def createReport(cls, data ):
+        query = "INSERT INTO reports (text, review_id, user_id ) VALUES ( %(text)s , %(review_id)s ,%(user_id)s);"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
     @classmethod
     def list_reviews_by_id(cls, data):
-        query = "SELECT *, count(l.id) as likesCount FROM reviews r left join likes l on r.id = l.review_id where r.emprendimiento_id = %(id)s group by r.id limit %(offset)s,%(limit)s;"
+        if "rating" not in data or data["rating"] == "0":
+          query = "SELECT *, count(l.id) as likesCount FROM reviews r left join likes l on r.id = l.review_id where r.emprendimiento_id = %(id)s group by r.id order by r.created_at DESC limit %(offset)s,%(limit)s;"
+        else:
+          query = "SELECT *, count(l.id) as likesCount FROM reviews r left join likes l on r.id = l.review_id where r.emprendimiento_id = %(id)s and r.rating = %(rating)s group by r.id order by r.created_at DESC limit %(offset)s,%(limit)s;"
         results = connectToMySQL('emprendeadvisor').query_db( query, data )
         if not results:
           return False
@@ -51,6 +91,11 @@ class Review:
           for review in results:
             newReview = cls(review)
             newReview.user = user.User.get_user_by_id({"id": newReview.user_id})
+            imagesAux = image.Image.get_images_by_review_id({"id":newReview.id})
+            if not imagesAux:
+              newReview.images = []
+            else:
+              newReview.images = imagesAux
             if cls.exist({"user_id":data["user_session_id"],"review_id":newReview.id}):
               newReview.isLikedBySession = True
             reviews.append(newReview)
@@ -84,209 +129,68 @@ class Review:
     def like(cls, data):
         query = "INSERT INTO likes (user_id,review_id) values (%(user_id)s,%(review_id)s);"
         connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
+    def get_opiniones(cls, data):
+        query = "SELECT *, count(rating) as ratingGroup FROM reviews where emprendimiento_id = %(id)s group by rating;"
+        results = connectToMySQL('emprendeadvisor').query_db( query, data )
+        data = {
+          "5":0,
+          "4":0,
+          "3":0,
+          "2":0,
+          "1":0,
+        }
+        if not results:
+          return data
+        else:
+          totalCount = 0
+          for result in results:
+            if result["rating"] == 5:
+              totalCount += result["ratingGroup"]
+            if result["rating"] == 4:
+              totalCount += result["ratingGroup"]
+            if result["rating"] == 3:
+              totalCount += result["ratingGroup"]
+            if result["rating"] == 2:
+              totalCount += result["ratingGroup"]
+            if result["rating"] == 1:
+              totalCount += result["ratingGroup"]
+          for result in results:
+            if result["rating"] == 5:
+              data["5"] = result["ratingGroup"]/totalCount*100
+            if result["rating"] == 4:
+              data["4"] = result["ratingGroup"]/totalCount*100
+            if result["rating"] == 3:
+              data["3"] = result["ratingGroup"]/totalCount*100
+            if result["rating"] == 2:
+              data["2"] = result["ratingGroup"]/totalCount*100
+            if result["rating"] == 1:
+              data["1"] = result["ratingGroup"]/totalCount*100
+        return data
+
+    @staticmethod
+    def validate(form):
+      is_valid = True 
+      errors = []
+      if form["rating"] == "0":
+        errors.append("Tiene que elegir un puntaje")
+        is_valid = False
+      if len(form["title"])<3:
+        errors.append("El titulo no puede tener menos de 3 caracteres")
+        is_valid = False
+      if form["departamento"] == "":
+        errors.append("Debes elegir un departamento")
+        is_valid = False
+      if form["provincia"] == "":
+        errors.append("Debes elegir un provincia")
+        is_valid = False
+      if form["distrito"] == "":
+        errors.append("Debes elegir un distrito")
+        is_valid = False
+      if len(form["comment"])<5:
+        errors.append("El comentario no puede tener menos de 5 caracteres")
+        is_valid = False
+      return (is_valid,errors)
     
-    # @classmethod
-    # def save_category(cls, data ):
-    #     if data["category_id"] == "0":
-    #       query = "INSERT INTO categories (name, is_active, level) VALUES ( %(name)s, %(is_active)s, %(level)s  );"
-    #     else:
-    #       query = "INSERT INTO categories (name, is_active, category_id, level) VALUES ( %(name)s, %(is_active)s, %(category_id)s, %(level)s  );"
-    #     return connectToMySQL('emprendeadvisor').query_db( query, data )
-
-    # @classmethod
-    # def updateCategoryAll(cls, data ):
-    #     if data["category_id"] == "0":
-    #       query = "UPDATE categories SET name = %(name)s  WHERE id = %(id)s;"
-    #     else:
-    #       query = "UPDATE categories SET name = %(name)s ,category_id = %(category_id)s WHERE id = %(id)s;"
-    #     return connectToMySQL('emprendeadvisor').query_db( query, data )
-
-    # @classmethod
-    # def approveCategory(cls, data ):
-    #     query = "UPDATE categories SET is_active = 1 WHERE category_id = %(id)s or id = %(id)s;"
-    #     return connectToMySQL('emprendeadvisor').query_db( query, data )
-
-    # @classmethod
-    # def delete_category(cls, data ):
-    #     query = "DELETE FROM categories where id = %(id)s;"
-    #     return connectToMySQL('emprendeadvisor').query_db( query, data )
-
-    # @classmethod
-    # def delete_subcategories(cls, data ):
-    #     query = "DELETE FROM categories where category_id = %(id)s;"
-    #     return connectToMySQL('emprendeadvisor').query_db( query, data )
     
-    # @classmethod
-    # def exist_category(cls, data ):
-    #     if data["category_id"] == "0":
-    #       query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.name = %(name)s and c2.id is NULL;"
-    #     else:
-    #       query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.name = %(name)s and c2.id = %(category_id)s;"
-    #     result = connectToMySQL('emprendeadvisor').query_db( query, data )
-    #     if not result:
-    #       result = False
-    #     else:
-    #       result = True
-    #     return result
-
-    # @classmethod
-    # def list_categories(cls, data ):
-    #     if data["is_active"] != 0:
-    #       if data["category_id"] == "":
-    #         query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s and c1.level = %(level)s and c2.name is NULL group by c1.id limit %(offset)s,%(limit)s;"
-    #       else:
-    #         query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s and c1.level = %(level)s and c1.category_id = %(category_id)s group by c1.id limit %(offset)s,%(limit)s;"
-    #     else:
-    #       if data["category_id"] == "":
-    #         query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s  group by c1.id limit %(offset)s,%(limit)s;"
-    #       else:
-    #         query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id left join emprendimientos emp on c1.id = emp.category_id where c1.is_active = %(is_active)s  and c1.category_id = %(category_id)s group by c1.id limit %(offset)s,%(limit)s;"
-        
-    #     results = connectToMySQL('emprendeadvisor').query_db( query, data )
-    #     if not results:
-    #       return False
-    #     else:
-    #       categories = []
-    #       for categorie in results:
-    #         newCategory = cls(categorie)
-    #         if "username" in categorie:
-    #             newCategory.emprendimiento = categorie["username"]
-    #         categories.append(newCategory)
-    #     return categories
-
-    # @classmethod
-    # def list_all_categories(cls ):        
-    #     query = "SELECT * FROM categories where level = 1 and is_active = 1;"
-    #     results = connectToMySQL('emprendeadvisor').query_db( query)
-    #     if not results:
-    #       return False
-    #     else:
-    #       categories = []
-    #       for categorie in results:
-    #         categories.append(cls(categorie))
-    #     return categories
-
-    # @classmethod
-    # def get_category_by_name(cls, data ):        
-    #     query = "SELECT * FROM categories where level = 1 and name = %(name)s ;"
-    #     results = connectToMySQL('emprendeadvisor').query_db( query, data)
-    #     if not results:
-    #       return False
-    #     else:
-    #       category = cls(results[0])
-    #     return category
-
-    # @classmethod
-    # def get_category_by_id(cls, data ):        
-    #     query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.id = %(id)s ;"
-    #     results = connectToMySQL('emprendeadvisor').query_db( query, data)
-    #     if not results:
-    #       return False
-    #     else:
-    #       category = cls(results[0])
-    #       category.padre = results[0]["c2.name"]
-    #     return category
-
-    # @classmethod
-    # def list_subcategories(cls, data ):        
-    #     query = "SELECT * FROM categories where level = 2 and category_id = %(id)s and is_active = 1;"
-    #     results = connectToMySQL('emprendeadvisor').query_db( query, data)
-    #     if not results:
-    #       return False
-    #     else:
-    #       categories = []
-    #       for categorie in results:
-    #         categories.append(cls(categorie))
-    #     return categories
-
-    # @classmethod
-    # def list_all_categories_with_subcategories(cls):
-    #     query = "SELECT * FROM categories c1 left join categories c2 on c1.category_id = c2.id where c1.level = 2 and c1.is_active = 1;"
-    #     results = connectToMySQL('emprendeadvisor').query_db( query)
-    #     if not results:
-    #       return False
-    #     else:
-    #       categories = []
-    #       for categorie in results:
-    #         exists = False
-    #         index = 0
-    #         found = ""
-    #         for cataux in categories:
-    #           if cataux.id == categorie["category_id"]:
-    #             exists = True
-    #             found = index
-    #           index +=1
-    #         if exists:
-    #           dataSub = {
-    #             "id" : categorie["id"],
-    #             "name" : categorie["name"],
-    #             "is_active" : categorie["is_active"],
-    #             "category_id" : categorie["category_id"],
-    #             "level" : categorie["level"],
-    #           }
-    #           categories[found].subcategories.append(cls(dataSub))
-    #         else:
-    #           dataCat = {
-    #             "id" : categorie["c2.id"],
-    #             "name" : categorie["c2.name"],
-    #             "is_active" : categorie["c2.is_active"],
-    #             "category_id" : categorie["c2.category_id"],
-    #             "level" : categorie["c2.level"],
-    #           }
-    #           categoryObj = cls(dataCat)
-    #           dataSub = {
-    #             "id" : categorie["id"],
-    #             "name" : categorie["name"],
-    #             "is_active" : categorie["is_active"],
-    #             "category_id" : categorie["category_id"],
-    #             "level" : categorie["level"],
-    #           }
-    #           categoryObj.subcategories.append(cls(dataSub))
-    #           categories.append(categoryObj)
-    #     return categories
-
-    # @classmethod
-    # def get_category(cls, data ):
-    #     query = "SELECT * FROM categories where id = %(id)s;"
-    #     result = connectToMySQL('emprendeadvisor').query_db( query, data )
-    #     if not result:
-    #       return result
-    #     else:
-    #       result = cls(result[0])
-    #     return result
-
-    # @classmethod
-    # def get_categories_like(cls,data):
-    #     if data["category_id"] == "":
-    #       query = "SELECT * FROM categories WHERE is_active = %(is_active)s and level = %(level)s and category_id is NULL and (name like %(word)s ) limit %(offset)s,%(limit)s;"
-    #     else:
-    #       query = "SELECT * FROM categories WHERE is_active = %(is_active)s and level = %(level)s and category_id = %(category_id)s and (name like %(word)s ) limit %(offset)s,%(limit)s;"
-    #     results = connectToMySQL('emprendeadvisor').query_db(query,data)
-    #     categories = []
-    #     if len(results) < 1:
-    #       return False
-    #     for category in results:
-    #       categories.append(cls(category))
-    #     return categories
-
-    # @staticmethod
-    # def validate_category(category):
-    #   is_valid = True 
-    #   errors = []
-    #   print(category["level"])
-    #   if category["level"] == "1":        
-    #     print(category["category_id"])
-    #     if category["category_id"] != "0":
-    #       errors.append("Categoria 1 no puede depender de otra Categoria 1")
-    #       is_valid = False
-    #   if category["level"] == "2":  
-    #     if category["category_id"] == "0":
-    #       errors.append("Subcategoria debe tener una categoria padre")
-    #       is_valid = False
-    #   if len(category["name"])<1:
-    #     errors.append("Nombre no puede ser vacio")
-    #     is_valid = False
-    #   if Category.exist_category(category):
-    #     errors.append("Categoría existente")
-    #     is_valid = False
-    #   return (is_valid,errors)

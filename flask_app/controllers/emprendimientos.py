@@ -1,20 +1,19 @@
 from flask import jsonify,render_template,send_file, request, session, redirect
 from flask_app import app
-from flask_app.models import emprendimiento, user,category, review
+from flask_app.models import emprendimiento, user,category, review, image as upload
 import requests
 import json
 import redis
 from io import BytesIO
+from werkzeug.utils import secure_filename
+from flask_app.controllers.users import upload_file_to_s3
 
 redis_server = redis.StrictRedis(host='localhost', port=6379)
 
 def getIgData(igusername):
   url = "https://www.instagram.com/"+ igusername +"/?__a=1"
-  print(url)
   r  = requests.get(url)
-  #r.encoding = "ascii"
   data = r.text
-  print(data)
   parsed_json = (json.loads(data))
 
   username = parsed_json["graphql"]["user"]["username"]
@@ -83,7 +82,6 @@ def getDataInstagrapi(igusername):
       try:
         result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
         data = result.text
-        print(data)
         parsed_json = (json.loads(data))
         parsed_json["category_name"] = translate_text("es",parsed_json["category_name"])
         data = json.dumps(parsed_json)
@@ -92,10 +90,16 @@ def getDataInstagrapi(igusername):
       except:
         parsed_json = {"error":True}
   return parsed_json
+  
+@app.route('/search/')
+def searchEmpty():
+  return redirect("/dashboard")
 
 @app.route('/search/<string:igusername>')
 def search(igusername):
   igusername = igusername.lower()
+  if igusername == "":
+    return redirect("/dashboard")
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
   if not emprendimientoSearch: 
     result = getDataInstagrapi(igusername)
@@ -129,8 +133,93 @@ def getById(id):
     user_session_id = userSession.id
   categoriesList = category.Category.list_all_categories_with_subcategories()
   reviewsList = review.Review.list_reviews_by_id({"id":id,"offset":0,"limit":3,"user_session_id":user_session_id})
-  print(reviewsList)
-  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList, reviewsList=reviewsList)
+  opiniones = review.Review.get_opiniones({"id":id})
+  return render_template("emprendimiento.html",emprendimiento=emprendAux,userSession=userSession,categoriesList=categoriesList, reviewsList=reviewsList,opiniones=opiniones)
+
+@app.route('/comentarios/loadmore', methods = ["POST"])
+def loadmorecomments():
+  offset = request.form["offset"]
+  id = request.form["review_id"]
+  limit = 3
+  offset = int(offset)
+  rating = request.form["rating"]
+  user_session_id = "0"
+  if 'user_id' in session:
+    userSession = user.User.get_user_by_id({"id":session["user_id"]})
+    user_session_id = userSession.id
+  reviewsList = review.Review.list_reviews_by_id({"id":id,"offset":offset,"limit":limit,"user_session_id":user_session_id,"rating":rating})
+  endList = False
+  
+  if reviewsList == False:
+    response = {
+      "reviews" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+  
+  if len(reviewsList) < limit:
+    endList = True
+  response = {
+      "reviews" : list(map(lambda x : x.get_info_raw_w_user(), reviewsList)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/comentarios/crear', methods = ["POST"])
+def createcomment():
+  review_validation = review.Review.validate(request.form)
+  if not review_validation[0]:
+    return jsonify(error = review_validation[1])
+  
+  data = {
+    "rating": request.form["rating"],
+    "title": request.form["title"],
+    "departamento": request.form["departamento"],
+    "provincia": request.form["provincia"],
+    "distrito": request.form["distrito"],
+    "comment": request.form["comment"],
+    "emprendimiento_id": request.form["emprendimiento_id"],
+    "user_id":session["user_id"]
+  }
+  
+  newId = review.Review.save(data)
+
+  files = request.files.getlist("images")
+  for file in files:
+    url = ""
+    if file.filename != "":
+        if file:
+            file.filename = secure_filename(file.filename)
+            fileType = file.content_type
+            arrTypes = fileType.split("/")
+            if arrTypes[0] != "image" or arrTypes[1] not in ["jpeg","jpg","png"]:
+              return jsonify(error = f"Formatos permitidos: jpg, jpeg, png")
+            url = upload_file_to_s3(file, app.config["S3_BUCKET"])
+            upload.Image.save_review_image({"url":url,"review_id":newId})
+
+  response = {
+      "created" : True
+    }
+  return jsonify(response)
+
+@app.route('/comentarios/report', methods = ["POST"])
+def createreport():
+  if len(request.form["text"])<1:
+    return jsonify(error = "Texto vacio")
+  
+  data = {
+    "text": request.form["text"],
+    "review_id": request.form["review_id"],
+    "user_id":session["user_id"]
+  }
+  
+  review.Review.createReport(data)
+
+  response = {
+      "created" : True
+    }
+  return jsonify(response)
 
 @app.route('/emprendimientos/category/<int:id>')
 def getCategoriesEmp(id):

@@ -31,7 +31,6 @@ def cuenta():
 
 @app.route('/politica')
 def politica():
-  print("test")
   return render_template("politica.html")
 
 @app.errorhandler(414)

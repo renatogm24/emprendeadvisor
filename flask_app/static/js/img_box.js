@@ -35,7 +35,13 @@ function img_box(self) {
     idpopup_img_box.innerHTML = "<img src=" + namepic_img_box + ">";
 
     if (wimg_img_box > wwin_img_box) {
-      idpopup_img_box.getElementsByTagName("img")[0].style.width = "90%";
+      if (window.matchMedia("(min-width: 600px)").matches) {
+        /* La pantalla tiene al menos 400 píxeles de ancho */
+        idpopup_img_box.getElementsByTagName("img")[0].style.width = "40%";
+      } else {
+        /* La pantalla tiene menos de 400 píxeles de ancho */
+        idpopup_img_box.getElementsByTagName("img")[0].style.width = "90%";
+      }
     } else if (himg_img_box > hwin_img_box) {
       idpopup_img_box.getElementsByTagName("img")[0].style.height = "90%";
       himg_img_box = (hwin_img_box * 90) / 100;
@@ -45,7 +51,13 @@ function img_box(self) {
       padtop_img_box = hwin_img_box / 2 - himg_img_box / 2;
       idpopup_img_box.style.paddingTop = padtop_img_box + "px";
     } else {
-      idpopup_img_box.style.paddingTop = "50%";
+      if (window.matchMedia("(min-width: 600px)").matches) {
+        /* La pantalla tiene al menos 400 píxeles de ancho */
+        idpopup_img_box.style.paddingTop = "5%";
+      } else {
+        /* La pantalla tiene menos de 400 píxeles de ancho */
+        idpopup_img_box.style.paddingTop = "50%";
+      }
     }
 
     if (allow_hide_scroll_img_box == "yes") {

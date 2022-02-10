@@ -1,7 +1,7 @@
 function cambiaDepartamento() {
-  var sel_departamento = document.getElementsByName("selectDepartamento")[0];
-  var sel_provincia = document.getElementsByName("selectProvincia")[0];
-  var sel_distrito = document.getElementsByName("selectDistrito")[0];
+  var sel_departamento = document.getElementsByName("departamento")[0];
+  var sel_provincia = document.getElementsByName("provincia")[0];
+  var sel_distrito = document.getElementsByName("distrito")[0];
 
   var opt_Amazonas = new Array(
     "Seleccione la Provincia",
@@ -3034,9 +3034,9 @@ var opt_Purús = new Array("Seleccione el Distrito", "Purús");
 
 function cambiaDistrito() {
   var cosa;
-  var sel_departamento = document.getElementsByName("selectDepartamento")[0];
-  var sel_provincia = document.getElementsByName("selectProvincia")[0];
-  var sel_distrito = document.getElementsByName("selectDistrito")[0];
+  var sel_departamento = document.getElementsByName("deparamento")[0];
+  var sel_provincia = document.getElementsByName("provincia")[0];
+  var sel_distrito = document.getElementsByName("distrito")[0];
 
   selectProvincia = sel_provincia.options[sel_provincia.selectedIndex].value;
   if (selectProvincia != 0) {

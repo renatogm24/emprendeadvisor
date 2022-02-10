@@ -317,48 +317,102 @@
                             <div class="mt-3 d-flex justify-content-between align-items-center">
                                 <span class="h6" style="line-height: 1.5em; height: 3em; overflow: hidden">{{emprendimiento.full_name}}</span
                     >
-                    <span class="h6"><i class="bi bi-heart starIcon"></i></span>
-                            </div>
-                            <p class="my-0 textCardEmpre">{{emprendimiento.biography}}</p>
-                            <div class="my-1 text-yellowstar">
-                                {% set stars = emprendimiento.promedio|round|int %} {% set remain = 5 - stars %} {% for n in range(stars) %}
-                                <i class="bi bi-star-fill mx-1"></i> {% endfor %} {% for n in range(remain) %} <i class="bi bi-star mx-1"></i> {% endfor %}
-                            </div>
-                            <div class="mt-3 textCardEmpre">
-                                {% if emprendimiento.cuenta == 0 %} Sin calificar {% elif emprendimiento.cuenta == 1 %} (1 calificación) {% else %} ({{emprendimiento.cuenta}} calificaciones) {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %} {% endif %}
+                  </div>
+                  <p class="my-0 textCardEmpre">{{emprendimiento.biography}}</p>
+                  <div class="my-1 text-yellowstar">
+                    {% set stars = emprendimiento.promedio|round|int %} {% set
+                    remain = 5 - stars %} {% for n in range(stars) %}
+                    <i class="bi bi-star-fill mx-1"></i> {% endfor %} {% for n
+                    in range(remain) %} <i class="bi bi-star mx-1"></i> {%
+                    endfor %}
+                  </div>
+                  <div class="mt-3 textCardEmpre">
+                    {% if emprendimiento.cuenta == 0 %} Sin calificar {% elif
+                    emprendimiento.cuenta == 1 %} (1 calificación) {% else %}
+                    ({{emprendimiento.cuenta}} calificaciones) {% endif %}
+                  </div>
                 </div>
-                <div class="col-12 text-center mt-4">
-                    <form action="" id="loadMoreEmp">
-                        <input type="hidden" name="order_by" value="promedio" id="order_by" />
-                        <input type="hidden" name="min_promedio" value="{{dataMaxMin.min_promedio}}" id="min_promedio" />
-                        <input type="hidden" name="max_promedio" value="{{dataMaxMin.max_promedio}}" id="max_promedio" />
-                        <input type="hidden" name="min_reviews" value="{{dataMaxMin.min_reviews}}" id="min_reviews" />
-                        <input type="hidden" name="max_reviews" value="{{dataMaxMin.max_reviews}}" id="max_reviews" />
-                        <input type="hidden" name="min_followers" value="{{dataMaxMin.min_followers}}" id="min_followers" />
-                        <input type="hidden" name="max_followers" value="{{dataMaxMin.max_followers}}" id="max_followers" />
-                        <button type="submit" class="btn btn-altdark text-light btnLoadMoreEmp">
+              </div>
+              {% endfor %} {% endif %}
+            </div>
+            <div class="col-12 text-center mt-4">
+              <form action="" id="loadMoreEmp">
+                <input
+                  type="hidden"
+                  name="order_by"
+                  value="promedio"
+                  id="order_by"
+                />
+                <input
+                  type="hidden"
+                  name="min_promedio"
+                  value="{{dataMaxMin.min_promedio}}"
+                  id="min_promedio"
+                />
+                <input
+                  type="hidden"
+                  name="max_promedio"
+                  value="{{dataMaxMin.max_promedio}}"
+                  id="max_promedio"
+                />
+                <input
+                  type="hidden"
+                  name="min_reviews"
+                  value="{{dataMaxMin.min_reviews}}"
+                  id="min_reviews"
+                />
+                <input
+                  type="hidden"
+                  name="max_reviews"
+                  value="{{dataMaxMin.max_reviews}}"
+                  id="max_reviews"
+                />
+                <input
+                  type="hidden"
+                  name="min_followers"
+                  value="{{dataMaxMin.min_followers}}"
+                  id="min_followers"
+                />
+                <input
+                  type="hidden"
+                  name="max_followers"
+                  value="{{dataMaxMin.max_followers}}"
+                  id="max_followers"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-altdark text-light btnLoadMoreEmp"
+                >
                   Cargar más emprendimientos
                 </button>
-                    </form>
-                    <input type="hidden" id="pathCategory" value="{{pathCategory}}" />
-                </div>
+              </form>
+              <input type="hidden" id="pathCategory" value="{{pathCategory}}" />
             </div>
-            </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtros</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="closeOffCanvas"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="col-12">
-                        <div class="bg-graytheme p-4 my-3">
-                            <span class="h4 border-start border-5 border-altprimary px-2">{% if tipo == "general" %} GENERAL {% elif tipo == "categoria"
+      <div
+        class="offcanvas offcanvas-start"
+        tabindex="-1"
+        id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtros</h5>
+          <button
+            type="button"
+            class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            id="closeOffCanvas"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="col-12">
+            <div class="bg-graytheme p-4 my-3">
+              <span class="h4 border-start border-5 border-altprimary px-2"
+                >{% if tipo == "general" %} GENERAL {% elif tipo == "categoria"
                 %} {{categoria}} {% elif tipo == "subcategoria" %}
                 {{subcategoria}} {% endif %}</span
               >
@@ -379,56 +433,56 @@
               <div class="wrapper-slider">
                 <div class="values-slider">
                   <span id="range7"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range8"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
+                                <span> &dash; </span>
+                                <span id="range8"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
                   ></span>
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.min_promedio*100}}" id="slider-7" oninput="slide7()" />
+                                <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.max_promedio*100}}" id="slider-8" oninput="slide8()" />
+                            </div>
                         </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.min_promedio*100}}" id="slider-7" oninput="slide7()" />
-                            <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.max_promedio*100}}" id="slider-8" oninput="slide8()" />
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
                         </div>
-                    </div>
-                    <div class="d-flex my-4">
-                        <i class="bi bi-sliders"></i>
-                        <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
-                    </div>
-                    <div class="wrapper-slider">
-                        <div class="values-slider">
-                            <span id="range9"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range10"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range9"> 0 </span>
+                                <span> &dash; </span>
+                                <span id="range10"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
                   ></span>
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.min_reviews}}" id="slider-9" oninput="slide9()" />
+                                <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.max_reviews}}" id="slider-10" oninput="slide10()" />
+                            </div>
                         </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.min_reviews}}" id="slider-9" oninput="slide9()" />
-                            <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.max_reviews}}" id="slider-10" oninput="slide10()" />
-                        </div>
-                    </div>
 
-                    <div class="d-flex my-4">
-                        <i class="bi bi-sliders"></i>
-                        <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
-                    </div>
-                    <div class="wrapper-slider">
-                        <div class="values-slider">
-                            <span id="range11"> 0 </span>
-                            <span> &dash; </span>
-                            <span id="range12"> 5 </span>
-                            <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
-                  ></span>
+                        <div class="d-flex my-4">
+                            <i class="bi bi-sliders"></i>
+                            <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
                         </div>
-                        <div class="container-slider">
-                            <div class="slider-track"></div>
-                            <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.min_followers}}" id="slider-11" oninput="slide11()" />
-                            <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.max_followers}}" id="slider-12" oninput="slide12()" />
+                        <div class="wrapper-slider">
+                            <div class="values-slider">
+                                <span id="range11"> 0 </span>
+                                <span> &dash; </span>
+                                <span id="range12"> 5 </span>
+                                <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
+                  ></span>
+                            </div>
+                            <div class="container-slider">
+                                <div class="slider-track"></div>
+                                <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.min_followers}}" id="slider-11" oninput="slide11()" />
+                                <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.max_followers}}" id="slider-12" oninput="slide12()" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             </div>
             </section>

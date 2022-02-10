@@ -1,9 +1,7 @@
 window.onload = function () {
   const allInputs = document.querySelectorAll(".star-widget input");
   for (input of allInputs) {
-    input.addEventListener("click", (e) => {
-      console.log(e.target.id.split("-")[1]);
-    });
+    input.addEventListener("click", (e) => {});
   }
 };
 
@@ -120,9 +118,7 @@ try {
       selectFormSubcat.appendChild(newOpt);
     }
   });
-} catch (error) {
-  console.log("Error");
-}
+} catch (error) {}
 
 try {
   clasificarForm.addEventListener("submit", async (e) => {
@@ -195,9 +191,7 @@ try {
       }
     }
   });
-} catch (error) {
-  console.log("Error");
-}
+} catch (error) {}
 
 const searchForm = document.querySelector("#searchForm");
 searchForm.addEventListener("submit", async (e) => {
@@ -206,48 +200,313 @@ searchForm.addEventListener("submit", async (e) => {
   window.location.href = "/search/" + formData.get("search");
 });
 
-const likesBtns = document.querySelectorAll(".likeButton");
-for (likeBtn of likesBtns) {
-  likeBtn.addEventListener("click", async (e) => {
-    const id_session_hidden =
-      document.querySelector("#id_session_hidden").value;
-    if (id_session_hidden != "0") {
-      let id;
-      let elementStart;
-      if (e.target.tagName == "A") {
-        id = e.target.id;
-        elementStart = e.target;
-      } else if (e.target.tagName == "I") {
-        id = e.target.parentElement.id;
-        elementStart = e.target.parentElement;
-      }
+listenerLikesButtons();
 
-      id = id.split("-")[1];
+const commentsBx = document.querySelector("#commentsBx");
 
-      const likeButtonIcon = elementStart.querySelector(".likeButtonIcon");
+const loadMoreCom = document.querySelector("#loadMoreCom");
 
-      const elementCount = elementStart.parentElement.parentElement
-        .querySelectorAll(".commentBxMsg")[1]
-        .querySelector(".likesCountSpan");
+loadMoreCom.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      if (likeButtonIcon.classList.contains("bi-hand-thumbs-up")) {
-        elementCount.innerHTML = parseInt(elementCount.innerHTML) + 1;
-        likeButtonIcon.classList.remove("bi-hand-thumbs-up");
-        likeButtonIcon.classList.add("bi-hand-thumbs-down");
-      } else {
-        elementCount.innerHTML = parseInt(elementCount.innerHTML) - 1;
-        likeButtonIcon.classList.remove("bi-hand-thumbs-down");
-        likeButtonIcon.classList.add("bi-hand-thumbs-up");
-      }
+  offset = commentsBx.querySelectorAll(".commentBx").length;
 
-      const response = await fetch(
-        "https://www.emprendeadvisor.com/like/" + id
-      );
-      const data = await response.json();
-      console.log(data);
-    } else {
-      const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
-      writeOpinionBtn.click();
+  const form = new FormData(loadMoreCom);
+  form.append("offset", offset);
+
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/loadmore",
+    {
+      method: "POST",
+      body: form,
     }
-  });
+  );
+
+  const data = await response.json();
+
+  for (review of data.reviews) {
+    commentsBx.appendChild(createReview(review));
+    const commentsBxArr = document.querySelectorAll(".commentBx");
+    const lastBx =
+      commentsBxArr[commentsBxArr.length - 1].querySelector(".likeButton");
+    lastBx.addEventListener("click", async (e) => {
+      const id_session_hidden =
+        document.querySelector("#id_session_hidden").value;
+      if (id_session_hidden != "0") {
+        let id;
+        let elementStart;
+        if (e.target.tagName == "A") {
+          id = e.target.id;
+          elementStart = e.target;
+        } else if (e.target.tagName == "I") {
+          id = e.target.parentElement.id;
+          elementStart = e.target.parentElement;
+        }
+
+        id = id.split("-")[1];
+
+        const likeButtonIcon = elementStart.querySelector(".likeButtonIcon");
+
+        const elementCount = elementStart.parentElement.parentElement
+          .querySelectorAll(".commentBxMsg")[1]
+          .querySelector(".likesCountSpan");
+
+        if (likeButtonIcon.classList.contains("bi-hand-thumbs-up")) {
+          elementCount.innerHTML = parseInt(elementCount.innerHTML) + 1;
+          likeButtonIcon.classList.remove("bi-hand-thumbs-up");
+          likeButtonIcon.classList.add("bi-hand-thumbs-down");
+        } else {
+          elementCount.innerHTML = parseInt(elementCount.innerHTML) - 1;
+          likeButtonIcon.classList.remove("bi-hand-thumbs-down");
+          likeButtonIcon.classList.add("bi-hand-thumbs-up");
+        }
+
+        await fetch("https://www.emprendeadvisor.com/like/" + id);
+      } else {
+        const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
+        writeOpinionBtn.click();
+      }
+    });
+  }
+
+  if ("endList" in data) {
+    if (data.endList) {
+      const btn = document.querySelector(".btnLoadMoreCom");
+      btn.disabled = true;
+    }
+  }
+});
+
+function createReview(review) {
+  const id_session_hidden = document.querySelector("#id_session_hidden").value;
+
+  const newCard = document.createElement("div");
+  newCard.classList.add("d-flex", "flex-column", "my-3", "commentBx");
+
+  const stars = Math.round(review.rating);
+  const remain = 5 - stars;
+
+  let textRating = "";
+
+  for (let index = 0; index < stars; index++) {
+    textRating += `<i class="bi bi-star-fill mx-1 starIcon"></i>`;
+  }
+
+  for (let index = 0; index < remain; index++) {
+    textRating += `<i class="bi bi-star mx-1 starIcon"></i>`;
+  }
+
+  let thumbsText = "";
+
+  let thumbIcon = "";
+
+  if (review.isLikedBySession) {
+    thumbIcon = `<i class="bi bi-hand-thumbs-down starIcon likeButtonIcon"></i>`;
+  } else {
+    thumbIcon = `<i class="bi bi-hand-thumbs-up starIcon likeButtonIcon"></i>`;
+  }
+
+  if (id_session_hidden != review.user.id) {
+    thumbsText = `<div class="d-flex align-items-center">
+                  <a
+                    class="btn btn-tertiary text-dark px-4 likeButton"
+                    id="review-${review.id}"
+                    >Útil ${thumbIcon}
+                  </a>
+            <a class="mx-3 border-start border-1 border-dark px-3" data-bs-toggle="modal" data-bs-target="#report" style="cursor: pointer">Informar de un abuso</a
+                  >
+                </div>`;
+  }
+
+  const dateFormat = new Date(review.created_at);
+  const formatdate = dateFormat.toLocaleDateString();
+
+  images = "";
+  for (image of review.images) {
+    images += `<img
+                    src="${image.url}"
+                    alt=""
+                    class="imageReview mx-1"
+                    onclick="img_box(this)"
+                  />`;
+  }
+
+  newCard.innerHTML = `<div class="d-flex align-items-center">
+                  <img
+                    src=${review.user.image}
+                    class=""
+                    data-src=${review.user.image}
+                  />
+                  <span class="mx-2"
+                    >${review.user.first_name} ${review.user.last_name}</span
+                  >
+                </div>
+                <div
+                  class="d-flex flex-column flex-lg-row align-items-lg-center"
+                >
+                  <div class="d-flex text-yellowstar my-2">
+                    ${textRating}
+                  </div>
+                  <div class="mx-lg-2 my-2 my-lg-0 commentBxTitle">
+                    ${review.title}
+                  </div>
+                </div>
+                <div class="commentBxDate">
+                  Calificado en ${review.distrito} el
+                  ${formatdate}
+                </div>
+                <p class="commentBxMsg my-2">${review.comment}</p>
+                <div class="flex">
+                  ${images}
+                </div>
+                <div id="fullpage" onclick="this.style.display='none';"></div>
+                <p class="commentBxMsg my-2">
+                  A
+                  <span class="likesCountSpan">${review.likesCount}</span>
+                  personas les resultó útil
+                </p>
+                ${thumbsText}`;
+
+  return newCard;
+}
+
+function listenerLikesButtons() {
+  const likesBtns = document.querySelectorAll(".likeButton");
+  for (likeBtn of likesBtns) {
+    likeBtn.addEventListener("click", async (e) => {
+      const id_session_hidden =
+        document.querySelector("#id_session_hidden").value;
+      if (id_session_hidden != "0") {
+        let id;
+        let elementStart;
+        if (e.target.tagName == "A") {
+          id = e.target.id;
+          elementStart = e.target;
+        } else if (e.target.tagName == "I") {
+          id = e.target.parentElement.id;
+          elementStart = e.target.parentElement;
+        }
+
+        id = id.split("-")[1];
+
+        const likeButtonIcon = elementStart.querySelector(".likeButtonIcon");
+
+        const elementCount = elementStart.parentElement.parentElement
+          .querySelectorAll(".commentBxMsg")[1]
+          .querySelector(".likesCountSpan");
+
+        if (likeButtonIcon.classList.contains("bi-hand-thumbs-up")) {
+          elementCount.innerHTML = parseInt(elementCount.innerHTML) + 1;
+          likeButtonIcon.classList.remove("bi-hand-thumbs-up");
+          likeButtonIcon.classList.add("bi-hand-thumbs-down");
+        } else {
+          elementCount.innerHTML = parseInt(elementCount.innerHTML) - 1;
+          likeButtonIcon.classList.remove("bi-hand-thumbs-down");
+          likeButtonIcon.classList.add("bi-hand-thumbs-up");
+        }
+
+        await fetch("https://www.emprendeadvisor.com/like/" + id);
+      } else {
+        const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
+        writeOpinionBtn.click();
+      }
+    });
+  }
+}
+
+async function filterReview(rating) {
+  const btn = document.querySelector(".btnLoadMoreCom");
+  btn.disabled = false;
+
+  commentsBx.innerHTML = "";
+  offset = commentsBx.querySelectorAll(".commentBx").length;
+
+  const ratingInput = document.querySelector("#rating_hidden");
+  ratingInput.value = rating;
+
+  const form = new FormData(loadMoreCom);
+  form.append("offset", offset);
+
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/loadmore",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
+
+  const data = await response.json();
+
+  for (review of data.reviews) {
+    commentsBx.appendChild(createReview(review));
+  }
+
+  if ("endList" in data) {
+    if (data.endList) {
+      const btn = document.querySelector(".btnLoadMoreCom");
+      btn.disabled = true;
+    }
+  }
+
+  listenerLikesButtons();
+}
+
+function setRating(rating) {
+  ratingValue = document.querySelector("#rating");
+  ratingValue.value = rating;
+}
+
+const reviewForm = document.querySelector("#reviewForm");
+reviewForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = new FormData(reviewForm);
+
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/crear",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
+
+  const data = await response.json();
+
+  if ("error" in data) {
+    const errorReview = document.querySelector(".errorReview");
+    errorReview.innerText = data.error;
+    errorReview.classList.add("py-3");
+  } else if (data.created == true) {
+    location.reload();
+  }
+});
+
+const reportForm = document.querySelector("#reportForm");
+reportForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = new FormData(reportForm);
+
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/report",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
+
+  const data = await response.json();
+
+  if ("error" in data) {
+    const errorReview = document.querySelector(".errorReport");
+    errorReview.innerText = data.error;
+    errorReview.classList.add("py-3");
+  } else if (data.created == true) {
+    location.reload();
+  }
+});
+
+function setReviewId(id) {
+  const reviewForm = document.querySelector("#review_id_hidden");
+  reviewForm.value = id;
 }

@@ -6,7 +6,6 @@ loadMoreEmp.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   offset = emprendimientosBx.querySelectorAll(".empreBox").length;
-  console.log(offset);
 
   const form = new FormData(loadMoreEmp);
   form.append("offset", offset);
