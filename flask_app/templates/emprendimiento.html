@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" /> {% assets "scss_all" %}
-    <link rel=stylesheet type=text/css href="{{
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    {% assets "scss_all" %} <link rel=stylesheet type=text/css href="{{
     ASSET_URL }}"> {% endassets %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+  </head>
 
-<body class="bg-light">
+  <body class="bg-light">
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <h3 class="text-dark mb-0">
-                <a class="text-reset text-decoration-none" href="/dashboard">Emprende<span class="text-tertiary">Advisor</span></a
+      <div class="container">
+        <h3 class="text-dark mb-0">
+          <a class="text-reset text-decoration-none" href="/dashboard"
+            >Emprende<span class="text-tertiary">Advisor</span></a
           >
         </h3>
         <button
@@ -123,16 +137,24 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    {% if session["level"] != 9 %}
-                    <a class="dropdown-item" href="/cuenta">Configurar</a> {% else %} <a class="dropdown-item" href="/admin">Admin</a> {% endif %}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
+                  {% if session["level"] != 9 %}
+                  <a class="dropdown-item" href="/cuenta">Configurar</a> {% else
+                  %} <a class="dropdown-item" href="/admin">Admin</a> {% endif
+                  %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
                 </div>
-        </div>
-        </li>
-        {% else %}
-        <li class="nav-item mx-3 align-items-center d-flex flex-column flex-lg-row align-items-center">
-            <a class="btn btn-sm btn-altdark text-light" data-bs-toggle="modal" data-bs-target="#login">Ingrese</a
+              </div>
+            </li>
+            {% else %}
+            <li
+              class="nav-item mx-3 align-items-center d-flex flex-column flex-lg-row align-items-center"
+            >
+              <a
+                class="btn btn-sm btn-altdark text-light"
+                data-bs-toggle="modal"
+                data-bs-target="#login"
+                >Ingrese</a
               >
             </li>
             {% endif %}
@@ -182,7 +204,7 @@
           <div class="col-lg-4 p-4 text-center">
             <img
               class="img-fluid"
-              src="http://18.205.29.39:5001/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
+              src="https://www.emprendeadvisor.com/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
               alt=""
             />
           </div>
@@ -295,8 +317,12 @@
               </a>
             </p>
             <div class="d-flex flex-column">
-                <div class="d-flex align-items-center my-2">
-                    <a class="" style="min-width: 90px; cursor: pointer" onclick="filterReview(5)">5 estrellas</a
+              <div class="d-flex align-items-center my-2">
+                <a
+                  class=""
+                  style="min-width: 90px; cursor: pointer"
+                  onclick="filterReview(5)"
+                  >5 estrellas</a
                 >
                 <div class="progress flex-grow-1 mx-2">
                   <div
@@ -480,8 +506,15 @@
                     {% else %}
                     <i class="bi bi-hand-thumbs-up starIcon likeButtonIcon"></i>
                     {% endif %}
-                  </a> {% if session["user_id"] %}
-                    <a class="mx-3 border-start border-1 border-dark px-3" data-bs-toggle="modal" data-bs-target="#report" style="cursor: pointer" onclick="setReviewId({{review.id}})">Informar de un abuso</a
+                  </a>
+                  {% if session["user_id"] %}
+                  <a
+                    class="mx-3 border-start border-1 border-dark px-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#report"
+                    style="cursor: pointer"
+                    onclick="setReviewId({{review.id}})"
+                    >Informar de un abuso</a
                   >
                   {% else %}
                   <a

@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5001/login", {
+  const response = await fetch("https://www.emprendeadvisor.com/login", {
     method: "POST",
     body: form,
     credentials: "same-origin",
@@ -40,11 +40,14 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("http://18.205.29.39:5001/register/user", {
-    method: "POST",
-    body: form,
-    credentials: "same-origin",
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/register/user",
+    {
+      method: "POST",
+      body: form,
+      credentials: "same-origin",
+    }
+  );
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
@@ -100,7 +103,7 @@ try {
   selectFormClasif.addEventListener("change", async (e) => {
     const categorySelected = e.target.value;
     const response = await fetch(
-      "http://18.205.29.39:5001/subcategories/" + categorySelected
+      "https://www.emprendeadvisor.com/subcategories/" + categorySelected
     );
     const data = await response.json();
     selectFormSubcat.innerHTML = "";
@@ -161,10 +164,13 @@ try {
     }
 
     formData.append("pathname", window.location.pathname);
-    const response = await fetch("http://18.205.29.39:5001/categories/create", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "https://www.emprendeadvisor.com/categories/create",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const data = await response.json();
     if ("error" in data) {
       error.innerHTML = "Ya existe la categoría";
@@ -209,7 +215,7 @@ loadMoreCom.addEventListener("submit", async (e) => {
   form.append("offset", offset);
 
   const response = await fetch(
-    "http://18.205.29.39:5001/comentarios/loadmore",
+    "https://www.emprendeadvisor.com/comentarios/loadmore",
     {
       method: "POST",
       body: form,
@@ -255,7 +261,7 @@ loadMoreCom.addEventListener("submit", async (e) => {
           likeButtonIcon.classList.add("bi-hand-thumbs-up");
         }
 
-        await fetch("http://18.205.29.39:5001/like/" + id);
+        await fetch("https://www.emprendeadvisor.com/like/" + id);
       } else {
         const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
         writeOpinionBtn.click();
@@ -399,7 +405,7 @@ function listenerLikesButtons() {
           likeButtonIcon.classList.add("bi-hand-thumbs-up");
         }
 
-        await fetch("http://18.205.29.39:5001/like/" + id);
+        await fetch("https://www.emprendeadvisor.com/like/" + id);
       } else {
         const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
         writeOpinionBtn.click();
@@ -422,7 +428,7 @@ async function filterReview(rating) {
   form.append("offset", offset);
 
   const response = await fetch(
-    "http://18.205.29.39:5001/comentarios/loadmore",
+    "https://www.emprendeadvisor.com/comentarios/loadmore",
     {
       method: "POST",
       body: form,
@@ -456,10 +462,13 @@ reviewForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(reviewForm);
 
-  const response = await fetch("http://18.205.29.39:5001/comentarios/crear", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/crear",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 
@@ -478,10 +487,13 @@ reportForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(reportForm);
 
-  const response = await fetch("http://18.205.29.39:5001/comentarios/report", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/comentarios/report",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
 
   const data = await response.json();
 

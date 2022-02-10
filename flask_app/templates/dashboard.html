@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" /> {% assets "scss_all" %}
-    <link rel=stylesheet type=text/css href="{{
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    {% assets "scss_all" %} <link rel=stylesheet type=text/css href="{{
     ASSET_URL }}"> {% endassets %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+  </head>
 
-<body class="bg-light">
+  <body class="bg-light">
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <h3 class="text-dark mb-0">
-                <a class="text-reset text-decoration-none" href="/dashboard">Emprende<span class="text-tertiary">Advisor</span></a
+      <div class="container">
+        <h3 class="text-dark mb-0">
+          <a class="text-reset text-decoration-none" href="/dashboard"
+            >Emprende<span class="text-tertiary">Advisor</span></a
           >
         </h3>
         <button
@@ -119,16 +130,24 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    {% if session["level"] != 9 %}
-                    <a class="dropdown-item" href="/cuenta">Configurar</a> {% else %} <a class="dropdown-item" href="/admin">Admin</a> {% endif %}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
+                  {% if session["level"] != 9 %}
+                  <a class="dropdown-item" href="/cuenta">Configurar</a> {% else
+                  %} <a class="dropdown-item" href="/admin">Admin</a> {% endif
+                  %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
                 </div>
-        </div>
-        </li>
-        {% else %}
-        <li class="nav-item mx-3 align-items-center d-flex flex-column flex-lg-row align-items-center">
-            <a class="btn btn-sm btn-altdark text-light" data-bs-toggle="modal" data-bs-target="#login">Ingrese</a
+              </div>
+            </li>
+            {% else %}
+            <li
+              class="nav-item mx-3 align-items-center d-flex flex-column flex-lg-row align-items-center"
+            >
+              <a
+                class="btn btn-sm btn-altdark text-light"
+                data-bs-toggle="modal"
+                data-bs-target="#login"
+                >Ingrese</a
               >
             </li>
             {% endif %}
@@ -172,26 +191,34 @@
           >
             Filtros
           </a>
-            <div class="col-6 col-lg-3 ms-auto">
-                <select class="form-select shadow-none ms-auto" aria-label="Default select example" id="empOrderSelector">
+          <div class="col-6 col-lg-3 ms-auto">
+            <select
+              class="form-select shadow-none ms-auto"
+              aria-label="Default select example"
+              id="empOrderSelector"
+            >
               <option value="cuenta">Más comentados</option>
               <option value="follower_count">Más followers</option>
               <option value="promedio" selected>Recomendados</option>
             </select>
-            </div>
-            </div>
-            <div class="row">
-                <div class="d-none d-lg-block col-lg-3">
-                    <div class="bg-graytheme p-4 my-3">
-                        <span class="h4 border-start border-5 border-altprimary px-2">
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-none d-lg-block col-lg-3">
+            <div class="bg-graytheme p-4 my-3">
+              <span class="h4 border-start border-5 border-altprimary px-2">
                 {% if tipo == "general" %} GENERAL {% elif tipo == "categoria"
                 %} {{categoria}} {% elif tipo == "subcategoria" %}
                 {{subcategoria}} {% endif %}
               </span>
-                    </div>
-                    <div class="bg-graytheme p-4 my-3 filterBx">
-                        <div class="applyFilters">
-                            <a class="btn btn-primary text-light w-100" href="#" id="filter1">Aplicar filtros</a
+            </div>
+            <div class="bg-graytheme p-4 my-3 filterBx">
+              <div class="applyFilters">
+                <a
+                  class="btn btn-primary text-light w-100"
+                  href="#"
+                  id="filter1"
+                  >Aplicar filtros</a
                 >
               </div>
               <div class="d-flex my-4">
@@ -309,13 +336,18 @@
                   >
                     <img
                       class="img-fluid"
-                      src="http://18.205.29.39:5001/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
+                      src="https://www.emprendeadvisor.com/img/{{emprendimiento.url_p1}}&{{emprendimiento.url_p2}}"
                       alt=""
                     />
                   </a>
 
-                            <div class="mt-3 d-flex justify-content-between align-items-center">
-                                <span class="h6" style="line-height: 1.5em; height: 3em; overflow: hidden">{{emprendimiento.full_name}}</span
+                  <div
+                    class="mt-3 d-flex justify-content-between align-items-center"
+                  >
+                    <span
+                      class="h6"
+                      style="line-height: 1.5em; height: 3em; overflow: hidden"
+                      >{{emprendimiento.full_name}}</span
                     >
                   </div>
                   <p class="my-0 textCardEmpre">{{emprendimiento.biography}}</p>
@@ -433,77 +465,135 @@
               <div class="wrapper-slider">
                 <div class="values-slider">
                   <span id="range7"> 0 </span>
-                                <span> &dash; </span>
-                                <span id="range8"> 5 </span>
-                                <span class="mx-1"><i class="bi bi-star-fill starIcon"></i
+                  <span> &dash; </span>
+                  <span id="range8"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-star-fill starIcon"></i
                   ></span>
-                            </div>
-                            <div class="container-slider">
-                                <div class="slider-track"></div>
-                                <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.min_promedio*100}}" id="slider-7" oninput="slide7()" />
-                                <input type="range" min="0" max="{{dataMaxMin.max_promedio*100}}" value="{{dataMaxMin.max_promedio*100}}" id="slider-8" oninput="slide8()" />
-                            </div>
-                        </div>
-                        <div class="d-flex my-4">
-                            <i class="bi bi-sliders"></i>
-                            <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
-                        </div>
-                        <div class="wrapper-slider">
-                            <div class="values-slider">
-                                <span id="range9"> 0 </span>
-                                <span> &dash; </span>
-                                <span id="range10"> 5 </span>
-                                <span class="mx-1"><i class="bi bi-chat-left-quote-fill starIcon"></i
-                  ></span>
-                            </div>
-                            <div class="container-slider">
-                                <div class="slider-track"></div>
-                                <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.min_reviews}}" id="slider-9" oninput="slide9()" />
-                                <input type="range" min="0" max="{{dataMaxMin.max_reviews}}" value="{{dataMaxMin.max_reviews}}" id="slider-10" oninput="slide10()" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex my-4">
-                            <i class="bi bi-sliders"></i>
-                            <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
-                        </div>
-                        <div class="wrapper-slider">
-                            <div class="values-slider">
-                                <span id="range11"> 0 </span>
-                                <span> &dash; </span>
-                                <span id="range12"> 5 </span>
-                                <span class="mx-1"><i class="bi bi-people-fill starIcon"></i
-                  ></span>
-                            </div>
-                            <div class="container-slider">
-                                <div class="slider-track"></div>
-                                <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.min_followers}}" id="slider-11" oninput="slide11()" />
-                                <input type="range" min="0" max="{{dataMaxMin.max_followers}}" value="{{dataMaxMin.max_followers}}" id="slider-12" oninput="slide12()" />
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            </div>
-            </section>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_promedio*100}}"
+                    value="{{dataMaxMin.min_promedio*100}}"
+                    id="slider-7"
+                    oninput="slide7()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_promedio*100}}"
+                    value="{{dataMaxMin.max_promedio*100}}"
+                    id="slider-8"
+                    oninput="slide8()"
+                  />
+                </div>
+              </div>
+              <div class="d-flex my-4">
+                <i class="bi bi-sliders"></i>
+                <div class="h6 mb-0 pt-1 mx-2">Filtro Reviews</div>
+              </div>
+              <div class="wrapper-slider">
+                <div class="values-slider">
+                  <span id="range9"> 0 </span>
+                  <span> &dash; </span>
+                  <span id="range10"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-chat-left-quote-fill starIcon"></i
+                  ></span>
+                </div>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_reviews}}"
+                    value="{{dataMaxMin.min_reviews}}"
+                    id="slider-9"
+                    oninput="slide9()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_reviews}}"
+                    value="{{dataMaxMin.max_reviews}}"
+                    id="slider-10"
+                    oninput="slide10()"
+                  />
+                </div>
+              </div>
 
-            <section class="footer">
-                <div class="row container">
-                    <div class="col-sm-4 text-light text-center">
-                        <h4 class="my-4">
-                            Emprende<span class="text-tertiary">Advisor</span>
-                        </h4>
-                        <h5 class="mb-4">Libro de reclamaciones</h5>
-                        <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/facebook.svg') }}" />
-                        <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/instagram.svg') }}" />
-                        <img class="img-fluid" style="filter: invert(1)" src="{{ url_for('static', filename='images/tiktok.svg') }}" />
-                    </div>
-                    <div class="col-sm-4 text-light text-center">
-                        <h5 class="text-tertiary my-4">Conocenos</h5>
-                        <h5>Acerca de nosotros</h5>
-                        <h5>Preguntas frecuentes</h5>
-                        <h5>
-                            <a class="text-reset text-decoration-none" href="/politica">Pólitica de privacidad</a
+              <div class="d-flex my-4">
+                <i class="bi bi-sliders"></i>
+                <div class="h6 mb-0 pt-1 mx-2">Filtro Followers</div>
+              </div>
+              <div class="wrapper-slider">
+                <div class="values-slider">
+                  <span id="range11"> 0 </span>
+                  <span> &dash; </span>
+                  <span id="range12"> 5 </span>
+                  <span class="mx-1"
+                    ><i class="bi bi-people-fill starIcon"></i
+                  ></span>
+                </div>
+                <div class="container-slider">
+                  <div class="slider-track"></div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_followers}}"
+                    value="{{dataMaxMin.min_followers}}"
+                    id="slider-11"
+                    oninput="slide11()"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{dataMaxMin.max_followers}}"
+                    value="{{dataMaxMin.max_followers}}"
+                    id="slider-12"
+                    oninput="slide12()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div class="row container">
+        <div class="col-sm-4 text-light text-center">
+          <h4 class="my-4">
+            Emprende<span class="text-tertiary">Advisor</span>
+          </h4>
+          <h5 class="mb-4">Libro de reclamaciones</h5>
+          <img
+            class="img-fluid"
+            style="filter: invert(1)"
+            src="{{ url_for('static', filename='images/facebook.svg') }}"
+          />
+          <img
+            class="img-fluid"
+            style="filter: invert(1)"
+            src="{{ url_for('static', filename='images/instagram.svg') }}"
+          />
+          <img
+            class="img-fluid"
+            style="filter: invert(1)"
+            src="{{ url_for('static', filename='images/tiktok.svg') }}"
+          />
+        </div>
+        <div class="col-sm-4 text-light text-center">
+          <h5 class="text-tertiary my-4">Conocenos</h5>
+          <h5>Acerca de nosotros</h5>
+          <h5>Preguntas frecuentes</h5>
+          <h5>
+            <a class="text-reset text-decoration-none" href="/politica"
+              >Pólitica de privacidad</a
             >
           </h5>
         </div>
