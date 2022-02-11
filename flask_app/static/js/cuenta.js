@@ -16,13 +16,10 @@ async function clearImage() {
   var dataPost = new FormData();
   dataPost.append("json", JSON.stringify(payload));
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/deleteImageAndReset",
-    {
-      method: "POST",
-      body: dataPost,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/deleteImageAndReset", {
+    method: "POST",
+    body: dataPost,
+  });
   const data = await response.json();
 
   const profileImg = document.querySelector(".imgProfile");
@@ -75,9 +72,7 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch(
-          "https://www.emprendeadvisor.com/getUserSession"
-        );
+        const response = await fetch("http://127.0.0.1/getUserSession");
         const data = await response.json();
 
         profileForm.innerHTML = "";
@@ -748,7 +743,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
     }
 
     const offset = 0;
-    const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
+    const link = `http://127.0.0.1${path}/${limit}/${offset}`;
 
     const response = await fetch(link);
     const data = await response.json();
@@ -816,9 +811,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
     if (offset < 0) {
       offset = 0;
     }
-    const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
-    );
+    const response = await fetch(`http://127.0.0.1${path}/${limit}/${offset}`);
     const data = await response.json();
     if (typeObj in data) {
       users = data[typeObj];
@@ -834,9 +827,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
 
   if (action === "search") {
     const offset = 0;
-    const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
-    );
+    const response = await fetch(`http://127.0.0.1${path}/${limit}/${offset}`);
     const data = await response.json();
     if (typeObj in data) {
       users = data[typeObj];
@@ -982,7 +973,7 @@ async function actionElement(e, type, url) {
     let data = {};
 
     if (action === "update") {
-      response = await fetch(`https://www.emprendeadvisor.com${url}`);
+      response = await fetch(`http://127.0.0.1${url}`);
       data = await response.json();
     }
     let result = "";
@@ -1009,7 +1000,7 @@ async function actionElement(e, type, url) {
         select_option.innerHTML = "-- Seleccione para crear subcategoría --";
         field_input.appendChild(select_option);
 
-        response = await fetch(`https://www.emprendeadvisor.com/categories`);
+        response = await fetch(`http://127.0.0.1/categories`);
         data = await response.json();
         categories = data["categories"];
         for (category of categories) {
@@ -1068,7 +1059,7 @@ async function actionElement(e, type, url) {
   }
 
   if (action === "delete") {
-    const response = await fetch(`https://www.emprendeadvisor.com${url}`);
+    const response = await fetch(`http://127.0.0.1${url}`);
     const data = await response.json();
     let result = "";
     if (dataType in data) {
@@ -1132,7 +1123,7 @@ async function updateForm(event, url) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch(`https://www.emprendeadvisor.com${url}`, {
+  const response = await fetch(`http://127.0.0.1${url}`, {
     method: "POST",
     body: form,
   });
@@ -1174,7 +1165,7 @@ async function updateProfile(event) {
   const form = new FormData(event.target);
   /*let response;
   try {
-    response = await fetch("https://www.emprendeadvisor.com/updateProfile", {
+    response = await fetch("http://127.0.0.1/updateProfile", {
       method: "POST",
       body: form,
     });
@@ -1184,7 +1175,7 @@ async function updateProfile(event) {
   const data = await response.json();*/
   let data = {};
 
-  fetch("https://www.emprendeadvisor.com/updateProfile", {
+  fetch("http://127.0.0.1/updateProfile", {
     method: "POST",
     body: form,
   })
@@ -1242,13 +1233,10 @@ async function updatePassword(event) {
     return;
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/updatePassword",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/updatePassword", {
+    method: "POST",
+    body: form,
+  });
   const data = await response.json();
   if ("error" in data) {
     errorLogin.innerText = data.error;

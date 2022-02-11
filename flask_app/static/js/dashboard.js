@@ -16,13 +16,10 @@ loadMoreEmp.addEventListener("submit", async (e) => {
     form.append("category_id", pathCategory.value);
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -57,13 +54,10 @@ empOrderSelector.addEventListener("change", async (e) => {
     form.append("category_id", pathCategory.value);
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -113,13 +107,10 @@ filter1.addEventListener("click", async () => {
     form.append("category_id", pathCategory.value);
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -166,13 +157,10 @@ filter2.addEventListener("click", async () => {
     form.append("category_id", pathCategory.value);
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/emprendimientos/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -224,7 +212,7 @@ function createEmprendimiento(emprendimiento) {
                     >                
                     <img
                     class="img-fluid"
-                    src="https://www.emprendeadvisor.com/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
+                    src="http://127.0.0.1/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
                     alt=""
                   /></a>
                   <div

@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://www.emprendeadvisor.com/login", {
+  const response = await fetch("http://127.0.0.1/login", {
     method: "POST",
     body: form,
     credentials: "same-origin",
@@ -40,14 +40,11 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/register/user",
-    {
-      method: "POST",
-      body: form,
-      credentials: "same-origin",
-    }
-  );
+  const response = await fetch("http://127.0.0.1/register/user", {
+    method: "POST",
+    body: form,
+    credentials: "same-origin",
+  });
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
@@ -69,13 +66,10 @@ forgotForm.addEventListener("submit", async (e) => {
   errorForgot.classList.remove("py-3");
   successForgot.classList.remove("py-3");
   const form = new FormData(forgotForm);
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/forgotpassword",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/forgotpassword", {
+    method: "POST",
+    body: form,
+  });
   const data = await response.json();
   if ("error" in data) {
     errorForgot.innerText = data.error;
@@ -130,7 +124,7 @@ try {
   selectFormClasif.addEventListener("change", async (e) => {
     const categorySelected = e.target.value;
     const response = await fetch(
-      "https://www.emprendeadvisor.com/subcategories/" + categorySelected
+      "http://127.0.0.1/subcategories/" + categorySelected
     );
     const data = await response.json();
     selectFormSubcat.innerHTML = "";
@@ -191,13 +185,10 @@ try {
     }
 
     formData.append("pathname", window.location.pathname);
-    const response = await fetch(
-      "https://www.emprendeadvisor.com/categories/create",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch("http://127.0.0.1/categories/create", {
+      method: "POST",
+      body: formData,
+    });
     const data = await response.json();
     if ("error" in data) {
       error.innerHTML = "Ya existe la categoría";
@@ -241,13 +232,10 @@ loadMoreCom.addEventListener("submit", async (e) => {
   const form = new FormData(loadMoreCom);
   form.append("offset", offset);
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/comentarios/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/comentarios/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -288,7 +276,7 @@ loadMoreCom.addEventListener("submit", async (e) => {
           likeButtonIcon.classList.add("bi-hand-thumbs-up");
         }
 
-        await fetch("https://www.emprendeadvisor.com/like/" + id);
+        await fetch("http://127.0.0.1/like/" + id);
       } else {
         const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
         writeOpinionBtn.click();
@@ -432,7 +420,7 @@ function listenerLikesButtons() {
           likeButtonIcon.classList.add("bi-hand-thumbs-up");
         }
 
-        await fetch("https://www.emprendeadvisor.com/like/" + id);
+        await fetch("http://127.0.0.1/like/" + id);
       } else {
         const writeOpinionBtn = document.querySelector("#writeOpinionBtn");
         writeOpinionBtn.click();
@@ -454,13 +442,10 @@ async function filterReview(rating) {
   const form = new FormData(loadMoreCom);
   form.append("offset", offset);
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/comentarios/loadmore",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/comentarios/loadmore", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -489,13 +474,10 @@ reviewForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(reviewForm);
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/comentarios/crear",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/comentarios/crear", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
@@ -514,13 +496,10 @@ reportForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(reportForm);
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/comentarios/report",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://127.0.0.1/comentarios/report", {
+    method: "POST",
+    body: form,
+  });
 
   const data = await response.json();
 
