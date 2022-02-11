@@ -5,10 +5,13 @@ forgotForm.addEventListener("submit", async (e) => {
   errorForgot.innerText = "";
   errorForgot.classList.remove("py-3");
   const form = new FormData(forgotForm);
-  const response = await fetch("http://127.0.0.1/reset/resetpassword", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/reset/resetpassword",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
   const data = await response.json();
   if ("error" in data) {
     errorForgot.innerText = data.error;
