@@ -2,10 +2,13 @@ const forgotForm = document.querySelector("#forgotForm");
 forgotForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(forgotForm);
-  const response = await fetch("http://18.205.29.39:5001/resetpassword", {
-    method: "POST",
-    body: form,
-  });
+  const response = await fetch(
+    "https://www.emprendeadvisor.com/resetpassword",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
   const data = await response.json();
   if ("error" in data) {
     const errorForgot = document.querySelector(".errorForgot");
