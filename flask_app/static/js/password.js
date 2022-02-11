@@ -1,6 +1,9 @@
 const forgotForm = document.querySelector("#forgotForm");
 forgotForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const errorForgot = document.querySelector(".errorForgot");
+  errorForgot.innerText = "";
+  errorForgot.classList.remove("py-3");
   const form = new FormData(forgotForm);
   const response = await fetch(
     "https://www.emprendeadvisor.com/reset/resetpassword",
@@ -11,7 +14,6 @@ forgotForm.addEventListener("submit", async (e) => {
   );
   const data = await response.json();
   if ("error" in data) {
-    const errorForgot = document.querySelector(".errorForgot");
     errorForgot.innerText = data.error;
     errorForgot.classList.add("py-3");
   } else if (data.updated) {
