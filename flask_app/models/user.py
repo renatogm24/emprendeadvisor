@@ -90,6 +90,11 @@ class User:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def updatePasswordbyemail(cls, data ):
+        query = "UPDATE users SET password = %(password)s, updated_at = NOW() WHERE email = %(email)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
     def get_user_by_email(cls,data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
         results = connectToMySQL('emprendeadvisor').query_db(query,data)

@@ -17,7 +17,7 @@ loadMoreEmp.addEventListener("submit", async (e) => {
   }
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -58,7 +58,7 @@ empOrderSelector.addEventListener("change", async (e) => {
   }
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -114,7 +114,7 @@ filter1.addEventListener("click", async () => {
   }
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -167,7 +167,7 @@ filter2.addEventListener("click", async () => {
   }
 
   const response = await fetch(
-    "https://www.emprendeadvisor.com/emprendimientos/loadmore",
+    "http://18.205.29.39:5001/emprendimientos/loadmore",
     {
       method: "POST",
       body: form,
@@ -224,7 +224,7 @@ function createEmprendimiento(emprendimiento) {
                     >                
                     <img
                     class="img-fluid"
-                    src="https://www.emprendeadvisor.com/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
+                    src="http://18.205.29.39:5001/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
                     alt=""
                   /></a>
                   <div
@@ -234,8 +234,7 @@ function createEmprendimiento(emprendimiento) {
                       class="h6"
                       style="line-height: 1.5em; height: 3em; overflow: hidden"
                       >${emprendimiento.full_name}</span
-                    >
-                    <span class="h6"><i class="bi bi-heart starIcon"></i></span>
+                    >                    
                   </div>
                   <p class="my-0 textCardEmpre">${emprendimiento.biography}</p>
                   <div class="my-1 text-yellowstar">

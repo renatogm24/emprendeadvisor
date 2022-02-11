@@ -1,0 +1,23 @@
+const forgotForm = document.querySelector("#forgotForm");
+forgotForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = new FormData(forgotForm);
+  const response = await fetch("http://18.205.29.39:5001/resetpassword", {
+    method: "POST",
+    body: form,
+  });
+  const data = await response.json();
+  if ("error" in data) {
+    const errorForgot = document.querySelector(".errorForgot");
+    errorForgot.innerText = data.error;
+    errorForgot.classList.add("py-3");
+  } else if (data.updated) {
+    const successForgot = document.querySelector(".successForgot");
+    successForgot.innerText =
+      "Se ha restablecido la clave, redirigiendo al inicio";
+    successForgot.classList.add("py-3");
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
+  }
+});

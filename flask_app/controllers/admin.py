@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, flash, session, jsonify, url_for
-from flask_app.models import user, category, emprendimiento
+from flask_app.models import user, category, emprendimiento, report, review, image as uploadImg
 from flask_app import app
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -251,6 +251,124 @@ def searchCategories(is_active,word,limit,offset):
   response = {
       "categories" : list(map(lambda x : x.get_info_raw(), categories)), 
       "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/reports/<int:limit>/<int:offset>')
+def getReports(limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  reports = report.Report.get_reports({"level":1, "category_id":"" ,"limit":limit, "offset": offset})
+  endList = False
+
+  if reports == False:
+    response = {
+      "reports" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  if len(reports) < limit:
+    endList = True
+  response = {
+      "reports" : list(map(lambda x : x.get_info_raw(), reports)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/reports/delete/<int:id>')
+def deleteReports(id):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  report.Report.delete_by_id({"id":id})
+  response = {
+      "reports" : 1, 
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/reports/accept/<int:id>')
+def acceptReports(id):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  reportObj = report.Report.get_report_by_id({"id":id})
+  review.Review.deleteLikes({"review_id":reportObj.review_id})
+  uploadImg.Image.delete_image_by_review({"review_id":reportObj.review_id})
+  review.Review.delete_review({"review_id":reportObj.review_id})
+  report.Report.delete_by_id({"id":id})
+  response = {
+      "reports" : 1, 
+    }
+  return jsonify(response)
+
+@app.route('/admin/emprendimientos/<int:limit>/<int:offset>')
+def getEmprendimientos(limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+
+  emprendimientos = emprendimiento.Emprendimiento.get_emprendimientos_admin({"limit":limit, "offset": offset})
+  print(emprendimientos)
+  endList = False
+
+  if emprendimientos == False:
+    response = {
+      "emprendimientos" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  if len(emprendimientos) < limit:
+    endList = True
+  response = {
+      "emprendimientos" : list(map(lambda x : x.get_info_raw(), emprendimientos)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+
+@app.route('/admin/searchEmprendimientos/<string:word>/<int:limit>/<int:offset>')
+def searchEmprendimientos(word,limit,offset):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+
+  likeWord = "'%"+word+"%'"
+  emprendimientos = emprendimiento.Emprendimiento.get_emprendimientos_like_admin({"limit":limit, "offset": offset, "word" : likeWord})
+  endList = False
+  
+  if emprendimientos == False:
+    response = {
+      "emprendimientos" : [], 
+      "endList" : True
+    }
+    return jsonify(response)
+
+  
+  if len(emprendimientos) < limit:
+    endList = True
+  response = {
+      "emprendimientos" : list(map(lambda x : x.get_info_raw(), emprendimientos)), 
+      "endList" : endList
+    }
+  return jsonify(response)
+
+@app.route('/admin/emprendimientos/delete/<int:id>')
+def deleteEmprendimiento(id):
+  if 'level' in session and session["level"] != 9:
+    return redirect("/")
+  
+  # emprendimientoObj = emprendimiento.Emprendimiento.search_by_id({"id":id})
+  reviewList = review.Review.list_all_reviews_by_id({"id":id})
+
+  for reviewAux in reviewList:
+    review.Review.deleteLikes({"review_id":reviewAux.id})
+    uploadImg.Image.delete_image_by_review({"review_id":reviewAux.id})
+    review.Review.delete_review({"review_id":reviewAux.id})
+  
+  emprendimiento.Emprendimiento.delete_emprendimiento_by_id({"id":id})
+  response = {
+      "emprendimientos" : 1, 
     }
   return jsonify(response)
 

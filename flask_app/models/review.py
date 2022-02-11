@@ -78,6 +78,25 @@ class Review:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def list_all_reviews_by_id(cls, data):
+        query = "SELECT *, count(l.id) as likesCount FROM reviews r left join likes l on r.id = l.review_id where r.emprendimiento_id = %(id)s group by r.id;"
+        results = connectToMySQL('emprendeadvisor').query_db( query, data )
+        if not results:
+          return False
+        else:
+          reviews = []
+          for review in results:
+            newReview = cls(review)
+            newReview.user = user.User.get_user_by_id({"id": newReview.user_id})
+            imagesAux = image.Image.get_images_by_review_id({"id":newReview.id})
+            if not imagesAux:
+              newReview.images = []
+            else:
+              newReview.images = imagesAux
+            reviews.append(newReview)
+        return reviews
+    
+    @classmethod
     def list_reviews_by_id(cls, data):
         if "rating" not in data or data["rating"] == "0":
           query = "SELECT *, count(l.id) as likesCount FROM reviews r left join likes l on r.id = l.review_id where r.emprendimiento_id = %(id)s group by r.id order by r.created_at DESC limit %(offset)s,%(limit)s;"
@@ -123,6 +142,16 @@ class Review:
     @classmethod
     def delete(cls, data):
         query = "DELETE FROM likes where user_id = %(user_id)s and review_id = %(review_id)s;"
+        connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
+    def delete_review(cls, data):
+        query = "DELETE FROM reviews where id = %(review_id)s;"
+        connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
+    def deleteLikes(cls, data):
+        query = "DELETE FROM likes where review_id = %(review_id)s;"
         connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod

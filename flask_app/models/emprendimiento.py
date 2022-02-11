@@ -101,6 +101,11 @@ class Emprendimiento:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def delete_emprendimiento_by_id(cls, data ):
+        query = "DELETE emprendimientos FROM emprendimientos where id = %(id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
     def get_emprendimientos(cls, data):
         if "category_id" not in data:
           if "min_promedio" not in data:
@@ -113,6 +118,28 @@ class Emprendimiento:
           else:
             query = "SELECT e.id, e.username, IFNULL(round(avg(r.rating),1),0) as promedio, IFNULL(count(r.rating),0) as cuenta, e.full_name, e.biography, e.external_url, e.follower_count, e.is_business, e.public_email, e.contact_phone_number, e.category_name, e.is_private, e.profile_pic_url, e.profile_pic_url_hd, e.category_id, e.created_at, e.updated_at FROM emprendimientos e left join reviews r on e.id = r.emprendimiento_id left join categories c on e.category_id = c.id where e.category_id = {category_id} or c.category_id = {category_id} group by id having promedio between {min_promedio} and {max_promedio} and cuenta between {min_reviews} and {max_reviews} and e.follower_count between {min_followers} and {max_followers} order by {order_by} DESC limit {offset},{limit};".format(**data)
         
+        results = connectToMySQL('emprendeadvisor').query_db(query)
+        emprendimientos = []
+        if not results:
+          return False
+        for emp in results:
+          emprendimientos.append(cls(emp))
+        return emprendimientos
+
+    @classmethod
+    def get_emprendimientos_admin(cls, data):
+        query = "SELECT e.id, e.username, IFNULL(round(avg(r.rating),1),0) as promedio, IFNULL(count(r.rating),0) as cuenta, e.full_name, e.biography, e.external_url, e.follower_count, e.is_business, e.public_email, e.contact_phone_number, e.category_name, e.is_private, e.profile_pic_url, e.profile_pic_url_hd, e.category_id, e.created_at, e.updated_at FROM emprendimientos e left join reviews r on e.id = r.emprendimiento_id left join categories c on e.category_id = c.id group by id limit {offset},{limit};".format(**data)
+        results = connectToMySQL('emprendeadvisor').query_db(query)
+        emprendimientos = []
+        if not results:
+          return False
+        for emp in results:
+          emprendimientos.append(cls(emp))
+        return emprendimientos
+
+    @classmethod
+    def get_emprendimientos_like_admin(cls, data):
+        query = "SELECT e.id, e.username, IFNULL(round(avg(r.rating),1),0) as promedio, IFNULL(count(r.rating),0) as cuenta, e.full_name, e.biography, e.external_url, e.follower_count, e.is_business, e.public_email, e.contact_phone_number, e.category_name, e.is_private, e.profile_pic_url, e.profile_pic_url_hd, e.category_id, e.created_at, e.updated_at FROM emprendimientos e left join reviews r on e.id = r.emprendimiento_id left join categories c on e.category_id = c.id where (e.username like {word} ) group by id limit {offset},{limit};".format(**data)
         results = connectToMySQL('emprendeadvisor').query_db(query)
         emprendimientos = []
         if not results:

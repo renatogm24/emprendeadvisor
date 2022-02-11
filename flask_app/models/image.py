@@ -33,6 +33,11 @@ class Image:
         return connectToMySQL('emprendeadvisor').query_db( query, data )
 
     @classmethod
+    def delete_image_by_review(cls, data ):
+        query = "DELETE FROM images where review_id = %(review_id)s;"
+        return connectToMySQL('emprendeadvisor').query_db( query, data )
+
+    @classmethod
     def get_images_by_review_id(cls, data ):
         query = "SELECT * FROM images where review_id = %(id)s ;"
         results = connectToMySQL('emprendeadvisor').query_db( query, data )

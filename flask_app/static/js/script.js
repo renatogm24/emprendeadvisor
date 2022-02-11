@@ -14,7 +14,7 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(loginForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch("https://www.emprendeadvisor.com/login", {
+  const response = await fetch("http://18.205.29.39:5001/login", {
     method: "POST",
     body: form,
     credentials: "include",
@@ -53,14 +53,11 @@ registerForm.addEventListener("submit", async (e) => {
 
   const form = new FormData(registerForm);
   form.append("pathname", window.location.pathname);
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/register/user",
-    {
-      method: "POST",
-      body: form,
-      credentials: "include",
-    }
-  );
+  const response = await fetch("http://18.205.29.39:5001/register/user", {
+    method: "POST",
+    body: form,
+    credentials: "include",
+  });
   const data = await response.json();
   if ("error" in data) {
     for (error of data.error) {
@@ -69,6 +66,26 @@ registerForm.addEventListener("submit", async (e) => {
     errorLogin.classList.add("py-3");
   } else if (data.isRedirect) {
     window.location.href = data.redirectUrl;
+  }
+});
+
+const forgotForm = document.querySelector("#forgotForm");
+forgotForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = new FormData(forgotForm);
+  const response = await fetch("http://18.205.29.39:5001/forgotpassword", {
+    method: "POST",
+    body: form,
+  });
+  const data = await response.json();
+  if ("error" in data) {
+    const errorForgot = document.querySelector(".errorForgot");
+    errorForgot.innerText = data.error;
+    errorForgot.classList.add("py-3");
+  } else if (data.send) {
+    const successForgot = document.querySelector(".successForgot");
+    successForgot.innerText = "Se ha enviado un correo para resetear la clave";
+    successForgot.classList.add("py-3");
   }
 });
 

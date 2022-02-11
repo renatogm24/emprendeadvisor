@@ -16,13 +16,10 @@ async function clearImage() {
   var dataPost = new FormData();
   dataPost.append("json", JSON.stringify(payload));
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/deleteImageAndReset",
-    {
-      method: "POST",
-      body: dataPost,
-    }
-  );
+  const response = await fetch("http://18.205.29.39:5001/deleteImageAndReset", {
+    method: "POST",
+    body: dataPost,
+  });
   const data = await response.json();
 
   const profileImg = document.querySelector(".imgProfile");
@@ -62,6 +59,8 @@ for (const option of optionsMenu) {
         "Bloqueados",
         "Solicitud Categorias",
         "Categorias",
+        "Reporte Reviews",
+        "Emprendimientos",
       ].includes(optionTxt)
     ) {
       const menu = document.querySelector(".profileMenu");
@@ -73,9 +72,7 @@ for (const option of optionsMenu) {
       profileForm = info.querySelector(".profileForm");
 
       if (optionTxt === "Mi Perfil") {
-        const response = await fetch(
-          "https://www.emprendeadvisor.com/getUserSession"
-        );
+        const response = await fetch("http://18.205.29.39:5001/getUserSession");
         const data = await response.json();
 
         profileForm.innerHTML = "";
@@ -267,12 +264,7 @@ for (const option of optionsMenu) {
           name.classList.add("h6");
           name.innerText = "Rumbero";
 
-          const heart = document.createElement("span");
-          heart.classList.add("h6");
-          heart.innerHTML = '<i class="bi bi-heart starIcon"></i>';
-
           nameAndHeart.appendChild(name);
-          nameAndHeart.appendChild(heart);
 
           const descrip = document.createElement("p");
           descrip.classList.add("my-0", "textCardEmpre");
@@ -608,6 +600,120 @@ for (const option of optionsMenu) {
       if (optionTxt === "Cerrar Sesión") {
         window.location.href = "/logout";
       }
+
+      if (optionTxt === "Reporte Reviews") {
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "Review", name: "comment" },
+          { title: "Motivo", name: "text" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-success", "mx-lg-2"],
+                type: "delete reports",
+                getPath: (id) => {
+                  return `/admin/reports/delete/${id}`;
+                },
+                logo: "bi-trash",
+              },
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete reports",
+                getPath: (id) => {
+                  return `/admin/reports/accept/${id}`;
+                },
+                logo: "bi-x-square",
+              },
+            ],
+          },
+        ];
+
+        const limit = 5;
+
+        const path = "/admin/reports";
+
+        await tableCreate(
+          "create",
+          "reports",
+          profileForm,
+          headers,
+          path,
+          limit
+        );
+
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de reportes";
+        profileForm.insertBefore(title, profileForm.firstChild);
+      }
+
+      if (optionTxt === "Emprendimientos") {
+        const search = document.createElement("div");
+        search.classList.add("input-group", "mb-3", "searchBx");
+        search.innerHTML = `<input type="text" class="form-control inputSearch" placeholder="Buscar emprendimiento..." aria-label="Buscar emprendimiento" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary searchBtn" type="button">Buscar</button>
+  </div>`;
+
+        const headers = [
+          { title: "id", name: "id" },
+          { title: "username", name: "username" },
+          {
+            title: "Actions",
+            listActions: [
+              {
+                class: ["btn", "btn-danger", "mx-lg-2"],
+                type: "delete emprendimientos",
+                getPath: (id) => {
+                  return `/admin/emprendimientos/delete/${id}`;
+                },
+                logo: "bi-trash",
+              },
+            ],
+          },
+        ];
+
+        const limit = 5;
+
+        const path = "/admin/emprendimientos";
+
+        await tableCreate(
+          "create",
+          "emprendimientos",
+          profileForm,
+          headers,
+          path,
+          limit
+        );
+
+        profileForm.insertBefore(search, profileForm.firstChild);
+
+        const searchBtn = document.querySelector(".inputSearch");
+        searchBtn.focus();
+
+        searchBtn.addEventListener("input", () => {
+          const searchWord = document.querySelector(".inputSearch").value;
+          if (searchWord === "") {
+            option.click();
+            return;
+          }
+          const path = `/admin/searchEmprendimientos/${searchWord}`;
+          tableCreate(
+            "search",
+            "emprendimientos",
+            profileForm,
+            headers,
+            path,
+            limit
+          );
+        });
+
+        const title = document.createElement("h3");
+        title.classList.add("my-2", "text-center");
+        title.innerHTML = "Lista de emprendimientos";
+        profileForm.insertBefore(title, profileForm.firstChild);
+      }
     }
   });
 }
@@ -637,7 +743,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
     }
 
     const offset = 0;
-    const link = `https://www.emprendeadvisor.com${path}/${limit}/${offset}`;
+    const link = `http://18.205.29.39:5001${path}/${limit}/${offset}`;
 
     const response = await fetch(link);
     const data = await response.json();
@@ -706,7 +812,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
       offset = 0;
     }
     const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
+      `http://18.205.29.39:5001${path}/${limit}/${offset}`
     );
     const data = await response.json();
     if (typeObj in data) {
@@ -724,7 +830,7 @@ async function tableCreate(action, typeObj, element, headers, path, limit) {
   if (action === "search") {
     const offset = 0;
     const response = await fetch(
-      `https://www.emprendeadvisor.com${path}/${limit}/${offset}`
+      `http://18.205.29.39:5001${path}/${limit}/${offset}`
     );
     const data = await response.json();
     if (typeObj in data) {
@@ -871,7 +977,7 @@ async function actionElement(e, type, url) {
     let data = {};
 
     if (action === "update") {
-      response = await fetch(`https://www.emprendeadvisor.com${url}`);
+      response = await fetch(`http://18.205.29.39:5001${url}`);
       data = await response.json();
     }
     let result = "";
@@ -898,7 +1004,7 @@ async function actionElement(e, type, url) {
         select_option.innerHTML = "-- Seleccione para crear subcategoría --";
         field_input.appendChild(select_option);
 
-        response = await fetch(`https://www.emprendeadvisor.com/categories`);
+        response = await fetch(`http://18.205.29.39:5001/categories`);
         data = await response.json();
         categories = data["categories"];
         for (category of categories) {
@@ -957,7 +1063,7 @@ async function actionElement(e, type, url) {
   }
 
   if (action === "delete") {
-    const response = await fetch(`https://www.emprendeadvisor.com${url}`);
+    const response = await fetch(`http://18.205.29.39:5001${url}`);
     const data = await response.json();
     let result = "";
     if (dataType in data) {
@@ -1021,7 +1127,7 @@ async function updateForm(event, url) {
   success.innerText = "";
 
   const form = new FormData(event.target);
-  const response = await fetch(`https://www.emprendeadvisor.com${url}`, {
+  const response = await fetch(`http://18.205.29.39:5001${url}`, {
     method: "POST",
     body: form,
   });
@@ -1063,7 +1169,7 @@ async function updateProfile(event) {
   const form = new FormData(event.target);
   /*let response;
   try {
-    response = await fetch("https://www.emprendeadvisor.com/updateProfile", {
+    response = await fetch("http://18.205.29.39:5001/updateProfile", {
       method: "POST",
       body: form,
     });
@@ -1073,7 +1179,7 @@ async function updateProfile(event) {
   const data = await response.json();*/
   let data = {};
 
-  fetch("https://www.emprendeadvisor.com/updateProfile", {
+  fetch("http://18.205.29.39:5001/updateProfile", {
     method: "POST",
     body: form,
   })
@@ -1131,13 +1237,10 @@ async function updatePassword(event) {
     return;
   }
 
-  const response = await fetch(
-    "https://www.emprendeadvisor.com/updatePassword",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
+  const response = await fetch("http://18.205.29.39:5001/updatePassword", {
+    method: "POST",
+    body: form,
+  });
   const data = await response.json();
   if ("error" in data) {
     errorLogin.innerText = data.error;
