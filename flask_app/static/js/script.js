@@ -75,6 +75,12 @@ registerForm.addEventListener("submit", async (e) => {
 const forgotForm = document.querySelector("#forgotForm");
 forgotForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const errorForgot = document.querySelector(".errorForgot");
+  const successForgot = document.querySelector(".successForgot");
+  errorForgot.innerText = "";
+  successForgot.innerText = "";
+  errorForgot.classList.remove("py-3");
+  successForgot.classList.remove("py-3");
   const form = new FormData(forgotForm);
   const response = await fetch(
     "https://www.emprendeadvisor.com/forgotpassword",
@@ -85,11 +91,9 @@ forgotForm.addEventListener("submit", async (e) => {
   );
   const data = await response.json();
   if ("error" in data) {
-    const errorForgot = document.querySelector(".errorForgot");
     errorForgot.innerText = data.error;
     errorForgot.classList.add("py-3");
   } else if (data.send) {
-    const successForgot = document.querySelector(".successForgot");
     successForgot.innerText = "Se ha enviado un correo para resetear la clave";
     successForgot.classList.add("py-3");
   }

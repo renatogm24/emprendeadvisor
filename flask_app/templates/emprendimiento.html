@@ -702,6 +702,57 @@
                   >Registrese</a
                 >
               </p>
+              <p class="mt-2">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#forgot"
+                  >¿Olvido su contraseña?</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="forgot"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form
+            action="/forgotpassword"
+            method="post"
+            novalidate
+            id="forgotForm"
+          >
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                ¿Olvido la contraseña?
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div
+                class="errorForgot bg-warning text-light rounded-3 text-center"
+              ></div>
+              <div
+                class="successForgot bg-success text-light rounded-3 text-center"
+              ></div>
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" name="email" class="form-control" />
+
+              <button type="submit" class="btn btn-altdark text-light mt-3">
+                Enviar
+              </button>
             </div>
           </form>
         </div>

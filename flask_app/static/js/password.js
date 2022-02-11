@@ -3,7 +3,7 @@ forgotForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(forgotForm);
   const response = await fetch(
-    "https://www.emprendeadvisor.com/resetpassword",
+    "https://www.emprendeadvisor.com/reset/resetpassword",
     {
       method: "POST",
       body: form,

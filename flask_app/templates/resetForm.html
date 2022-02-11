@@ -21,40 +21,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <style>
+        @media (min-width: 579px) {
+            .formBxContainer,
+            .imageBx,
+            .formBx,
+            body {
+                height: 100vh;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-altprimary">
-    <div class="container h-100 justify-content-center align-content-center">
-        <div class="d-flex">
-            <div class="imageBx p-5">
-                <img class="img-fluid" src="{{ url_for('static', filename='images/forgot.png') }}" alt="" />
-            </div>
-            <div class="formBx">
-                <form id="forgotForm">
-                    <div class="modal-header">
-                        <h5 class="text-light">Restablecer contraseña</h5>
+    <div class="container formBxContainer justify-content-center align-content-center">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="imageBx d-flex align-items-center">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/forgot.png') }}" alt="" />
                     </div>
-                    <div class="text-light">
-                        <input type="hidden" value="{{key}}" />
-                        <div class="errorForgot bg-warning text-light rounded-3 text-center"></div>
-                        <div class="successForgot bg-success text-light rounded-3 text-center"></div>
-                        <label for="password1" class="form-label">Contraseña</label>
-                        <input type="password" name="password" id="password1" class="form-control" />
-                        <label for="password2" class="form-label">Repita contraseña:</label
-              >
-              <input
-                type="password"
-                name="password_repeat"
-                id="password2"
-                class="form-control"
-              />
+                </div>
+                <div class="col-sm-6">
+                    <div class="formBx d-flex align-items-center">
+                        <form id="forgotForm" class="w-100">
+                            <div class="modal-header">
+                                <h5 class="text-light">Restablecer contraseña</h5>
+                            </div>
+                            <div class="text-light">
+                                <input type="hidden" name="key" value="{{key}}" />
+                                <div class="errorForgot bg-warning text-light rounded-3 text-center"></div>
+                                <div class="successForgot bg-success text-light rounded-3 text-center"></div>
+                                <label for="password1" class="form-label mt-3">Contraseña</label
+                  >
+                  <input
+                    type="password"
+                    name="password"
+                    id="password1"
+                    class="form-control"
+                  />
+                  <label for="password2" class="form-label"
+                    >Repita contraseña:</label
+                  >
+                  <input
+                    type="password"
+                    name="password_repeat"
+                    id="password2"
+                    class="form-control"
+                  />
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+                  <button type="submit" class="btn btn-altdark text-light mt-3">
+                    Restablecer
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="d-flex flex-column justify-content-center">
-              <button type="submit" class="btn btn-altdark text-light">
-                Restablecer
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
