@@ -9,13 +9,14 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
 PASSWORD_REGEX = re.compile(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$.])[\w\d@#$.]{6,12}$")
+PASSWORD_REGEX_v2 = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,12}$")
 
 mail = Mail(app)
 redis_server = redis.StrictRedis(host='localhost', port=6379)
 
 @app.route('/reset/resetpassword', methods=["POST"])
 def resetpassword():
-  if not PASSWORD_REGEX.match(request.form["password"]):
+  if not PASSWORD_REGEX_v2.match(request.form["password"]):
     return jsonify(error="La contraseña debe tener mayusculas minuscilas 1 numero y 1 caracter especial y tener entre 6 a 12 caracteres")
   if request.form["password"] != request.form["password_repeat"]:
     return jsonify(error="No coinciden las contraseñas")

@@ -5,6 +5,8 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 PASSWORD_REGEX = re.compile(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$.])[\w\d@#$.]{6,12}$")
 PASSWORD_REGEX_UPDATE = re.compile(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$.])[\w\d@#$.]{6,80}$")
+PASSWORD_REGEX_v2 = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,12}$")
+PASSWORD_REGEX_UPDATE_v2 = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,80}$")
 
 class User:
     def __init__( self , data ):
@@ -161,7 +163,7 @@ class User:
     def validate_password(form):
       is_valid = True 
       errors = []
-      if not PASSWORD_REGEX.match(form["password"]):
+      if not PASSWORD_REGEX_v2.match(form["password"]):
         errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
         is_valid = False
       return (is_valid,errors)
@@ -199,7 +201,7 @@ class User:
       if User.exist_mail(data):
         errors.append("Correo en uso")
         is_valid = False
-      if not PASSWORD_REGEX.match(user["password"]):
+      if not PASSWORD_REGEX_v2.match(user["password"]):
         errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
         is_valid = False
       if user["password"] != user["repeat_password"]:
@@ -240,7 +242,7 @@ class User:
       if User.exist_mail(data):
         errors.append("Correo en uso")
         is_valid = False
-      if not PASSWORD_REGEX.match(user["password"]):
+      if not PASSWORD_REGEX_v2.match(user["password"]):
         errors.append("La contraseña requiere una mayuscula, un numero y un caracter especial, debe tener entre 6 a 12 caracteres")
         is_valid = False
       return (is_valid,errors)

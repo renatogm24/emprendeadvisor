@@ -98,6 +98,7 @@ def searchEmpty():
 @app.route('/search/<string:igusername>')
 def search(igusername):
   igusername = igusername.lower()
+  igusername = igusername.replace("@","")
   if igusername == "":
     return redirect("/dashboard")
   emprendimientoSearch = emprendimiento.Emprendimiento.search_by_username({"username":igusername})
