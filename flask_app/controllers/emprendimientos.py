@@ -277,9 +277,12 @@ def getSubcategoriesEmp(id):
   pathCategory = id
   return render_template("dashboard.html",userSession=userSession,categoriesList=categoriesList,emprendimientoList=emprendimientoList,dataMaxMin=dataMaxMin,totalCuenta=totalCuenta,tipo=tipo,subcategoria=subcategoria,categoria=categoria,pathCategory=pathCategory)
 
-@app.route('/img/<path:url>&<params>')
-def image(url,params):
-    image_url = "{}?{}".format(url, params)    
+#@app.route('/img/<path:url>&<params>')
+@app.route('/img/<string:username>')
+def image(username):
+    data = getIgData(username)
+    empreObj = emprendimiento.Emprendimiento(data)
+    image_url = "{}?{}".format(empreObj.url_p1, empreObj.url_p2)    
     cached = redis_server.get(image_url)
     if cached:
         buffer_image = BytesIO(cached)

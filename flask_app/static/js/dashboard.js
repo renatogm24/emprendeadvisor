@@ -224,7 +224,7 @@ function createEmprendimiento(emprendimiento) {
                     >                
                     <img
                     class="img-fluid"
-                    src="https://www.emprendeadvisor.com/img/${emprendimiento.url_p1}&${emprendimiento.url_p2}"
+                    src="https://www.emprendeadvisor.com/img/${emprendimiento.username}"
                     alt=""
                   /></a>
                   <div
