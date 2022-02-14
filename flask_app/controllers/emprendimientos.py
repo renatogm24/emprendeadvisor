@@ -281,8 +281,10 @@ def getSubcategoriesEmp(id):
 @app.route('/img/<string:username>')
 def image(username):
     data = getIgData(username)
-    empreObj = emprendimiento.Emprendimiento(data)
-    image_url = "{}?{}".format(empreObj.url_p1, empreObj.url_p2)    
+    arr = data["profile_pic_url_hd"].split("?")
+    url_p1 = arr[0]
+    url_p2 = arr[1]
+    image_url = "{}?{}".format(url_p1, url_p2)    
     cached = redis_server.get(image_url)
     if cached:
         buffer_image = BytesIO(cached)
