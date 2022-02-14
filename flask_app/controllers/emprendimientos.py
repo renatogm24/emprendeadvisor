@@ -90,6 +90,16 @@ def getDataInstagrapi(igusername):
       except:
         parsed_json = {"error":True}
   return parsed_json
+
+def getDataInstagrapiWithoutCache(igusername):  
+  try:
+        result = requests.get("https://salty-citadel-44293.herokuapp.com/"+igusername)
+        data = result.text
+        parsed_json = (json.loads(data))
+        print("Serve from API Emprendimiento Data")
+  except:
+        parsed_json = {"error":True}       
+  return parsed_json
   
 @app.route('/search/')
 def searchEmpty():
@@ -280,7 +290,7 @@ def getSubcategoriesEmp(id):
 #@app.route('/img/<path:url>&<params>')
 @app.route('/img/<string:username>')
 def image(username):
-    data = getIgData(username)
+    data = getDataInstagrapiWithoutCache(username)
     arr = data["profile_pic_url_hd"].split("?")
     url_p1 = arr[0]
     url_p2 = arr[1]
