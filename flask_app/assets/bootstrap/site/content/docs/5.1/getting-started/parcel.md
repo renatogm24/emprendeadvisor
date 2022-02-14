@@ -84,7 +84,7 @@ Add `dev` and `build` scripts in your `package.json` file.
 
 ### Run dev script
 
-Your app will be accessible at `http://18.205.29.39:5001:1234`.
+Your app will be accessible at `https://www.emprendeadvisor.com:1234`.
 
 ```sh
 npm run dev
